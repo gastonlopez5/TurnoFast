@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.turnofast.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home">
+    </fragment>
+    <fragment
+        android:id="@+id/nav_perfil"
+        android:name="com.example.turnofast.ui.perfil.PerfilFragment"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
+    <fragment
+        android:id="@+id/nav_rubro"
+        android:name="com.example.turnofast.ui.rubro.RubroFragment"
+        android:label="fragment_rubro"
+        tools:layout="@layout/fragment_rubro" >
+        <action
+            android:id="@+id/action_nav_rubro_to_nav_servicio"
+            app:destination="@id/nav_servicio" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_servicio"
+        android:name="com.example.turnofast.ui.servicio.ServicioFragment"
+        android:label="fragment_servicio"
+        tools:layout="@layout/fragment_servicio" >
+        <action
+            android:id="@+id/action_nav_servicio_to_servicioTurnosFragment"
+            app:destination="@id/nav_servicioTurnos" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_servicioTurnos"
+        android:name="com.example.turnofast.ui.servicio.ServicioTurnosFragment"
+        android:label="fragment_servicio_turnos"
+        tools:layout="@layout/fragment_servicio_turnos" >
+        <action
+            android:id="@+id/action_nav_servicioTurnos_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+
+
+</navigation>
