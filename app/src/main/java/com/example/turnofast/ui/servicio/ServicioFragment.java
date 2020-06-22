@@ -113,7 +113,7 @@ public class ServicioFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         aceptar();
                         Toast.makeText(getContext(), "Datos guardados correctamente", Toast.LENGTH_LONG).show();
-                        //Navigation.findNavController(v).navigate(R.id.nav_home);
+                        Navigation.findNavController(v).navigate(R.id.nav_servicioTurnos);
                     }
                 }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
