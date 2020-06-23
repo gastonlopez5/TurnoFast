@@ -1,134 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".ui.servicio.ServicioTurnosFragment">
+    android:orientation="vertical"
+    tools:context=".ui.servicio.HorariosDisponiblesFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:background="@android:color/holo_orange_dark">
-        <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:id="@+id/btAtras"
-            android:background="@drawable/anterior"
-            android:layout_margin="10dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="4dp"
-            android:text="FechaActual"
-            android:id="@+id/tvFechaActual"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_weight="3"/>
-
-        <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:id="@+id/btSiguiente"
-            android:background="@drawable/siguiente"
-            android:layout_margin="10dp"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:background="@color/colorPrimaryDark">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Dom"
-            android:background="@android:color/holo_blue_dark"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Lun"
-            android:background="@android:color/holo_orange_light"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Mar"
-            android:background="@android:color/holo_green_light"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Mie"
-            android:background="@android:color/holo_red_light"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Jue"
-            android:background="@android:color/holo_purple"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Vie"
-            android:background="@android:color/white"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Sab"
-            android:background="@android:color/darker_gray"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            />
-
-    </LinearLayout>
-
-    <GridView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/gvCalendario"
-        android:numColumns="7"></GridView>
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Horarios Disponibles"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/cbTurnoManiana"
+                android:layout_width="132dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="12dp"
+                android:foregroundGravity="clip_horizontal"
+                android:text="Turno Mañana"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <Button
+                android:id="@+id/btFechaInicioManiana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="12dp"
+                android:text="Fecha Inicio"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cbTurnoManiana" />
+
+            <EditText
+                android:id="@+id/etFechaInicioManiana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toEndOf="@+id/btFechaInicioManiana"
+                app:layout_constraintTop_toBottomOf="@+id/cbTurnoManiana" />
+
+            <Button
+                android:id="@+id/btFechaFinManiana"
+                android:layout_width="113dp"
+                android:layout_height="51dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="12dp"
+                android:text="Fecha Fin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btFechaInicioManiana" />
+
+            <EditText
+                android:id="@+id/etFechaFinManiana"
+                android:layout_width="210dp"
+                android:layout_height="43dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toEndOf="@+id/btFechaFinManiana"
+                app:layout_constraintTop_toBottomOf="@+id/etFechaInicioManiana" />
+
+            <CheckBox
+                android:id="@+id/cbTurnoTarde"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="Turno Tarde"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btHoraFinManiana" />
+
+            <Button
+                android:id="@+id/btFechaInicioTarde"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="24dp"
+                android:text="Fecha Inicio"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cbTurnoTarde" />
+
+            <Button
+                android:id="@+id/btFechaFinTarde"
+                android:layout_width="111dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="16dp"
+                android:text="Fecha Fin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btFechaInicioTarde" />
+
+            <EditText
+                android:id="@+id/etFechaInicioTarde"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toEndOf="@+id/btFechaInicioTarde"
+                app:layout_constraintTop_toBottomOf="@+id/cbTurnoTarde" />
+
+            <EditText
+                android:id="@+id/etFechaFinTade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toEndOf="@+id/btFechaFinTarde"
+                app:layout_constraintTop_toBottomOf="@+id/etFechaInicioTarde" />
+
+            <Button
+                android:id="@+id/btHoraInicioManiana"
+                android:layout_width="113dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:text="Hora Inicio"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btFechaFinManiana" />
+
+            <Button
+                android:id="@+id/btHoraFinManiana"
+                android:layout_width="113dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:text="hora fin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btHoraInicioManiana" />
+
+            <EditText
+                android:id="@+id/etHoraInicioManiana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toEndOf="@+id/btHoraInicioManiana"
+                app:layout_constraintTop_toBottomOf="@+id/etFechaFinManiana" />
+
+            <EditText
+                android:id="@+id/etHoraFinManiana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toEndOf="@+id/btHoraFinManiana"
+                app:layout_constraintTop_toBottomOf="@+id/etHoraInicioManiana" />
+
+            <Button
+                android:id="@+id/btHoraInicioTarde"
+                android:layout_width="115dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="16dp"
+                android:text="Hora inicio"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btFechaFinTarde" />
+
+            <Button
+                android:id="@+id/btHoraFinTarde"
+                android:layout_width="115dp"
+                android:layout_height="41dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:text="hora fin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btHoraInicioTarde" />
+
+            <EditText
+                android:id="@+id/etHoraInicioTarde"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toEndOf="@+id/btHoraInicioTarde"
+                app:layout_constraintTop_toBottomOf="@+id/etFechaFinTade" />
+
+            <EditText
+                android:id="@+id/etHoraFinTarde"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toEndOf="@+id/btHoraFinTarde"
+                app:layout_constraintTop_toBottomOf="@+id/etHoraInicioTarde" />
+
+            <Button
+                android:id="@+id/btGuardar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="160dp"
+                android:layout_marginTop="25dp"
+                android:text="guardar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btHoraFinTarde" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 
-
-</LinearLayout>
+</RelativeLayout>
 

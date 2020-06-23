@@ -1,4 +1,4 @@
-package com.example.turnofast.ui.servicio;
+package com.example.turnofast.ui.turno;
 
 import android.os.Bundle;
 
@@ -24,10 +24,10 @@ import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ServicioTurnosFragment#newInstance} factory method to
+ * Use the {@link SolicitarTurnos#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ServicioTurnosFragment extends Fragment {
+public class SolicitarTurnos extends Fragment {
 
     ImageButton btSiguiente, btAtras;
     TextView fechaActual;
@@ -51,7 +51,7 @@ public class ServicioTurnosFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ServicioTurnosFragment() {
+    public SolicitarTurnos() {
         // Required empty public constructor
     }
 
@@ -61,11 +61,11 @@ public class ServicioTurnosFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ServicioTurnosFragment.
+     * @return A new instance of fragment SolicitarTurnos.
      */
     // TODO: Rename and change types and number of parameters
-    public static ServicioTurnosFragment newInstance(String param1, String param2) {
-        ServicioTurnosFragment fragment = new ServicioTurnosFragment();
+    public static SolicitarTurnos newInstance(String param1, String param2) {
+        SolicitarTurnos fragment = new SolicitarTurnos();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -86,13 +86,13 @@ public class ServicioTurnosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_servicio_turnos, container, false);
+        View view = inflater.inflate(R.layout.fragment_solicitar_turnos, container, false);
 
         btAtras = view.findViewById(R.id.btAtras);
         btSiguiente = view.findViewById(R.id.btSiguiente);
         fechaActual = view.findViewById(R.id.tvFechaActual);
         gvCalendario = view.findViewById(R.id.gvCalendario);
-        
+
         configurarCalendario();
 
         btAtras.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +110,7 @@ public class ServicioTurnosFragment extends Fragment {
                 configurarCalendario();
             }
         });
-        
+
         return view;
     }
 
@@ -118,6 +118,4 @@ public class ServicioTurnosFragment extends Fragment {
         String fecha = diaFormato.format(calendario.getTime());
         fechaActual.setText(fecha);
     }
-
-
 }
