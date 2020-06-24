@@ -8,13 +8,19 @@
             android:id="@+id/nav_perfil"
             android:icon="@drawable/perfil"
             android:title="Perfil" />
-        <item
-            android:id="@+id/nav_rubro"
-            android:icon="@drawable/cargarservicio"
-            android:title="Cargar Servicio" />
-
-
     </group>
+    <item android:title="Servicios">
+        <menu>
+            <item
+                android:id="@+id/nav_rubro"
+                android:icon="@drawable/cargarservicio"
+                android:title="Cargar Servicio" />
+            <item
+                android:id="@+id/nav_listaServicios"
+                android:icon="@drawable/misservicios"
+                android:title="Cargar Horarios" />
+        </menu>
+    </item>
     <item android:title="Salida">
         <menu>
             <item

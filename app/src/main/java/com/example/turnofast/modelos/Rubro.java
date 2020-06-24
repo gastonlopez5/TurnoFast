@@ -7,12 +7,12 @@ public class Rubro implements Serializable {
     private int id;
     private String tipo;
     private String rutaFoto;
-    private ArrayList<Especialidad> especialidades;
+    private ArrayList<Categoria> especialidades;
 
     public Rubro() {
     }
 
-    public Rubro(int id, String tipo, String rutaFoto, ArrayList<Especialidad> especialidades) {
+    public Rubro(int id, String tipo, String rutaFoto, ArrayList<Categoria> especialidades) {
         this.id = id;
         this.tipo = tipo;
         this.rutaFoto = rutaFoto;
@@ -43,11 +43,11 @@ public class Rubro implements Serializable {
         this.rutaFoto = rutaFoto;
     }
 
-    public ArrayList<Especialidad> getEspecialidades() {
+    public ArrayList<Categoria> getEspecialidades() {
         return especialidades;
     }
 
-    public void setEspecialidades(ArrayList<Especialidad> especialidades) {
+    public void setEspecialidades(ArrayList<Categoria> especialidades) {
         this.especialidades = especialidades;
     }
 }

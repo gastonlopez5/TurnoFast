@@ -1,6 +1,7 @@
 package com.example.turnofast.ui.servicio;
 
 import android.app.AlertDialog;
+import android.app.Presentation;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -18,31 +19,25 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.turnofast.R;
-import com.example.turnofast.modelos.Especialidad;
+import com.example.turnofast.modelos.Categoria;
+import com.example.turnofast.modelos.Prestacion;
 import com.example.turnofast.modelos.Rubro;
-import com.example.turnofast.modelos.Servicio;
-
-import java.util.ArrayList;
-
-import static com.example.turnofast.MainActivity.PATH;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ServicioFragment#newInstance} factory method to
+ * Use the {@link PrestacionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ServicioFragment extends Fragment {
-    private Spinner spEspecialidades;
+public class PrestacionFragment extends Fragment {
+    private Spinner spCategorias;
     private EditText etDireccion, etNombre, etTelefono, etEmail;
     private CheckBox cbDisponible;
-    private Button btTurnos;
-    private ServicioViewModel vm;
+    private Button btGuardar;
+    private PrestacionViewModel vm;
     private Rubro rubro;
-    private Servicio servicio = new Servicio();
+    private Prestacion prestacion = new Prestacion();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,7 +48,7 @@ public class ServicioFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ServicioFragment() {
+    public PrestacionFragment() {
         // Required empty public constructor
     }
 
@@ -66,8 +61,8 @@ public class ServicioFragment extends Fragment {
      * @return A new instance of fragment ServicioFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ServicioFragment newInstance(String param1, String param2) {
-        ServicioFragment fragment = new ServicioFragment();
+    public static PrestacionFragment newInstance(String param1, String param2) {
+        PrestacionFragment fragment = new PrestacionFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -88,24 +83,24 @@ public class ServicioFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_servicio, container, false);
+        View view = inflater.inflate(R.layout.fragment_prestacion, container, false);
 
         etDireccion = view.findViewById(R.id.etDireccion);
         etEmail = view.findViewById(R.id.etEmail);
         etNombre = view.findViewById(R.id.etNombre);
         etTelefono = view.findViewById(R.id.etTelefono);
-        spEspecialidades = view.findViewById(R.id.spEspecialidades);
+        spCategorias = view.findViewById(R.id.spCategorias);
         cbDisponible = view.findViewById(R.id.cbDisponible);
-        btTurnos = view.findViewById(R.id.btTurnos);
+        btGuardar = view.findViewById(R.id.btGuardar);
 
-        vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(ServicioViewModel.class);
+        vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(PrestacionViewModel.class);
 
         Bundle objetoRubro = getArguments();
         rubro =(Rubro) objetoRubro.getSerializable("objeto");
-        ArrayAdapter<Especialidad> adapter = new ArrayAdapter<Especialidad>(getContext(), android.R.layout.simple_spinner_item, rubro.getEspecialidades());
-        spEspecialidades.setAdapter(adapter);
+        ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(getContext(), android.R.layout.simple_spinner_item, rubro.getEspecialidades());
+        spCategorias.setAdapter(adapter);
 
-        btTurnos.setOnClickListener(new View.OnClickListener() {
+        btGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 new AlertDialog.Builder(getContext()).setTitle("").setMessage("Desea guardar y continuar?").setPositiveButton("SI", new DialogInterface.OnClickListener() {
@@ -128,14 +123,13 @@ public class ServicioFragment extends Fragment {
     }
 
     private void aceptar() {
-        Especialidad especialidad = (Especialidad) spEspecialidades.getSelectedItem();
-        servicio.setDireccion(etDireccion.getText().toString());
-        servicio.setEmail(etEmail.getText().toString());
-        servicio.setNombre(etNombre.getText().toString());
-        servicio.setDisponible(cbDisponible.isChecked());
-        servicio.setTelefono(etTelefono.getText().toString());
-        servicio.setEspecialidadId(especialidad.getId());
+        Categoria categoria = (Categoria) spCategorias.getSelectedItem();
+        prestacion.setDireccion(etDireccion.getText().toString());
+        prestacion.setNombre(etNombre.getText().toString());
+        prestacion.setDisponible(cbDisponible.isChecked());
+        prestacion.setTelefono(etTelefono.getText().toString());
+        prestacion.setCategoriaId(categoria.getId());
 
-        vm.agregarServicio(servicio);
+        vm.agregarPrestacion(prestacion);
     }
 }

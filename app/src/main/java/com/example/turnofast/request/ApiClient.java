@@ -4,8 +4,8 @@ import android.util.Log;
 
 
 import com.example.turnofast.modelos.Login;
+import com.example.turnofast.modelos.Prestacion;
 import com.example.turnofast.modelos.Rubro;
-import com.example.turnofast.modelos.Servicio;
 import com.example.turnofast.modelos.Usuario;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,12 +16,10 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
 
 import static com.example.turnofast.MainActivity.PATH;
 
@@ -58,8 +56,11 @@ public class ApiClient {
         @GET("rubros")
         Call<ArrayList<Rubro>> obtenerRubros(@Header("Authorization") String token);
 
-        @POST("servicios")
-        Call<Servicio> registrarServicio(@Header("Authorization") String token, @Body Servicio servicio);
+        @GET("prestaciones")
+        Call<ArrayList<Prestacion>> obtenerServicios(@Header("Authorization") String token);
+
+        @POST("prestaciones")
+        Call<Prestacion> registrarServicio(@Header("Authorization") String token, @Body Prestacion prestacion);
 /*
         @POST("inmuebles")
         Call<InmuebleFoto> altaInmueble(@Header("Authorization") String token, @Body Inmueble inmueble);

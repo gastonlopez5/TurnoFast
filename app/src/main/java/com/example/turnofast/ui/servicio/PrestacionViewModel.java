@@ -8,28 +8,26 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.turnofast.modelos.Servicio;
+import com.example.turnofast.modelos.Prestacion;
 import com.example.turnofast.request.ApiClient;
-
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ServicioViewModel extends AndroidViewModel {
+public class PrestacionViewModel extends AndroidViewModel {
     private Context context;
 
-    public ServicioViewModel(@NonNull Application application) {
+    public PrestacionViewModel(@NonNull Application application) {
         super(application);
         context = application.getApplicationContext();
     }
 
-    public void agregarServicio(Servicio servicio) {
-        Call<Servicio> dato= ApiClient.getMyApiClient().registrarServicio(obtenerToken(), servicio);
-        dato.enqueue(new Callback<Servicio>() {
+    public void agregarPrestacion(Prestacion prestacion) {
+        Call<Prestacion> dato= ApiClient.getMyApiClient().registrarServicio(obtenerToken(), prestacion);
+        dato.enqueue(new Callback<Prestacion>() {
             @Override
-            public void onResponse(Call<Servicio> call, Response<Servicio> response) {
+            public void onResponse(Call<Prestacion> call, Response<Prestacion> response) {
                 if (response.isSuccessful()){
                     Log.d("salida",response.body().toString());
                 } else {
@@ -38,7 +36,7 @@ public class ServicioViewModel extends AndroidViewModel {
             }
 
             @Override
-            public void onFailure(Call<Servicio> call, Throwable t) {
+            public void onFailure(Call<Prestacion> call, Throwable t) {
                 Log.d("salida",t.getMessage());
             }
         });

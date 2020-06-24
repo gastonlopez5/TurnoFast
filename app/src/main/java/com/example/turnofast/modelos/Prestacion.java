@@ -6,7 +6,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class HorarioDisponible {
+public class Prestacion {
     private int id;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
@@ -15,16 +15,21 @@ public class HorarioDisponible {
     private int frecuencia;
     private boolean turnoManiana;
     private boolean turnoTarde;
-    private int profesionalId;
+    private String telefono;
+    private String direccion;
+    private String nombre;
+    private String logo;
+    private Boolean disponible;
+    private int categoriaId;
     private int servicioId;
     private Usuario profesional;
-    private Servicio servicio;
+    private Categoria categoria;
     private ArrayList<Turno> turnos;
 
-    public HorarioDisponible() {
+    public Prestacion() {
     }
 
-    public HorarioDisponible(int id, LocalDate fechaInicio, LocalDate fechaFin, LocalTime horaInicio, LocalTime horaFin, int frecuencia, boolean turnoManiana, boolean turnoTarde, int profesionalId, int servicioId, Usuario profesional, Servicio servicio, ArrayList<Turno> turnos) {
+    public Prestacion(int id, LocalDate fechaInicio, LocalDate fechaFin, LocalTime horaInicio, LocalTime horaFin, int frecuencia, boolean turnoManiana, boolean turnoTarde, String telefono, String direccion, String nombre, String logo, Boolean disponible, int categoriaId, int servicioId, Usuario profesional, Categoria categoria, ArrayList<Turno> turnos) {
         this.id = id;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -33,10 +38,15 @@ public class HorarioDisponible {
         this.frecuencia = frecuencia;
         this.turnoManiana = turnoManiana;
         this.turnoTarde = turnoTarde;
-        this.profesionalId = profesionalId;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.nombre = nombre;
+        this.logo = logo;
+        this.disponible = disponible;
+        this.categoriaId = categoriaId;
         this.servicioId = servicioId;
         this.profesional = profesional;
-        this.servicio = servicio;
+        this.categoria = categoria;
         this.turnos = turnos;
     }
 
@@ -104,12 +114,52 @@ public class HorarioDisponible {
         this.turnoTarde = turnoTarde;
     }
 
-    public int getProfesionalId() {
-        return profesionalId;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setProfesionalId(int profesionalId) {
-        this.profesionalId = profesionalId;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public Boolean getDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(Boolean disponible) {
+        this.disponible = disponible;
+    }
+
+    public int getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(int categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
     public int getServicioId() {
@@ -128,12 +178,12 @@ public class HorarioDisponible {
         this.profesional = profesional;
     }
 
-    public Servicio getServicio() {
-        return servicio;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setServicio(Servicio servicio) {
-        this.servicio = servicio;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     public ArrayList<Turno> getTurnos() {

@@ -12,12 +12,12 @@ public class Usuario {
     private String clave;
     private Boolean estado;
     private ArrayList<Turno> turnos;
-    private ArrayList<HorarioDisponible> horariosDisponibles;
+    private ArrayList<Prestacion> horariosDisponibles;
 
     public Usuario() {
     }
 
-    public Usuario(int id, String nombre, String apellido, String telefono, String email, String fotoPerfil, String clave, Boolean estado, ArrayList<Turno> turnos, ArrayList<HorarioDisponible> horariosDisponibles) {
+    public Usuario(int id, String nombre, String apellido, String telefono, String email, String fotoPerfil, String clave, Boolean estado, ArrayList<Turno> turnos, ArrayList<Prestacion> horariosDisponibles) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -102,11 +102,11 @@ public class Usuario {
         this.turnos = turnos;
     }
 
-    public ArrayList<HorarioDisponible> getHorariosDisponibles() {
+    public ArrayList<Prestacion> getHorariosDisponibles() {
         return horariosDisponibles;
     }
 
-    public void setHorariosDisponibles(ArrayList<HorarioDisponible> horariosDisponibles) {
+    public void setHorariosDisponibles(ArrayList<Prestacion> horariosDisponibles) {
         this.horariosDisponibles = horariosDisponibles;
     }
 }

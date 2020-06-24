@@ -2,18 +2,12 @@ package com.example.turnofast.modelos;
 
 import java.util.ArrayList;
 
-public class Especialidad {
+public class Categoria {
     private int id;
     private String nombre;
-    private ArrayList<Servicio> servicios;
+    private ArrayList<Prestacion> prestaciones;
 
-    public Especialidad() {
-    }
-
-    public Especialidad(int id, String nombre, ArrayList<Servicio> servicios) {
-        this.id = id;
-        this.nombre = nombre;
-        this.servicios = servicios;
+    public Categoria() {
     }
 
     public int getId() {
@@ -32,12 +26,12 @@ public class Especialidad {
         this.nombre = nombre;
     }
 
-    public ArrayList<Servicio> getServicios() {
-        return servicios;
+    public ArrayList<Prestacion> getPrestaciones() {
+        return prestaciones;
     }
 
-    public void setServicios(ArrayList<Servicio> servicios) {
-        this.servicios = servicios;
+    public void setPrestaciones(ArrayList<Prestacion> prestaciones) {
+        this.prestaciones = prestaciones;
     }
 
     @Override

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.servicio.ServicioFragment">
+    tools:context=".ui.servicio.PrestacionFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -89,35 +89,7 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Email"
-                            android:textColor="@color/headings"
-                            android:textSize="13sp" />
-
-                        <EditText
-                            android:id="@+id/etEmail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:textColor="#000000"
-                            android:inputType="textEmailAddress"
-                            android:textSize="18sp"/>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="15dp"
-                            android:background="@color/grey" />
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -187,12 +159,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Seleccione especialidad"
+                            android:text="Seleccione categoria"
                             android:textColor="@color/headings"
                             android:textSize="13sp" />
 
                         <Spinner
-                            android:id="@+id/spEspecialidades"
+                            android:id="@+id/spCategorias"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
@@ -236,10 +208,10 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/btTurnos"
+                    android:id="@+id/btGuardar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Guardar y Cargar Turnos"
+                    android:text="Guardar"
                     android:layout_below="@+id/grupo"
                     android:layout_centerHorizontal="true"/>
 
