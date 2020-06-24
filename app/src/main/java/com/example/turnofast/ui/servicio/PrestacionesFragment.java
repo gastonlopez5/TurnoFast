@@ -18,17 +18,17 @@ import com.example.turnofast.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link HorariosDisponiblesFragment#newInstance} factory method to
+ * Use the {@link PrestacionesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HorariosDisponiblesFragment extends Fragment {
+public class PrestacionesFragment extends Fragment {
 
     private Button btFechaInicioManiana, btFechaFinMAniana, btHoraInicioManiana, btHoraFinManiana,
     btFechaInicioTarde, btFechaFinTarde, btHoraInicioTarde, btHoraFinTarde, btGuardar;
     private EditText etFechaInicioManiana, etFechaFinManiana, etHoraInicioManiana, etHoraFinManiana,
             etFechaInicioTarde, etFechaFinTarde, etHoraInicioTarde, etHoraFinTarde;
     private CheckBox cbTurnoManiana, cbTurnoTarde;
-    private HorariosDicponiblesViewModel vm;
+    private PrestacionesViewModel vm;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,7 +39,7 @@ public class HorariosDisponiblesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public HorariosDisponiblesFragment() {
+    public PrestacionesFragment() {
         // Required empty public constructor
     }
 
@@ -52,8 +52,8 @@ public class HorariosDisponiblesFragment extends Fragment {
      * @return A new instance of fragment ServicioTurnosFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HorariosDisponiblesFragment newInstance(String param1, String param2) {
-        HorariosDisponiblesFragment fragment = new HorariosDisponiblesFragment();
+    public static PrestacionesFragment newInstance(String param1, String param2) {
+        PrestacionesFragment fragment = new PrestacionesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -75,7 +75,7 @@ public class HorariosDisponiblesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_servicio_turnos, container, false);
-        vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(HorariosDicponiblesViewModel.class);
+        vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(PrestacionesViewModel.class);
 
         iniciarVista(view);
 

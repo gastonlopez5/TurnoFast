@@ -18,11 +18,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ListaServiciosViewModel extends AndroidViewModel {
+public class ListaPrestacionesViewModel extends AndroidViewModel {
     private Context context;
     MutableLiveData<ArrayList<Servicio>> listaServicios;
 
-    public ListaServiciosViewModel(@NonNull Application application) {
+    public ListaPrestacionesViewModel(@NonNull Application application) {
         super(application);
         context = application.getApplicationContext();
     }

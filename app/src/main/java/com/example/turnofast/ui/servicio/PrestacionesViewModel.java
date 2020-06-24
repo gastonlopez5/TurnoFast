@@ -8,12 +8,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-public class HorariosDicponiblesViewModel extends AndroidViewModel {
+public class PrestacionesViewModel extends AndroidViewModel {
     private Context context;
     MutableLiveData<Boolean> turnoManianaMLD;
     MutableLiveData<Boolean> turnoTardeMLD;
 
-    public HorariosDicponiblesViewModel(@NonNull Application application) {
+    public PrestacionesViewModel(@NonNull Application application) {
         super(application);
         context = application.getApplicationContext();
     }

@@ -12,17 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.turnofast.R;
-import com.example.turnofast.ui.rubro.RubroViewModel;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListaServiciosFragment#newInstance} factory method to
+ * Use the {@link ListaPrestacionesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListaServiciosFragment extends Fragment {
+public class ListaPrestacionesFragment extends Fragment {
     private RecyclerView rvServicios;
-    private ListaServiciosViewModel vm;
+    private ListaPrestacionesViewModel vm;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,7 +32,7 @@ public class ListaServiciosFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ListaServiciosFragment() {
+    public ListaPrestacionesFragment() {
         // Required empty public constructor
     }
 
@@ -46,8 +45,8 @@ public class ListaServiciosFragment extends Fragment {
      * @return A new instance of fragment ListaServiciosFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListaServiciosFragment newInstance(String param1, String param2) {
-        ListaServiciosFragment fragment = new ListaServiciosFragment();
+    public static ListaPrestacionesFragment newInstance(String param1, String param2) {
+        ListaPrestacionesFragment fragment = new ListaPrestacionesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -72,7 +71,7 @@ public class ListaServiciosFragment extends Fragment {
         rvServicios = view.findViewById(R.id.rvRubro);
         rvServicios.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(ListaServiciosViewModel.class);
+        vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(ListaPrestacionesViewModel.class);
 
         return view;
     }

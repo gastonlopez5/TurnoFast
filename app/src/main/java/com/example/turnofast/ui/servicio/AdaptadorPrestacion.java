@@ -13,33 +13,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.turnofast.R;
+import com.example.turnofast.modelos.Prestacion;
 
 import java.util.ArrayList;
 
 import static com.example.turnofast.MainActivity.PATH;
 
-public class AdaptadorServicio extends RecyclerView.Adapter<AdaptadorServicio.ViewHolderDatos> implements View.OnClickListener {
-    private ArrayList<Servicio> lista;
+public class AdaptadorPrestacion extends RecyclerView.Adapter<AdaptadorPrestacion.ViewHolderDatos> implements View.OnClickListener {
+    private ArrayList<Prestacion> lista;
     private View.OnClickListener listener;
     private Context context;
 
-    public AdaptadorServicio(ArrayList<Servicio> lista, Context context) {
+    public AdaptadorPrestacion(ArrayList<Prestacion> lista, Context context) {
         this.lista = lista;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public AdaptadorServicio.ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdaptadorPrestacion.ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_servicio, null,false);
 
         view.setOnClickListener(this);
 
-        return new AdaptadorServicio.ViewHolderDatos(view);
+        return new AdaptadorPrestacion.ViewHolderDatos(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdaptadorServicio.ViewHolderDatos holder, int position) {
+    public void onBindViewHolder(@NonNull AdaptadorPrestacion.ViewHolderDatos holder, int position) {
         holder.asignarDatos(lista.get(position));
     }
 
@@ -71,14 +72,14 @@ public class AdaptadorServicio extends RecyclerView.Adapter<AdaptadorServicio.Vi
             etNombre = itemView.findViewById(R.id.etNombre);
         }
 
-        public void asignarDatos(Servicio servicio) {
+        public void asignarDatos(Prestacion prestacion) {
             Glide.with(context)
-                    .load(PATH + servicio.getLogo())
+                    .load(PATH + prestacion.getLogo())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(ivLogo);
 
-            etDireccion.setText(servicio.getDireccion());
-            etNombre.setText(servicio.getNombre());
+            etDireccion.setText(prestacion.getDireccion());
+            etNombre.setText(prestacion.getNombre());
         }
 
     }

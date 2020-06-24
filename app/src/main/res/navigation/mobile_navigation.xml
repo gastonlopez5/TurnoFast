@@ -32,7 +32,7 @@
         tools:layout="@layout/fragment_prestacion" />
     <fragment
         android:id="@+id/nav_servicioTurnos"
-        android:name="com.example.turnofast.ui.servicio.HorariosDisponiblesFragment"
+        android:name="com.example.turnofast.ui.servicio.PrestacionesFragment"
         android:label="fragment_servicio_turnos"
         tools:layout="@layout/fragment_servicio_turnos" />
     <fragment
@@ -42,7 +42,7 @@
         tools:layout="@layout/fragment_solicitar_turnos" />
     <fragment
         android:id="@+id/nav_listaServicios"
-        android:name="com.example.turnofast.ui.servicio.ListaServiciosFragment"
+        android:name="com.example.turnofast.ui.servicio.ListaPrestacionesFragment"
         android:label="fragment_lista_servicios"
         tools:layout="@layout/fragment_lista_servicios" >
         <action
