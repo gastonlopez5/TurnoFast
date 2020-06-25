@@ -8,13 +8,17 @@ import java.util.Date;
 
 public class Prestacion {
     private int id;
-    private LocalDate fechaInicio;
-    private LocalDate fechaFin;
-    private LocalTime horaInicio;
-    private LocalTime horaFin;
+    private String diaInicioManiana;
+    private String getDiaInicioTarde;
+    private LocalDate fechaInicioManiana;
+    private LocalDate fechaFinManiana;
+    private LocalDate fechaInicioTarde;
+    private LocalDate fechaFinTarde;
+    private LocalTime horaInicioManiana;
+    private LocalTime horaFinManiana;
+    private LocalTime horaInicioTarde;
+    private LocalTime horaFinTarde;
     private int frecuencia;
-    private boolean turnoManiana;
-    private boolean turnoTarde;
     private String telefono;
     private String direccion;
     private String nombre;
@@ -29,15 +33,19 @@ public class Prestacion {
     public Prestacion() {
     }
 
-    public Prestacion(int id, LocalDate fechaInicio, LocalDate fechaFin, LocalTime horaInicio, LocalTime horaFin, int frecuencia, boolean turnoManiana, boolean turnoTarde, String telefono, String direccion, String nombre, String logo, Boolean disponible, int categoriaId, int servicioId, Usuario profesional, Categoria categoria, ArrayList<Turno> turnos) {
+    public Prestacion(int id, String diaInicioManiana, String getDiaInicioTarde, LocalDate fechaInicioManiana, LocalDate fechaFinManiana, LocalDate fechaInicioTarde, LocalDate fechaFinTarde, LocalTime horaInicioManiana, LocalTime horaFinManiana, LocalTime horaInicioTarde, LocalTime horaFinTarde, int frecuencia, String telefono, String direccion, String nombre, String logo, Boolean disponible, int categoriaId, int servicioId, Usuario profesional, Categoria categoria, ArrayList<Turno> turnos) {
         this.id = id;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
-        this.horaInicio = horaInicio;
-        this.horaFin = horaFin;
+        this.diaInicioManiana = diaInicioManiana;
+        this.getDiaInicioTarde = getDiaInicioTarde;
+        this.fechaInicioManiana = fechaInicioManiana;
+        this.fechaFinManiana = fechaFinManiana;
+        this.fechaInicioTarde = fechaInicioTarde;
+        this.fechaFinTarde = fechaFinTarde;
+        this.horaInicioManiana = horaInicioManiana;
+        this.horaFinManiana = horaFinManiana;
+        this.horaInicioTarde = horaInicioTarde;
+        this.horaFinTarde = horaFinTarde;
         this.frecuencia = frecuencia;
-        this.turnoManiana = turnoManiana;
-        this.turnoTarde = turnoTarde;
         this.telefono = telefono;
         this.direccion = direccion;
         this.nombre = nombre;
@@ -58,36 +66,84 @@ public class Prestacion {
         this.id = id;
     }
 
-    public LocalDate getFechaInicio() {
-        return fechaInicio;
+    public String getDiaInicioManiana() {
+        return diaInicioManiana;
     }
 
-    public void setFechaInicio(LocalDate fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public void setDiaInicioManiana(String diaInicioManiana) {
+        this.diaInicioManiana = diaInicioManiana;
     }
 
-    public LocalDate getFechaFin() {
-        return fechaFin;
+    public String getGetDiaInicioTarde() {
+        return getDiaInicioTarde;
     }
 
-    public void setFechaFin(LocalDate fechaFin) {
-        this.fechaFin = fechaFin;
+    public void setGetDiaInicioTarde(String getDiaInicioTarde) {
+        this.getDiaInicioTarde = getDiaInicioTarde;
     }
 
-    public LocalTime getHoraInicio() {
-        return horaInicio;
+    public LocalDate getFechaInicioManiana() {
+        return fechaInicioManiana;
     }
 
-    public void setHoraInicio(LocalTime horaInicio) {
-        this.horaInicio = horaInicio;
+    public void setFechaInicioManiana(LocalDate fechaInicioManiana) {
+        this.fechaInicioManiana = fechaInicioManiana;
     }
 
-    public LocalTime getHoraFin() {
-        return horaFin;
+    public LocalDate getFechaFinManiana() {
+        return fechaFinManiana;
     }
 
-    public void setHoraFin(LocalTime horaFin) {
-        this.horaFin = horaFin;
+    public void setFechaFinManiana(LocalDate fechaFinManiana) {
+        this.fechaFinManiana = fechaFinManiana;
+    }
+
+    public LocalDate getFechaInicioTarde() {
+        return fechaInicioTarde;
+    }
+
+    public void setFechaInicioTarde(LocalDate fechaInicioTarde) {
+        this.fechaInicioTarde = fechaInicioTarde;
+    }
+
+    public LocalDate getFechaFinTarde() {
+        return fechaFinTarde;
+    }
+
+    public void setFechaFinTarde(LocalDate fechaFinTarde) {
+        this.fechaFinTarde = fechaFinTarde;
+    }
+
+    public LocalTime getHoraInicioManiana() {
+        return horaInicioManiana;
+    }
+
+    public void setHoraInicioManiana(LocalTime horaInicioManiana) {
+        this.horaInicioManiana = horaInicioManiana;
+    }
+
+    public LocalTime getHoraFinManiana() {
+        return horaFinManiana;
+    }
+
+    public void setHoraFinManiana(LocalTime horaFinManiana) {
+        this.horaFinManiana = horaFinManiana;
+    }
+
+    public LocalTime getHoraInicioTarde() {
+        return horaInicioTarde;
+    }
+
+    public void setHoraInicioTarde(LocalTime horaInicioTarde) {
+        this.horaInicioTarde = horaInicioTarde;
+    }
+
+    public LocalTime getHoraFinTarde() {
+        return horaFinTarde;
+    }
+
+    public void setHoraFinTarde(LocalTime horaFinTarde) {
+        this.horaFinTarde = horaFinTarde;
     }
 
     public int getFrecuencia() {
@@ -96,22 +152,6 @@ public class Prestacion {
 
     public void setFrecuencia(int frecuencia) {
         this.frecuencia = frecuencia;
-    }
-
-    public boolean isTurnoManiana() {
-        return turnoManiana;
-    }
-
-    public void setTurnoManiana(boolean turnoManiana) {
-        this.turnoManiana = turnoManiana;
-    }
-
-    public boolean isTurnoTarde() {
-        return turnoTarde;
-    }
-
-    public void setTurnoTarde(boolean turnoTarde) {
-        this.turnoTarde = turnoTarde;
     }
 
     public String getTelefono() {

@@ -32,7 +32,7 @@
         tools:layout="@layout/fragment_prestacion" />
     <fragment
         android:id="@+id/nav_servicioTurnos"
-        android:name="com.example.turnofast.ui.servicio.PrestacionesFragment"
+        android:name="com.example.turnofast.ui.servicio.PrestacioneTurnosFragment"
         android:label="fragment_servicio_turnos"
         tools:layout="@layout/fragment_servicio_turnos" />
     <fragment
