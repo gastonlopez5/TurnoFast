@@ -32,7 +32,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
-                imagen.setImageResource(R.drawable.logo);
+                imagen.setImageResource(R.drawable.logo3);
             }
         });
         return root;

@@ -1,7 +1,9 @@
 package com.example.turnofast.ui.servicio;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -9,6 +11,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Prestacion;
@@ -26,7 +30,9 @@ import com.example.turnofast.modelos.Prestacion;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 
@@ -50,6 +56,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
     private SimpleDateFormat fechaFormato = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat horaFormato = new SimpleDateFormat("HH:mm:ss");
     private Prestacion prestacion = new Prestacion();
+    private Prestacion prestacionGuardado = null;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -92,7 +99,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_servicio_turnos, container, false);
@@ -247,21 +254,117 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
         btHoraInicioTarde.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                calendario = Calendar.getInstance();
+                hora = calendario.get(Calendar.HOUR_OF_DAY);
+                minutos = calendario.get(Calendar.MINUTE);
 
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        etHoraInicioTarde.setText(hourOfDay+":"+minute);
+                        Calendar c = Calendar.getInstance();
+                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        c.set(Calendar.MINUTE, minute);
+
+                        prestacion.setHoraInicioTarde(LocalTime.parse(horaFormato.format(c.getTime())));
+                    }
+                }
+                        ,hora, minutos, false);
+                timePickerDialog.show();
             }
         });
 
         btHoraFinManiana.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                calendario = Calendar.getInstance();
+                hora = calendario.get(Calendar.HOUR_OF_DAY);
+                minutos = calendario.get(Calendar.MINUTE);
 
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        etHoraFinManiana.setText(hourOfDay+":"+minute);
+                        Calendar c = Calendar.getInstance();
+                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        c.set(Calendar.MINUTE, minute);
+
+                        prestacion.setHoraFinManiana(LocalTime.parse(horaFormato.format(c.getTime())));
+                    }
+                }
+                        ,hora, minutos, false);
+                timePickerDialog.show();
             }
         });
 
         btHoraFinTarde.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                calendario = Calendar.getInstance();
+                hora = calendario.get(Calendar.HOUR_OF_DAY);
+                minutos = calendario.get(Calendar.MINUTE);
 
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        etHoraFinTarde.setText(hourOfDay+":"+minute);
+                        Calendar c = Calendar.getInstance();
+                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        c.set(Calendar.MINUTE, minute);
+
+                        prestacion.setHoraFinTarde(LocalTime.parse(horaFormato.format(c.getTime())));
+                    }
+                }
+                        ,hora, minutos, false);
+                timePickerDialog.show();
+            }
+        });
+
+        vm.getErrorCarga().observe(getViewLifecycleOwner(), new Observer<Prestacion>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onChanged(Prestacion p) {
+                if (p.getFechaInicioManiana() == null){etFechaInicioManiana.setText("");}
+                else {etFechaInicioManiana.setText(p.getFechaInicioManiana().getDayOfMonth()+"/"+p.getFechaInicioManiana().getMonthValue()+"/"+p.getFechaInicioManiana().getYear());}
+                if (p.getFechaFinManiana() == null){etFechaFinManiana.setText("");}
+                else { etFechaFinManiana.setText(p.getFechaFinManiana().getDayOfMonth()+"/"+p.getFechaFinManiana().getMonthValue()+"/"+p.getFechaFinManiana().getYear()); }
+                if (p.getFechaInicioTarde() == null){etFechaInicioTarde.setText("");}
+                else {etFechaInicioTarde.setText(p.getFechaInicioTarde().getDayOfMonth()+"/"+p.getFechaInicioTarde().getMonthValue()+"/"+p.getFechaInicioTarde().getYear());}
+                if (p.getFechaFinTarde() == null){etFechaFinTarde.setText("");}
+                else {etFechaFinTarde.setText(p.getFechaFinTarde().getDayOfMonth()+"/"+p.getFechaFinTarde().getMonthValue()+"/"+p.getFechaFinTarde().getYear());}
+                if (p.getHoraInicioManiana() == null){etHoraInicioManiana.setText("");}
+                else { etHoraInicioManiana.setText(p.getHoraInicioManiana().getHour()+":"+p.getHoraInicioManiana().getMinute());}
+                if (p.getHoraFinManiana() == null){etHoraFinManiana.setText("");}
+                else {etHoraFinManiana.setText(p.getHoraFinManiana().getHour()+":"+p.getHoraFinManiana().getMinute());}
+                if (p.getHoraInicioTarde() == null){etHoraInicioTarde.setText("");}
+                else {etHoraInicioTarde.setText(p.getHoraInicioTarde().getHour()+":"+p.getHoraInicioTarde().getMinute());}
+                if (p.getHoraFinTarde() == null){etHoraFinTarde.setText("");}
+                else {etHoraFinTarde.setText(p.getHoraFinTarde().getHour()+":"+p.getHoraFinTarde().getMinute());}
+
+            }
+        });
+
+        btGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                new AlertDialog.Builder(getContext()).setTitle("").setMessage("Desea guardar y continuar?").setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        prestacionGuardado = prestacion;
+                        vm.cargarTurnos(prestacion, cbTurnoManiana.isChecked(), cbTurnoTarde.isChecked());
+                        //Toast.makeText(getContext(), "Datos guardados correctamente", Toast.LENGTH_LONG).show();
+                        //Navigation.findNavController(v).navigate(R.id.nav_home);
+                    }
+                }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
             }
         });
 

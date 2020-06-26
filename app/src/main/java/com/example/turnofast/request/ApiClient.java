@@ -61,6 +61,9 @@ public class ApiClient {
 
         @POST("prestaciones")
         Call<Prestacion> registrarServicio(@Header("Authorization") String token, @Body Prestacion prestacion);
+
+        @PUT("prestaciones")
+        Call<Prestacion> actualizar(@Header("Authorization") String token, @Body Prestacion p);
 /*
         @POST("inmuebles")
         Call<InmuebleFoto> altaInmueble(@Header("Authorization") String token, @Body Inmueble inmueble);
