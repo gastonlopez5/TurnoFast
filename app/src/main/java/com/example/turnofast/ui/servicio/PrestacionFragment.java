@@ -31,7 +31,7 @@ import com.example.turnofast.modelos.Rubro;
  * create an instance of this fragment.
  */
 public class PrestacionFragment extends Fragment {
-    private Spinner spCategorias;
+    private Spinner spCategorias, spFrecuencias;
     private EditText etDireccion, etNombre, etTelefono, etEmail;
     private CheckBox cbDisponible;
     private Button btGuardar;
@@ -90,6 +90,7 @@ public class PrestacionFragment extends Fragment {
         etNombre = view.findViewById(R.id.etNombre);
         etTelefono = view.findViewById(R.id.etTelefono);
         spCategorias = view.findViewById(R.id.spCategorias);
+        spFrecuencias = view.findViewById(R.id.spFrecuencia);
         cbDisponible = view.findViewById(R.id.cbDisponible);
         btGuardar = view.findViewById(R.id.btGuardar);
 
@@ -99,6 +100,10 @@ public class PrestacionFragment extends Fragment {
         rubro =(Rubro) objetoRubro.getSerializable("objeto");
         ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(getContext(), android.R.layout.simple_spinner_item, rubro.getEspecialidades());
         spCategorias.setAdapter(adapter);
+
+        String [] frecuencias = {"15 min", "20 min", "30 min", "60 min"};
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, frecuencias);
+        spFrecuencias.setAdapter(adapter2);
 
         btGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +129,24 @@ public class PrestacionFragment extends Fragment {
 
     private void aceptar() {
         Categoria categoria = (Categoria) spCategorias.getSelectedItem();
+        String frec = (String) spFrecuencias.getSelectedItem();
+        switch (frec){
+            case "15 min":
+                prestacion.setFrecuencia(15);
+                break;
+
+            case "20 min":
+                prestacion.setFrecuencia(20);
+                break;
+
+            case "30 min":
+                prestacion.setFrecuencia(30);
+                break;
+
+            case "60 min":
+                prestacion.setFrecuencia(60);
+                break;
+        }
         prestacion.setDireccion(etDireccion.getText().toString());
         prestacion.setNombre(etNombre.getText().toString());
         prestacion.setDisponible(cbDisponible.isChecked());
