@@ -1,9 +1,11 @@
-package com.example.turnofast.ui.servicio;
+package com.example.turnofast.ui.prestacion;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.turnofast.R;
+import com.example.turnofast.modelos.Prestacion;
+import com.example.turnofast.modelos.Rubro;
+import com.example.turnofast.ui.rubro.AdaptadorRubro;
+
+import java.util.ArrayList;
 
 
 /**
@@ -67,11 +74,32 @@ public class ListaPrestacionesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_rubro, container, false);
-        rvServicios = view.findViewById(R.id.rvRubro);
+        View view = inflater.inflate(R.layout.fragment_lista_servicios, container, false);
+        rvServicios = view.findViewById(R.id.rvServicio);
         rvServicios.setLayoutManager(new LinearLayoutManager(getContext()));
 
         vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(ListaPrestacionesViewModel.class);
+
+        vm.getListaPrestaciones().observe(getViewLifecycleOwner(), new Observer<ArrayList<Prestacion>>() {
+            @Override
+            public void onChanged(final ArrayList<Prestacion> prestacions) {
+                AdaptadorPrestacion adaptador = new AdaptadorPrestacion(prestacions, getContext());
+
+                adaptador.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Prestacion prestacion = prestacions.get(rvServicios.getChildAdapterPosition(v));
+                        Bundle bundle=new Bundle();
+                        bundle.putSerializable("objeto", prestacion);
+                        Navigation.findNavController(v).navigate(R.id.nav_servicioTurnos, bundle);
+                    }
+                });
+
+                rvServicios.setAdapter(adaptador);
+            }
+        });
+
+        vm.cargarDatos();
 
         return view;
     }

@@ -1,4 +1,4 @@
-package com.example.turnofast.ui.servicio;
+package com.example.turnofast.ui.prestacion;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,18 +21,16 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.example.turnofast.R;
+import com.example.turnofast.modelos.Horario;
 import com.example.turnofast.modelos.Prestacion;
+import com.example.turnofast.modelos.Rubro;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 
 /**
@@ -43,20 +40,18 @@ import java.util.Locale;
  */
 public class PrestacioneTurnosFragment extends Fragment implements View.OnClickListener {
 
-    private Button btFechaInicioManiana, btFechaFinMAniana, btHoraInicioManiana, btHoraFinManiana,
-    btFechaInicioTarde, btFechaFinTarde, btHoraInicioTarde, btHoraFinTarde, btGuardar;
-    private EditText etFechaInicioManiana, etFechaFinManiana, etHoraInicioManiana, etHoraFinManiana,
-            etFechaInicioTarde, etFechaFinTarde, etHoraInicioTarde, etHoraFinTarde;
+    private Button btHoraInicioManiana, btHoraFinManiana, btHoraInicioTarde, btHoraFinTarde, btGuardar;
+    private EditText etHoraInicioManiana, etHoraFinManiana, etHoraInicioTarde, etHoraFinTarde;
     private CheckBox cbTurnoManiana, cbTurnoTarde;
     private PrestacionTurnosViewModel vm;
     private Calendar calendario;
-    private int dia, mes, anio, hora, minutos;
+    private int hora, minutos;
     //private Locale locale = new Locale("es", "AR");
     private SimpleDateFormat diaFormato = new SimpleDateFormat("EEE");
     private SimpleDateFormat fechaFormato = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat horaFormato = new SimpleDateFormat("HH:mm:ss");
-    private Prestacion prestacion = new Prestacion();
-    private Prestacion prestacionGuardado = null;
+    private Horario horario = new Horario();
+    private Prestacion prestacionSeleccionada = null;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -107,6 +102,9 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
 
         iniciarVista(view);
 
+        Bundle objetoRubro = getArguments();
+        prestacionSeleccionada =(Prestacion) objetoRubro.getSerializable("objeto");
+
         cbTurnoManiana.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -121,111 +119,6 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
             }
         });
 
-        btFechaInicioManiana.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendario = Calendar.getInstance();
-                dia = calendario.get(Calendar.DAY_OF_MONTH);
-                mes = calendario.get(Calendar.MONTH);
-                anio = calendario.get(Calendar.YEAR);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        etFechaInicioManiana.setText(dayOfMonth+"/"+(month+1)+"/"+year);
-                        Calendar c = Calendar.getInstance();
-                        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        c.set(Calendar.MONTH, month);
-                        c.set(Calendar.YEAR, year);
-
-                        prestacion.setDiaInicioManiana(diaFormato.format(c.getTime()));
-                        prestacion.setFechaInicioManiana(LocalDate.parse(fechaFormato.format(c.getTime())));
-                    }
-                }
-                , dia, mes, anio);
-                datePickerDialog.show();
-            }
-        });
-
-        btFechaInicioTarde.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendario = Calendar.getInstance();
-                dia = calendario.get(Calendar.DAY_OF_MONTH);
-                mes = calendario.get(Calendar.MONTH);
-                anio = calendario.get(Calendar.YEAR);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        etFechaInicioTarde.setText(dayOfMonth+"/"+(month+1)+"/"+year);
-                        Calendar c = Calendar.getInstance();
-                        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        c.set(Calendar.MONTH, month);
-                        c.set(Calendar.YEAR, year);
-
-                        prestacion.setGetDiaInicioTarde(diaFormato.format(c.getTime()));
-                        prestacion.setFechaInicioTarde(LocalDate.parse(fechaFormato.format(c.getTime())));
-                    }
-                }
-                        , dia, mes, anio);
-                datePickerDialog.show();
-            }
-        });
-
-        btFechaFinMAniana.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendario = Calendar.getInstance();
-                dia = calendario.get(Calendar.DAY_OF_MONTH);
-                mes = calendario.get(Calendar.MONTH);
-                anio = calendario.get(Calendar.YEAR);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        etFechaFinManiana.setText(dayOfMonth+"/"+(month+1)+"/"+year);
-                        Calendar c = Calendar.getInstance();
-                        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        c.set(Calendar.MONTH, month);
-                        c.set(Calendar.YEAR, year);
-
-                        prestacion.setFechaFinManiana(LocalDate.parse(fechaFormato.format(c.getTime())));
-                    }
-                }
-                        , dia, mes, anio);
-                datePickerDialog.show();
-            }
-        });
-
-        btFechaFinTarde.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendario = Calendar.getInstance();
-                dia = calendario.get(Calendar.DAY_OF_MONTH);
-                mes = calendario.get(Calendar.MONTH);
-                anio = calendario.get(Calendar.YEAR);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        etFechaFinTarde.setText(dayOfMonth+"/"+(month+1)+"/"+year);
-                        Calendar c = Calendar.getInstance();
-                        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        c.set(Calendar.MONTH, month);
-                        c.set(Calendar.YEAR, year);
-
-                        prestacion.setFechaFinTarde(LocalDate.parse(fechaFormato.format(c.getTime())));
-                    }
-                }
-                        , dia, mes, anio);
-                datePickerDialog.show();
-            }
-        });
 
         btHoraInicioManiana.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,7 +136,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         c.set(Calendar.MINUTE, minute);
 
-                        prestacion.setHoraInicioManiana(LocalTime.parse(horaFormato.format(c.getTime())));
+                        horario.setHoraDesdeManiana(LocalTime.parse(horaFormato.format(c.getTime())));
                     }
                 }
                 ,hora, minutos, false);
@@ -267,7 +160,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         c.set(Calendar.MINUTE, minute);
 
-                        prestacion.setHoraInicioTarde(LocalTime.parse(horaFormato.format(c.getTime())));
+                        horario.setHoraDesdeTarde(LocalTime.parse(horaFormato.format(c.getTime())));
                     }
                 }
                         ,hora, minutos, false);
@@ -291,7 +184,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         c.set(Calendar.MINUTE, minute);
 
-                        prestacion.setHoraFinManiana(LocalTime.parse(horaFormato.format(c.getTime())));
+                        horario.setHoraHastaManiana(LocalTime.parse(horaFormato.format(c.getTime())));
                     }
                 }
                         ,hora, minutos, false);
@@ -315,7 +208,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         c.set(Calendar.MINUTE, minute);
 
-                        prestacion.setHoraFinTarde(LocalTime.parse(horaFormato.format(c.getTime())));
+                        horario.setHoraHastaTarde(LocalTime.parse(horaFormato.format(c.getTime())));
                     }
                 }
                         ,hora, minutos, false);
@@ -323,26 +216,18 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
             }
         });
 
-        vm.getErrorCarga().observe(getViewLifecycleOwner(), new Observer<Prestacion>() {
+        vm.getErrorCarga().observe(getViewLifecycleOwner(), new Observer<Horario>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onChanged(Prestacion p) {
-                if (p.getFechaInicioManiana() == null){etFechaInicioManiana.setText("");}
-                else {etFechaInicioManiana.setText(p.getFechaInicioManiana().getDayOfMonth()+"/"+p.getFechaInicioManiana().getMonthValue()+"/"+p.getFechaInicioManiana().getYear());}
-                if (p.getFechaFinManiana() == null){etFechaFinManiana.setText("");}
-                else { etFechaFinManiana.setText(p.getFechaFinManiana().getDayOfMonth()+"/"+p.getFechaFinManiana().getMonthValue()+"/"+p.getFechaFinManiana().getYear()); }
-                if (p.getFechaInicioTarde() == null){etFechaInicioTarde.setText("");}
-                else {etFechaInicioTarde.setText(p.getFechaInicioTarde().getDayOfMonth()+"/"+p.getFechaInicioTarde().getMonthValue()+"/"+p.getFechaInicioTarde().getYear());}
-                if (p.getFechaFinTarde() == null){etFechaFinTarde.setText("");}
-                else {etFechaFinTarde.setText(p.getFechaFinTarde().getDayOfMonth()+"/"+p.getFechaFinTarde().getMonthValue()+"/"+p.getFechaFinTarde().getYear());}
-                if (p.getHoraInicioManiana() == null){etHoraInicioManiana.setText("");}
-                else { etHoraInicioManiana.setText(p.getHoraInicioManiana().getHour()+":"+p.getHoraInicioManiana().getMinute());}
-                if (p.getHoraFinManiana() == null){etHoraFinManiana.setText("");}
-                else {etHoraFinManiana.setText(p.getHoraFinManiana().getHour()+":"+p.getHoraFinManiana().getMinute());}
-                if (p.getHoraInicioTarde() == null){etHoraInicioTarde.setText("");}
-                else {etHoraInicioTarde.setText(p.getHoraInicioTarde().getHour()+":"+p.getHoraInicioTarde().getMinute());}
-                if (p.getHoraFinTarde() == null){etHoraFinTarde.setText("");}
-                else {etHoraFinTarde.setText(p.getHoraFinTarde().getHour()+":"+p.getHoraFinTarde().getMinute());}
+            public void onChanged(Horario p) {
+                if (p.getHoraDesdeManiana() == null){etHoraInicioManiana.setText("");}
+                else { etHoraInicioManiana.setText(p.getHoraDesdeManiana().getHour()+":"+p.getHoraDesdeManiana().getMinute());}
+                if (p.getHoraHastaManiana() == null){etHoraFinManiana.setText("");}
+                else {etHoraFinManiana.setText(p.getHoraHastaManiana().getHour()+":"+p.getHoraHastaManiana().getMinute());}
+                if (p.getHoraDesdeTarde() == null){etHoraInicioTarde.setText("");}
+                else {etHoraInicioTarde.setText(p.getHoraDesdeTarde().getHour()+":"+p.getHoraDesdeTarde().getMinute());}
+                if (p.getHoraHastaTarde() == null){etHoraFinTarde.setText("");}
+                else {etHoraFinTarde.setText(p.getHoraHastaTarde().getHour()+":"+p.getHoraHastaTarde().getMinute());}
 
             }
         });
@@ -354,8 +239,9 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        prestacionGuardado = prestacion;
-                        vm.cargarTurnos(prestacion, cbTurnoManiana.isChecked(), cbTurnoTarde.isChecked());
+                        //prestacionGuardado = prestacion;
+                        horario.setPrestacionId(prestacionSeleccionada.getId());
+                        vm.cargarHorario(horario, cbTurnoManiana.isChecked(), cbTurnoTarde.isChecked());
                         //Toast.makeText(getContext(), "Datos guardados correctamente", Toast.LENGTH_LONG).show();
                         //Navigation.findNavController(v).navigate(R.id.nav_home);
                     }
@@ -374,11 +260,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
     private void habilitaTurnoTarde(Boolean valor) {
         btHoraInicioTarde.setEnabled(valor);
         btHoraFinTarde.setEnabled(valor);
-        btFechaInicioTarde.setEnabled(valor);
-        btFechaFinTarde.setEnabled(valor);
 
-        etFechaInicioTarde.setEnabled(valor);
-        etFechaFinTarde.setEnabled(valor);
         etHoraInicioTarde.setEnabled(valor);
         etHoraFinTarde.setEnabled(valor);
     }
@@ -386,11 +268,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
     private void habilitaTurnoManiana(Boolean valor) {
         btHoraInicioManiana.setEnabled(valor);
         btHoraFinManiana.setEnabled(valor);
-        btFechaInicioManiana.setEnabled(valor);
-        btFechaFinMAniana.setEnabled(valor);
 
-        etFechaInicioManiana.setEnabled(valor);
-        etFechaFinManiana.setEnabled(valor);
         etHoraInicioManiana.setEnabled(valor);
         etHoraFinManiana.setEnabled(valor);
     }
@@ -398,17 +276,9 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
     private void iniciarVista(View view) {
         btHoraInicioManiana = view.findViewById(R.id.btHoraInicioManiana);
         btHoraFinManiana = view.findViewById(R.id.btHoraFinManiana);
-        btFechaInicioManiana = view.findViewById(R.id.btFechaInicioManiana);
-        btFechaFinMAniana = view.findViewById(R.id.btFechaFinManiana);
         btHoraInicioTarde = view.findViewById(R.id.btHoraInicioTarde);
         btHoraFinTarde = view.findViewById(R.id.btHoraFinTarde);
-        btFechaInicioTarde = view.findViewById(R.id.btFechaInicioTarde);
-        btFechaFinTarde = view.findViewById(R.id.btFechaFinTarde);
 
-        etFechaInicioManiana = view.findViewById(R.id.etFechaInicioManiana);
-        etFechaInicioTarde = view.findViewById(R.id.etFechaInicioTarde);
-        etFechaFinManiana = view.findViewById(R.id.etFechaFinManiana);
-        etFechaFinTarde = view.findViewById(R.id.etFechaFinTade);
         etHoraInicioManiana = view.findViewById(R.id.etHoraInicioManiana);
         etHoraInicioTarde = view.findViewById(R.id.etHoraInicioTarde);
         etHoraFinManiana = view.findViewById(R.id.etHoraFinManiana);

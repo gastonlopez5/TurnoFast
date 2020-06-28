@@ -1,7 +1,6 @@
-package com.example.turnofast.ui.servicio;
+package com.example.turnofast.ui.prestacion;
 
 import android.app.AlertDialog;
-import android.app.Presentation;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -31,7 +30,7 @@ import com.example.turnofast.modelos.Rubro;
  * create an instance of this fragment.
  */
 public class PrestacionFragment extends Fragment {
-    private Spinner spCategorias, spFrecuencias;
+    private Spinner spCategorias;
     private EditText etDireccion, etNombre, etTelefono, etEmail;
     private CheckBox cbDisponible;
     private Button btGuardar;
@@ -90,7 +89,7 @@ public class PrestacionFragment extends Fragment {
         etNombre = view.findViewById(R.id.etNombre);
         etTelefono = view.findViewById(R.id.etTelefono);
         spCategorias = view.findViewById(R.id.spCategorias);
-        spFrecuencias = view.findViewById(R.id.spFrecuencia);
+        //spFrecuencias = view.findViewById(R.id.spFrecuencia);
         cbDisponible = view.findViewById(R.id.cbDisponible);
         btGuardar = view.findViewById(R.id.btGuardar);
 
@@ -101,9 +100,11 @@ public class PrestacionFragment extends Fragment {
         ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(getContext(), android.R.layout.simple_spinner_item, rubro.getEspecialidades());
         spCategorias.setAdapter(adapter);
 
+        /*
         String [] frecuencias = {"15 min", "20 min", "30 min", "60 min"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, frecuencias);
         spFrecuencias.setAdapter(adapter2);
+        */
 
         btGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +114,7 @@ public class PrestacionFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         aceptar();
                         Toast.makeText(getContext(), "Datos guardados correctamente", Toast.LENGTH_LONG).show();
-                        Navigation.findNavController(v).navigate(R.id.nav_servicioTurnos);
+                        Navigation.findNavController(v).navigate(R.id.nav_home);
                     }
                 }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
@@ -129,6 +130,8 @@ public class PrestacionFragment extends Fragment {
 
     private void aceptar() {
         Categoria categoria = (Categoria) spCategorias.getSelectedItem();
+
+        /*
         String frec = (String) spFrecuencias.getSelectedItem();
         switch (frec){
             case "15 min":
@@ -147,6 +150,8 @@ public class PrestacionFragment extends Fragment {
                 prestacion.setFrecuencia(60);
                 break;
         }
+
+         */
         prestacion.setDireccion(etDireccion.getText().toString());
         prestacion.setNombre(etNombre.getText().toString());
         prestacion.setDisponible(cbDisponible.isChecked());

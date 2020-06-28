@@ -1,4 +1,4 @@
-package com.example.turnofast.ui.servicio;
+package com.example.turnofast.ui.prestacion;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,14 +63,14 @@ public class AdaptadorPrestacion extends RecyclerView.Adapter<AdaptadorPrestacio
 
     public class ViewHolderDatos extends RecyclerView.ViewHolder {
         ImageView ivLogo;
-        EditText etDireccion, etNombre;
+        TextView tvDireccion, tvNombre;
 
 
         public ViewHolderDatos(@NonNull View itemView) {
             super(itemView);
             ivLogo = itemView.findViewById(R.id.ivLogo);
-            etDireccion = itemView.findViewById(R.id.etDireccion);
-            etNombre = itemView.findViewById(R.id.etNombre);
+            tvDireccion = itemView.findViewById(R.id.tvDireccion);
+            tvNombre = itemView.findViewById(R.id.tvNombre);
         }
 
         public void asignarDatos(Prestacion prestacion) {
@@ -77,9 +78,8 @@ public class AdaptadorPrestacion extends RecyclerView.Adapter<AdaptadorPrestacio
                     .load(PATH + prestacion.getLogo())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(ivLogo);
-
-            etDireccion.setText(prestacion.getDireccion());
-            etNombre.setText(prestacion.getNombre());
+            tvDireccion.setText(prestacion.getDireccion());
+            tvNombre.setText(prestacion.getNombre());
         }
 
     }

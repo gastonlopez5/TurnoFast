@@ -27,14 +27,22 @@
     </fragment>
     <fragment
         android:id="@+id/nav_servicio"
-        android:name="com.example.turnofast.ui.servicio.PrestacionFragment"
+        android:name="com.example.turnofast.ui.prestacion.PrestacionFragment"
         android:label="fragment_servicio"
-        tools:layout="@layout/fragment_prestacion" />
+        tools:layout="@layout/fragment_prestacion" >
+        <action
+            android:id="@+id/action_nav_servicio_to_nav_rubro"
+            app:destination="@id/nav_rubro" />
+    </fragment>
     <fragment
         android:id="@+id/nav_servicioTurnos"
-        android:name="com.example.turnofast.ui.servicio.PrestacioneTurnosFragment"
+        android:name="com.example.turnofast.ui.prestacion.PrestacioneTurnosFragment"
         android:label="fragment_servicio_turnos"
-        tools:layout="@layout/fragment_servicio_turnos" />
+        tools:layout="@layout/fragment_servicio_turnos" >
+        <action
+            android:id="@+id/action_nav_servicioTurnos_to_nav_listaServicios"
+            app:destination="@id/nav_listaServicios" />
+    </fragment>
     <fragment
         android:id="@+id/nav_solicitarTurnos"
         android:name="com.example.turnofast.ui.turno.SolicitarTurnos"
@@ -42,11 +50,11 @@
         tools:layout="@layout/fragment_solicitar_turnos" />
     <fragment
         android:id="@+id/nav_listaServicios"
-        android:name="com.example.turnofast.ui.servicio.ListaPrestacionesFragment"
+        android:name="com.example.turnofast.ui.prestacion.ListaPrestacionesFragment"
         android:label="fragment_lista_servicios"
         tools:layout="@layout/fragment_lista_servicios" >
         <action
-            android:id="@+id/action_listaServiciosFragment_to_nav_servicioTurnos"
+            android:id="@+id/action_nav_listaServicios_to_nav_servicioTurnos"
             app:destination="@id/nav_servicioTurnos" />
     </fragment>
 

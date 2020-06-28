@@ -1,4 +1,4 @@
-package com.example.turnofast.ui.servicio;
+package com.example.turnofast.ui.prestacion;
 
 import android.app.Application;
 import android.content.Context;
@@ -24,7 +24,7 @@ public class PrestacionViewModel extends AndroidViewModel {
     }
 
     public void agregarPrestacion(Prestacion prestacion) {
-        Call<Prestacion> dato= ApiClient.getMyApiClient().registrarServicio(obtenerToken(), prestacion);
+        Call<Prestacion> dato= ApiClient.getMyApiClient().registrarPrestacion(obtenerToken(), prestacion);
         dato.enqueue(new Callback<Prestacion>() {
             @Override
             public void onResponse(Call<Prestacion> call, Response<Prestacion> response) {

@@ -1,4 +1,4 @@
-package com.example.turnofast.ui.servicio;
+package com.example.turnofast.ui.prestacion;
 
 import android.app.Application;
 import android.content.Context;
@@ -9,16 +9,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.turnofast.modelos.Horario;
 import com.example.turnofast.modelos.Prestacion;
-import com.example.turnofast.modelos.Rubro;
 import com.example.turnofast.request.ApiClient;
-
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,14 +24,14 @@ import retrofit2.Response;
 public class PrestacionTurnosViewModel extends AndroidViewModel {
     private Context context;
     private int nro = 1;
-    MutableLiveData<Prestacion> errorCarga;
+    MutableLiveData<Horario> errorCarga;
 
     public PrestacionTurnosViewModel(@NonNull Application application) {
         super(application);
         context = application.getApplicationContext();
     }
 
-    public LiveData<Prestacion> getErrorCarga(){
+    public LiveData<Horario> getErrorCarga(){
         if (errorCarga == null){
             errorCarga = new MutableLiveData<>();
         }
@@ -42,17 +39,15 @@ public class PrestacionTurnosViewModel extends AndroidViewModel {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void cargarTurnos(Prestacion p, boolean turnoManiana, boolean turnoTarde){
+    public void cargarHorario(Horario p, boolean turnoManiana, boolean turnoTarde){
         if (turnoManiana) {
-            if (p.getFechaInicioManiana() == null || p.getFechaFinManiana() == null || p.getHoraInicioManiana() == null
-                    || p.getHoraFinManiana() == null){
+            if (p.getHoraDesdeManiana() == null || p.getHoraHastaManiana() == null){
 
                 Toast.makeText(context, "Complete todos los campos del turno mañana!", Toast.LENGTH_LONG).show();
                 nro = nro + 1;
                 errorCarga.postValue(p);
 
-            } else if (p.getFechaInicioManiana().isAfter(p.getFechaFinManiana())
-                    || p.getHoraInicioManiana().isAfter(p.getHoraFinManiana())){
+            } else if (p.getHoraDesdeManiana().isAfter(p.getHoraHastaManiana())){
 
                 Toast.makeText(context, "Alguno de los campos del turno mañna es incorrecto!", Toast.LENGTH_LONG).show();
                 nro = nro + 1;
@@ -62,29 +57,26 @@ public class PrestacionTurnosViewModel extends AndroidViewModel {
         }
 
         if (turnoTarde) {
-            if (p.getFechaFinTarde() == null || p.getFechaInicioTarde() == null
-                    || p.getHoraInicioTarde() == null || p.getHoraFinTarde() == null) {
+            if (p.getHoraDesdeTarde() == null || p.getHoraHastaTarde() == null) {
 
                 Toast.makeText(context, "Complete todos los campos del turno tarde!", Toast.LENGTH_LONG).show();
                 nro = nro + 1;
                 errorCarga.postValue(p);
 
 
-            } else if ( p.getFechaInicioTarde().isAfter(p.getFechaFinTarde())
-                    || p.getHoraInicioTarde().isAfter(p.getHoraFinTarde())) {
+            } else if (p.getHoraDesdeTarde().isAfter(p.getHoraHastaTarde())) {
 
                 Toast.makeText(context, "Alguno de los campos del turno tarde es incorrecto!", Toast.LENGTH_LONG).show();
                 nro = nro + 1;
                 errorCarga.postValue(p);
-
             }
         }
 
 
-        Call<Prestacion> dato= ApiClient.getMyApiClient().actualizar(obtenerToken(), p);
-            dato.enqueue(new Callback<Prestacion>() {
+        Call<Horario> dato= ApiClient.getMyApiClient().cargarHorario(obtenerToken(), p);
+            dato.enqueue(new Callback<Horario>() {
                 @Override
-                public void onResponse(Call<Prestacion> call, Response<Prestacion> response) {
+                public void onResponse(Call<Horario> call, Response<Horario> response) {
                     if (response.isSuccessful()){
                         Log.d("salida",response.body().toString());
                     } else {
@@ -93,7 +85,7 @@ public class PrestacionTurnosViewModel extends AndroidViewModel {
                 }
 
                 @Override
-                public void onFailure(Call<Prestacion> call, Throwable t) {
+                public void onFailure(Call<Horario> call, Throwable t) {
                     Log.d("salida",t.getMessage());
                 }
             });
