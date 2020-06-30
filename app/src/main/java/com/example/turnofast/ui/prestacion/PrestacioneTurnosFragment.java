@@ -1,36 +1,45 @@
 package com.example.turnofast.ui.prestacion;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+import android.widget.SpinnerAdapter;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.turnofast.R;
+import com.example.turnofast.modelos.Dia;
 import com.example.turnofast.modelos.Horario;
 import com.example.turnofast.modelos.Prestacion;
-import com.example.turnofast.modelos.Rubro;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 
 /**
@@ -40,9 +49,11 @@ import java.util.Calendar;
  */
 public class PrestacioneTurnosFragment extends Fragment implements View.OnClickListener {
 
-    private Button btHoraInicioManiana, btHoraFinManiana, btHoraInicioTarde, btHoraFinTarde, btGuardar;
+    private Button btHoraInicioManiana, btHoraFinManiana, btHoraInicioTarde, btHoraFinTarde, btGuardar, btDias;
     private EditText etHoraInicioManiana, etHoraFinManiana, etHoraInicioTarde, etHoraFinTarde;
+    private TextView tvDiasSeleccionados;
     private CheckBox cbTurnoManiana, cbTurnoTarde;
+    private Spinner spFrecuencia;
     private PrestacionTurnosViewModel vm;
     private Calendar calendario;
     private int hora, minutos;
@@ -239,11 +250,9 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //prestacionGuardado = prestacion;
-                        horario.setPrestacionId(prestacionSeleccionada.getId());
-                        vm.cargarHorario(horario, cbTurnoManiana.isChecked(), cbTurnoTarde.isChecked());
-                        //Toast.makeText(getContext(), "Datos guardados correctamente", Toast.LENGTH_LONG).show();
-                        //Navigation.findNavController(v).navigate(R.id.nav_home);
+                        aceptar();
+                        Toast.makeText(getContext(), "Datos guardados correctamente", Toast.LENGTH_LONG).show();
+                        Navigation.findNavController(v).navigate(R.id.nav_home);
                     }
                 }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
@@ -254,7 +263,76 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
             }
         });
 
+        btDias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                //Arreglo de Strings para los días que se muestran en el dialogo
+                final String[] dias = new String[]{"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"};
+
+                //Arreglo de booleanos para los días que se muestran seleccionados
+                final boolean[] diasChequeados = new boolean[]{true, true, true, true, true, false, false};
+
+                //Conversion del arreglo de días a lista
+                final List<String> diasLista = Arrays.asList(dias);
+
+                //Título del AlertDialog
+                builder.setTitle("Deleccionar días:");
+
+                //Icono
+                builder.setIcon(R.drawable.ico);
+
+                //Configuro los elementos a seleccionar
+                builder.setMultiChoiceItems(dias, diasChequeados, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        //Actualizo los elementos que ya estan seleccionados
+                        diasChequeados[which] = isChecked;
+
+                        //Obtengo el elemento de foco
+                        String itemActual = diasLista.get(which);
+
+                        //Notifico el elemento actual
+                        Toast.makeText(getContext(), itemActual+" "+isChecked, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                //Configuro el boton OK
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tvDiasSeleccionados.setText("Usted seleccionó los días: ");
+                        for (int i=0; i<diasChequeados.length; i++){
+                            boolean seleccionado = diasChequeados[i];
+                            if (seleccionado){
+                                tvDiasSeleccionados.setText(tvDiasSeleccionados.getText()+", "+diasLista.get(i));
+                            }
+                        }
+                    }
+                });
+
+                //Configuro el boton cancelar
+                builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
         return view;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void aceptar() {
+        horario.setPrestacionId(prestacionSeleccionada.getId());
+        horario.setFrecuencia((Integer) spFrecuencia.getSelectedItem());
+        vm.cargarHorario(horario, cbTurnoManiana.isChecked(), cbTurnoTarde.isChecked());
     }
 
     private void habilitaTurnoTarde(Boolean valor) {
@@ -278,20 +356,26 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
         btHoraFinManiana = view.findViewById(R.id.btHoraFinManiana);
         btHoraInicioTarde = view.findViewById(R.id.btHoraInicioTarde);
         btHoraFinTarde = view.findViewById(R.id.btHoraFinTarde);
+        btDias = view.findViewById(R.id.btDias);
 
         etHoraInicioManiana = view.findViewById(R.id.etHoraInicioManiana);
         etHoraInicioTarde = view.findViewById(R.id.etHoraInicioTarde);
         etHoraFinManiana = view.findViewById(R.id.etHoraFinManiana);
         etHoraFinTarde = view.findViewById(R.id.etHoraFinTarde);
+        tvDiasSeleccionados = view.findViewById(R.id.tvDiasSeleccionados);
 
         btGuardar = view.findViewById(R.id.btGuardar);
         cbTurnoManiana = view.findViewById(R.id.cbTurnoManiana);
         cbTurnoTarde = view.findViewById(R.id.cbTurnoTarde);
 
+        spFrecuencia = view.findViewById(R.id.spFrecuencia);
+        Integer [] opciones = {15, 20, 30, 45, 60};
+        ArrayAdapter<Integer> adaptador = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_spinner_item, opciones);
+        spFrecuencia.setAdapter(adaptador);
+
         habilitaTurnoManiana(false);
         habilitaTurnoTarde(false);
     }
-
 
     @Override
     public void onClick(View v) {
