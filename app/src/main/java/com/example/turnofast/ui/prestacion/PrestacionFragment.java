@@ -131,27 +131,6 @@ public class PrestacionFragment extends Fragment {
     private void aceptar() {
         Categoria categoria = (Categoria) spCategorias.getSelectedItem();
 
-        /*
-        String frec = (String) spFrecuencias.getSelectedItem();
-        switch (frec){
-            case "15 min":
-                prestacion.setFrecuencia(15);
-                break;
-
-            case "20 min":
-                prestacion.setFrecuencia(20);
-                break;
-
-            case "30 min":
-                prestacion.setFrecuencia(30);
-                break;
-
-            case "60 min":
-                prestacion.setFrecuencia(60);
-                break;
-        }
-
-         */
         prestacion.setDireccion(etDireccion.getText().toString());
         prestacion.setNombre(etNombre.getText().toString());
         prestacion.setDisponible(cbDisponible.isChecked());

@@ -3,7 +3,7 @@ package com.example.turnofast.request;
 import android.util.Log;
 
 
-import com.example.turnofast.modelos.Horario;
+import com.example.turnofast.modelos.Horario2;
 import com.example.turnofast.modelos.Login;
 import com.example.turnofast.modelos.Prestacion;
 import com.example.turnofast.modelos.Rubro;
@@ -63,8 +63,8 @@ public class ApiClient {
         @POST("prestaciones")
         Call<Prestacion> registrarPrestacion(@Header("Authorization") String token, @Body Prestacion prestacion);
 
-        @PUT("horarios")
-        Call<Horario> cargarHorario(@Header("Authorization") String token, @Body Horario p);
+        @POST("horarios")
+        Call<Horario2> cargarHorario(@Header("Authorization") String token, @Body Horario2 p);
 /*
         @POST("inmuebles")
         Call<InmuebleFoto> altaInmueble(@Header("Authorization") String token, @Body Inmueble inmueble);

@@ -3,9 +3,10 @@ package com.example.turnofast.modelos;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Horario {
+public class Horario2 {
     private int id;
-    private ArrayList<Integer> diaSemana;
+    private int diaSemana;
+    private ArrayList<String> diasLaborables;
     private LocalTime horaDesdeManiana;
     private LocalTime horaHastaManiana;
     private LocalTime horaDesdeTarde;
@@ -15,12 +16,13 @@ public class Horario {
     private Prestacion prestacion;
     private ArrayList<Turno> turnos;
 
-    public Horario() {
+    public Horario2() {
     }
 
-    public Horario(int id, ArrayList<Integer> diaSemana, LocalTime horaDesdeManiana, LocalTime horaHastaManiana, LocalTime horaDesdeTarde, LocalTime horaHastaTarde, int frecuencia, int prestacionId, Prestacion prestacion, ArrayList<Turno> turnos) {
+    public Horario2(int id, int diaSemana, ArrayList<String> diasLaborables, LocalTime horaDesdeManiana, LocalTime horaHastaManiana, LocalTime horaDesdeTarde, LocalTime horaHastaTarde, int frecuencia, int prestacionId, Prestacion prestacion, ArrayList<Turno> turnos) {
         this.id = id;
         this.diaSemana = diaSemana;
+        this.diasLaborables = diasLaborables;
         this.horaDesdeManiana = horaDesdeManiana;
         this.horaHastaManiana = horaHastaManiana;
         this.horaDesdeTarde = horaDesdeTarde;
@@ -39,12 +41,20 @@ public class Horario {
         this.id = id;
     }
 
-    public ArrayList<Integer> getDiaSemana() {
+    public int getDiaSemana() {
         return diaSemana;
     }
 
-    public void setDiaSemana(ArrayList<Integer> diaSemana) {
+    public void setDiaSemana(int diaSemana) {
         this.diaSemana = diaSemana;
+    }
+
+    public ArrayList<String> getDiasLaborables() {
+        return diasLaborables;
+    }
+
+    public void setDiasLaborables(ArrayList<String> diasLaborables) {
+        this.diasLaborables = diasLaborables;
     }
 
     public LocalTime getHoraDesdeManiana() {

@@ -2,12 +2,9 @@ package com.example.turnofast.ui.prestacion;
 
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
-import android.content.ClipData;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +17,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.SpinnerAdapter;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.turnofast.R;
-import com.example.turnofast.modelos.Dia;
-import com.example.turnofast.modelos.Horario;
+import com.example.turnofast.modelos.Horario2;
 import com.example.turnofast.modelos.Prestacion;
 
 import java.text.SimpleDateFormat;
@@ -57,12 +51,11 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
     private PrestacionTurnosViewModel vm;
     private Calendar calendario;
     private int hora, minutos;
-    //private Locale locale = new Locale("es", "AR");
-    private SimpleDateFormat diaFormato = new SimpleDateFormat("EEE");
-    private SimpleDateFormat fechaFormato = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat horaFormato = new SimpleDateFormat("HH:mm:ss");
-    private Horario horario = new Horario();
+    private Horario2 horario2 = new Horario2();
     private Prestacion prestacionSeleccionada = null;
+    private ArrayList<String> diasSeleccionados = new ArrayList<>();
+    private Integer [] opciones = null;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -147,7 +140,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         c.set(Calendar.MINUTE, minute);
 
-                        horario.setHoraDesdeManiana(LocalTime.parse(horaFormato.format(c.getTime())));
+                        horario2.setHoraDesdeManiana(LocalTime.parse(horaFormato.format(c.getTime())));
                     }
                 }
                 ,hora, minutos, false);
@@ -171,7 +164,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         c.set(Calendar.MINUTE, minute);
 
-                        horario.setHoraDesdeTarde(LocalTime.parse(horaFormato.format(c.getTime())));
+                        horario2.setHoraDesdeTarde(LocalTime.parse(horaFormato.format(c.getTime())));
                     }
                 }
                         ,hora, minutos, false);
@@ -195,7 +188,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         c.set(Calendar.MINUTE, minute);
 
-                        horario.setHoraHastaManiana(LocalTime.parse(horaFormato.format(c.getTime())));
+                        horario2.setHoraHastaManiana(LocalTime.parse(horaFormato.format(c.getTime())));
                     }
                 }
                         ,hora, minutos, false);
@@ -219,7 +212,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         c.set(Calendar.MINUTE, minute);
 
-                        horario.setHoraHastaTarde(LocalTime.parse(horaFormato.format(c.getTime())));
+                        horario2.setHoraHastaTarde(LocalTime.parse(horaFormato.format(c.getTime())));
                     }
                 }
                         ,hora, minutos, false);
@@ -227,10 +220,10 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
             }
         });
 
-        vm.getErrorCarga().observe(getViewLifecycleOwner(), new Observer<Horario>() {
+        vm.getErrorCarga().observe(getViewLifecycleOwner(), new Observer<Horario2>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onChanged(Horario p) {
+            public void onChanged(Horario2 p) {
                 if (p.getHoraDesdeManiana() == null){etHoraInicioManiana.setText("");}
                 else { etHoraInicioManiana.setText(p.getHoraDesdeManiana().getHour()+":"+p.getHoraDesdeManiana().getMinute());}
                 if (p.getHoraHastaManiana() == null){etHoraFinManiana.setText("");}
@@ -239,6 +232,11 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                 else {etHoraInicioTarde.setText(p.getHoraDesdeTarde().getHour()+":"+p.getHoraDesdeTarde().getMinute());}
                 if (p.getHoraHastaTarde() == null){etHoraFinTarde.setText("");}
                 else {etHoraFinTarde.setText(p.getHoraHastaTarde().getHour()+":"+p.getHoraHastaTarde().getMinute());}
+
+                tvDiasSeleccionados.setText("Usted seleccionó los días: ");
+                for (int i=0; i<p.getDiasLaborables().size(); i++){
+                    tvDiasSeleccionados.setText(tvDiasSeleccionados.getText()+", "+p.getDiasLaborables().get(i));
+                }
 
             }
         });
@@ -307,6 +305,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                             boolean seleccionado = diasChequeados[i];
                             if (seleccionado){
                                 tvDiasSeleccionados.setText(tvDiasSeleccionados.getText()+", "+diasLista.get(i));
+                                diasSeleccionados.add(diasLista.get(i));
                             }
                         }
                     }
@@ -330,9 +329,10 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void aceptar() {
-        horario.setPrestacionId(prestacionSeleccionada.getId());
-        horario.setFrecuencia((Integer) spFrecuencia.getSelectedItem());
-        vm.cargarHorario(horario, cbTurnoManiana.isChecked(), cbTurnoTarde.isChecked());
+        horario2.setPrestacionId(prestacionSeleccionada.getId());
+        horario2.setFrecuencia((Integer) spFrecuencia.getSelectedItem());
+        horario2.setDiasLaborables(diasSeleccionados);
+        vm.cargarHorario(horario2, cbTurnoManiana.isChecked(), cbTurnoTarde.isChecked());
     }
 
     private void habilitaTurnoTarde(Boolean valor) {
@@ -369,7 +369,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
         cbTurnoTarde = view.findViewById(R.id.cbTurnoTarde);
 
         spFrecuencia = view.findViewById(R.id.spFrecuencia);
-        Integer [] opciones = {15, 20, 30, 45, 60};
+        opciones = new Integer[]{15, 20, 30, 45, 60};
         ArrayAdapter<Integer> adaptador = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_spinner_item, opciones);
         spFrecuencia.setAdapter(adaptador);
 

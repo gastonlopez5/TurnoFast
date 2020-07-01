@@ -1,11 +1,7 @@
 package com.example.turnofast.modelos;
 
 import java.io.Serializable;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Prestacion implements Serializable {
     private int id;
@@ -18,12 +14,12 @@ public class Prestacion implements Serializable {
     private int profesionalId;
     private Usuario profesional;
     private Categoria categoria;
-    private ArrayList<Horario> horarios;
+    private ArrayList<Horario2> horario2s;
 
     public Prestacion() {
     }
 
-    public Prestacion(int id, String telefono, String direccion, String nombre, String logo, Boolean disponible, int categoriaId, int profesionalId, Usuario profesional, Categoria categoria, ArrayList<Horario> horarios) {
+    public Prestacion(int id, String telefono, String direccion, String nombre, String logo, Boolean disponible, int categoriaId, int profesionalId, Usuario profesional, Categoria categoria, ArrayList<Horario2> horario2s) {
         this.id = id;
         this.telefono = telefono;
         this.direccion = direccion;
@@ -34,7 +30,7 @@ public class Prestacion implements Serializable {
         this.profesionalId = profesionalId;
         this.profesional = profesional;
         this.categoria = categoria;
-        this.horarios = horarios;
+        this.horario2s = horario2s;
     }
 
     public int getId() {
@@ -117,11 +113,11 @@ public class Prestacion implements Serializable {
         this.categoria = categoria;
     }
 
-    public ArrayList<Horario> getHorarios() {
-        return horarios;
+    public ArrayList<Horario2> getHorario2s() {
+        return horario2s;
     }
 
-    public void setHorarios(ArrayList<Horario> horarios) {
-        this.horarios = horarios;
+    public void setHorario2s(ArrayList<Horario2> horario2s) {
+        this.horario2s = horario2s;
     }
 }
