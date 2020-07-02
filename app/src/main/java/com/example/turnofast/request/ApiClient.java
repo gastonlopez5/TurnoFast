@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.turnofast.modelos.Horario2;
 import com.example.turnofast.modelos.Login;
+import com.example.turnofast.modelos.Msj;
 import com.example.turnofast.modelos.Prestacion;
 import com.example.turnofast.modelos.Rubro;
 import com.example.turnofast.modelos.Usuario;
@@ -21,6 +22,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 import static com.example.turnofast.MainActivity.PATH;
 
@@ -64,7 +66,10 @@ public class ApiClient {
         Call<Prestacion> registrarPrestacion(@Header("Authorization") String token, @Body Prestacion prestacion);
 
         @POST("horarios")
-        Call<Horario2> cargarHorario(@Header("Authorization") String token, @Body Horario2 p);
+        Call<Msj> cargarHorario(@Header("Authorization") String token, @Body Horario2 p);
+
+        @GET("horarios/{id}")
+        Call<Horario2> recuperarHorarios(@Header("Authorization") String token, @Path("id") int prestacionId);
 /*
         @POST("inmuebles")
         Call<InmuebleFoto> altaInmueble(@Header("Authorization") String token, @Body Inmueble inmueble);

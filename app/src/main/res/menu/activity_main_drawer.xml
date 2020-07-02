@@ -19,6 +19,10 @@
                 android:id="@+id/nav_listaServicios"
                 android:icon="@drawable/misservicios"
                 android:title="Cargar Horarios" />
+            <item
+                android:id="@+id/nav_prestacionTurnosMB"
+                android:icon="@drawable/prestacionMB"
+                android:title="Cargar Horarios" />
         </menu>
     </item>
     <item android:title="Salida">

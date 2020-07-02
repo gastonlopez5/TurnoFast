@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Horario2 {
     private int id;
-    private int diaSemana;
+    private String diaSemana;
     private ArrayList<String> diasLaborables;
     private LocalTime horaDesdeManiana;
     private LocalTime horaHastaManiana;
@@ -19,7 +19,7 @@ public class Horario2 {
     public Horario2() {
     }
 
-    public Horario2(int id, int diaSemana, ArrayList<String> diasLaborables, LocalTime horaDesdeManiana, LocalTime horaHastaManiana, LocalTime horaDesdeTarde, LocalTime horaHastaTarde, int frecuencia, int prestacionId, Prestacion prestacion, ArrayList<Turno> turnos) {
+    public Horario2(int id, String diaSemana, ArrayList<String> diasLaborables, LocalTime horaDesdeManiana, LocalTime horaHastaManiana, LocalTime horaDesdeTarde, LocalTime horaHastaTarde, int frecuencia, int prestacionId, Prestacion prestacion, ArrayList<Turno> turnos) {
         this.id = id;
         this.diaSemana = diaSemana;
         this.diasLaborables = diasLaborables;
@@ -41,11 +41,11 @@ public class Horario2 {
         this.id = id;
     }
 
-    public int getDiaSemana() {
+    public String getDiaSemana() {
         return diaSemana;
     }
 
-    public void setDiaSemana(int diaSemana) {
+    public void setDiaSemana(String diaSemana) {
         this.diaSemana = diaSemana;
     }
 

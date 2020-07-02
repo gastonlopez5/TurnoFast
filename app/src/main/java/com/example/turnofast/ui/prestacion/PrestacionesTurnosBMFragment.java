@@ -5,6 +5,13 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +24,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Horario2;
@@ -38,10 +39,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PrestacioneTurnosFragment#newInstance} factory method to
+ * Use the {@link PrestacionesTurnosBMFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PrestacioneTurnosFragment extends Fragment implements View.OnClickListener {
+public class PrestacionesTurnosBMFragment extends Fragment {
 
     private Button btHoraInicioManiana, btHoraFinManiana, btHoraInicioTarde, btHoraFinTarde, btGuardar, btDias;
     private EditText etHoraInicioManiana, etHoraFinManiana, etHoraInicioTarde, etHoraFinTarde;
@@ -67,7 +68,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
     private String mParam1;
     private String mParam2;
 
-    public PrestacioneTurnosFragment() {
+    public PrestacionesTurnosBMFragment() {
         // Required empty public constructor
     }
 
@@ -77,11 +78,11 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ServicioTurnosFragment.
+     * @return A new instance of fragment PrestacionesTurnosBMFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PrestacioneTurnosFragment newInstance(String param1, String param2) {
-        PrestacioneTurnosFragment fragment = new PrestacioneTurnosFragment();
+    public static PrestacionesTurnosBMFragment newInstance(String param1, String param2) {
+        PrestacionesTurnosBMFragment fragment = new PrestacionesTurnosBMFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -99,10 +100,11 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_servicio_turnos, container, false);
+        View view = inflater.inflate(R.layout.fragment_prestaciones_turnos_bm, container, false);
+
         vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(PrestacionTurnosViewModel.class);
 
         iniciarVista(view);
@@ -144,7 +146,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                         horario2.setHoraDesdeManiana(LocalTime.parse(horaFormato.format(c.getTime())));
                     }
                 }
-                ,hora, minutos, false);
+                        ,hora, minutos, false);
                 timePickerDialog.show();
             }
         });
@@ -239,6 +241,12 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                     tvDiasSeleccionados.setText(tvDiasSeleccionados.getText()+", "+p.getDiasLaborables().get(i));
                 }
 
+                for (int i=0; i<opciones.length; i++){
+                    if (opciones[i] == p.getFrecuencia()){
+                        spFrecuencia.setSelection(i);
+                    }
+                }
+
                 bandera = false;
             }
         });
@@ -252,7 +260,8 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         aceptar();
-                        if (bandera){Navigation.findNavController(v).navigate(R.id.nav_home);}
+                        if (bandera){
+                            Navigation.findNavController(v).navigate(R.id.nav_home);}
                     }
                 }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
@@ -326,6 +335,8 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
             }
         });
 
+        vm.recuperarHorarios(prestacionSeleccionada.getId());
+
         return view;
     }
 
@@ -379,8 +390,5 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
         habilitaTurnoTarde(false);
     }
 
-    @Override
-    public void onClick(View v) {
 
-    }
 }

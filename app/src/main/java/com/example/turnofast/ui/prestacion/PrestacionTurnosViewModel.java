@@ -2,6 +2,7 @@ package com.example.turnofast.ui.prestacion;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
@@ -13,8 +14,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.turnofast.MainActivity;
 import com.example.turnofast.modelos.Horario2;
+import com.example.turnofast.modelos.Msj;
 import com.example.turnofast.request.ApiClient;
+import com.example.turnofast.ui.login.LoginActivity;
 import com.google.gson.Gson;
 
 import retrofit2.Call;
@@ -79,23 +83,49 @@ public class PrestacionTurnosViewModel extends AndroidViewModel {
         if (bandera){
             Gson gson = new Gson();
             String JSON = gson.toJson(p);
-            Call<Horario2> dato= ApiClient.getMyApiClient().cargarHorario(obtenerToken(), p);
-            dato.enqueue(new Callback<Horario2>() {
+            Call<Msj> dato= ApiClient.getMyApiClient().cargarHorario(obtenerToken(), p);
+            dato.enqueue(new Callback<Msj>() {
                 @Override
-                public void onResponse(Call<Horario2> call, Response<Horario2> response) {
+                public void onResponse(Call<Msj> call, Response<Msj> response) {
                     if (response.isSuccessful()){
-                        Log.d("salida",response.body().toString());
+                        Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_LONG).show();
                     } else {
                         Log.d("salida",response.errorBody().toString());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<Horario2> call, Throwable t) {
+                public void onFailure(Call<Msj> call, Throwable t) {
                     Log.d("salida",t.getMessage());
                 }
             });
         }
+    }
+
+    public void recuperarHorarios(int prestacionId){
+        Call<Horario2> dato= ApiClient.getMyApiClient().recuperarHorarios(obtenerToken(), prestacionId);
+        dato.enqueue(new Callback<Horario2>() {
+            @Override
+            public void onResponse(Call<Horario2> call, Response<Horario2> response) {
+                if (response.isSuccessful()){
+                    Horario2 h = response.body();
+                    if (h != null){
+                        errorCarga.setValue(h);
+                    } else {
+                        Toast.makeText(context, "No tiene horarios cargados la prestacion seleccionada!", Toast.LENGTH_LONG).show();
+                        Intent logeo = new Intent(context, MainActivity.class);
+                        context.startActivity(logeo);
+                    }
+                } else {
+                    Log.d("salida",response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Horario2> call, Throwable t) {
+                Log.d("salida",t.getMessage());
+            }
+        });
     }
 
     private String obtenerToken(){

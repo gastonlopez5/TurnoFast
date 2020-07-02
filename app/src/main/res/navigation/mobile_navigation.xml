@@ -57,6 +57,24 @@
             android:id="@+id/action_nav_listaServicios_to_nav_servicioTurnos"
             app:destination="@id/nav_servicioTurnos" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_listaPrestacionesBM"
+        android:name="com.example.turnofast.ui.prestacion.ListaPrestacionesBMFragment"
+        android:label="fragment_lista_prestaciones_dos"
+        tools:layout="@layout/fragment_lista_prestaciones_bm" >
+        <action
+            android:id="@+id/action_nav_listaPrestacionesBM_to_prestacionesTurnosBMFragment"
+            app:destination="@id/nav_prestacionTurnosMB" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_prestacionTurnosMB"
+        android:name="com.example.turnofast.ui.prestacion.PrestacionesTurnosBMFragment"
+        android:label="fragment_prestaciones_turnos_b_m"
+        tools:layout="@layout/fragment_prestaciones_turnos_bm" >
+        <action
+            android:id="@+id/action_prestacionesTurnosBMFragment_to_nav_listaPrestacionesBM"
+            app:destination="@id/nav_listaPrestacionesBM" />
+    </fragment>
 
 
 </navigation>
