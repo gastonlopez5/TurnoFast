@@ -330,7 +330,7 @@ public class PrestacionesTurnosBMFragment extends Fragment {
             }
         });
 
-        vm.recuperarHorarios(prestacionSeleccionada.getId());
+        //vm.recuperarHorarios(prestacionSeleccionada.getId());
 
         return view;
     }

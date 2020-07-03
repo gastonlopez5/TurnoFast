@@ -102,8 +102,8 @@ public class PrestacionTurnosViewModel extends AndroidViewModel {
         }
     }
 
-    public void recuperarHorarios(int prestacionId){
-        Call<Horario2> dato= ApiClient.getMyApiClient().recuperarHorarios(obtenerToken(), prestacionId);
+    public void recuperarHorarios(int prestacionId, int nrodia){
+        Call<Horario2> dato= ApiClient.getMyApiClient().recuperarHorarios(obtenerToken(), prestacionId, nrodia);
         dato.enqueue(new Callback<Horario2>() {
             @Override
             public void onResponse(Call<Horario2> call, Response<Horario2> response) {
@@ -112,9 +112,9 @@ public class PrestacionTurnosViewModel extends AndroidViewModel {
                     if (h != null){
                         errorCarga.setValue(h);
                     } else {
-                        Toast.makeText(context, "No tiene horarios cargados la prestacion seleccionada!", Toast.LENGTH_LONG).show();
-                        Intent logeo = new Intent(context, MainActivity.class);
-                        context.startActivity(logeo);
+                        Toast.makeText(context, "No tiene horarios cargados para el día seleccionado!", Toast.LENGTH_LONG).show();
+                        //Intent logeo = new Intent(context, MainActivity.class);
+                        //context.startActivity(logeo);
                     }
                 } else {
                     Log.d("salida",response.errorBody().toString());

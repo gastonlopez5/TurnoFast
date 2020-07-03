@@ -43,7 +43,8 @@ import java.util.List;
  */
 public class PrestacioneTurnosFragment extends Fragment implements View.OnClickListener {
 
-    private Button btHoraInicioManiana, btHoraFinManiana, btHoraInicioTarde, btHoraFinTarde, btGuardar, btDias;
+    private Button btHoraInicioManiana, btHoraFinManiana, btHoraInicioTarde, btHoraFinTarde, btGuardar,
+            btEliminar;
     private EditText etHoraInicioManiana, etHoraFinManiana, etHoraInicioTarde, etHoraFinTarde;
     private TextView tvDiasSeleccionados;
     private CheckBox cbTurnoManiana, cbTurnoTarde;
@@ -234,6 +235,8 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                 if (p.getHoraHastaTarde() == null){etHoraFinTarde.setText("");}
                 else {etHoraFinTarde.setText(p.getHoraHastaTarde().getHour()+":"+p.getHoraHastaTarde().getMinute());}
 
+                btEliminar.setEnabled(true);
+
                 bandera = false;
             }
         });
@@ -257,6 +260,8 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                 }).show();
             }
         });
+
+        vm.recuperarHorarios(horario2.getPrestacionId(), horario2.getDiaSemana());
 
         /*
         btDias.setOnClickListener(new View.OnClickListener() {
@@ -354,7 +359,6 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
         btHoraFinManiana = view.findViewById(R.id.btHoraFinManiana);
         btHoraInicioTarde = view.findViewById(R.id.btHoraInicioTarde);
         btHoraFinTarde = view.findViewById(R.id.btHoraFinTarde);
-        btDias = view.findViewById(R.id.btDias);
 
         etHoraInicioManiana = view.findViewById(R.id.etHoraInicioManiana);
         etHoraInicioTarde = view.findViewById(R.id.etHoraInicioTarde);
@@ -363,6 +367,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
         tvDiasSeleccionados = view.findViewById(R.id.tvDiasSeleccionados);
 
         btGuardar = view.findViewById(R.id.btGuardar);
+        btEliminar = view.findViewById(R.id.btEliminar);
         cbTurnoManiana = view.findViewById(R.id.cbTurnoManiana);
         cbTurnoTarde = view.findViewById(R.id.cbTurnoTarde);
 

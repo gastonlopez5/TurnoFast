@@ -68,8 +68,8 @@ public class ApiClient {
         @POST("horarios")
         Call<Msj> cargarHorario(@Header("Authorization") String token, @Body Horario2 p);
 
-        @GET("horarios/{id}")
-        Call<Horario2> recuperarHorarios(@Header("Authorization") String token, @Path("id") int prestacionId);
+        @GET("horarios/{id}/{nrodia}")
+        Call<Horario2> recuperarHorarios(@Header("Authorization") String token, @Path("id") int prestacionId, @Path("nrodia") int nrodia);
 /*
         @POST("inmuebles")
         Call<InmuebleFoto> altaInmueble(@Header("Authorization") String token, @Body Inmueble inmueble);
