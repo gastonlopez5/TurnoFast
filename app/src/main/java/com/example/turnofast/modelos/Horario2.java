@@ -1,12 +1,12 @@
 package com.example.turnofast.modelos;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Horario2 {
+public class Horario2 implements Serializable {
     private int id;
-    private String diaSemana;
-    private ArrayList<String> diasLaborables;
+    private int diaSemana;
     private LocalTime horaDesdeManiana;
     private LocalTime horaHastaManiana;
     private LocalTime horaDesdeTarde;
@@ -19,10 +19,9 @@ public class Horario2 {
     public Horario2() {
     }
 
-    public Horario2(int id, String diaSemana, ArrayList<String> diasLaborables, LocalTime horaDesdeManiana, LocalTime horaHastaManiana, LocalTime horaDesdeTarde, LocalTime horaHastaTarde, int frecuencia, int prestacionId, Prestacion prestacion, ArrayList<Turno> turnos) {
+    public Horario2(int id, int diaSemana, LocalTime horaDesdeManiana, LocalTime horaHastaManiana, LocalTime horaDesdeTarde, LocalTime horaHastaTarde, int frecuencia, int prestacionId, Prestacion prestacion, ArrayList<Turno> turnos) {
         this.id = id;
         this.diaSemana = diaSemana;
-        this.diasLaborables = diasLaborables;
         this.horaDesdeManiana = horaDesdeManiana;
         this.horaHastaManiana = horaHastaManiana;
         this.horaDesdeTarde = horaDesdeTarde;
@@ -41,20 +40,12 @@ public class Horario2 {
         this.id = id;
     }
 
-    public String getDiaSemana() {
+    public int getDiaSemana() {
         return diaSemana;
     }
 
-    public void setDiaSemana(String diaSemana) {
+    public void setDiaSemana(int diaSemana) {
         this.diaSemana = diaSemana;
-    }
-
-    public ArrayList<String> getDiasLaborables() {
-        return diasLaborables;
-    }
-
-    public void setDiasLaborables(ArrayList<String> diasLaborables) {
-        this.diasLaborables = diasLaborables;
     }
 
     public LocalTime getHoraDesdeManiana() {

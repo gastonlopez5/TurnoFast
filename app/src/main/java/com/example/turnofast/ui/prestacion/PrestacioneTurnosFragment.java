@@ -107,8 +107,8 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
 
         iniciarVista(view);
 
-        Bundle objetoRubro = getArguments();
-        prestacionSeleccionada =(Prestacion) objetoRubro.getSerializable("objeto");
+        Bundle objetoHorario = getArguments();
+        horario2 =(Horario2) objetoHorario.getSerializable("horario");
 
         cbTurnoManiana.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -234,11 +234,6 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                 if (p.getHoraHastaTarde() == null){etHoraFinTarde.setText("");}
                 else {etHoraFinTarde.setText(p.getHoraHastaTarde().getHour()+":"+p.getHoraHastaTarde().getMinute());}
 
-                tvDiasSeleccionados.setText("Usted seleccionó los días: ");
-                for (int i=0; i<p.getDiasLaborables().size(); i++){
-                    tvDiasSeleccionados.setText(tvDiasSeleccionados.getText()+", "+p.getDiasLaborables().get(i));
-                }
-
                 bandera = false;
             }
         });
@@ -263,6 +258,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
             }
         });
 
+        /*
         btDias.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -326,14 +322,14 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
             }
         });
 
+         */
+
         return view;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void aceptar() {
-        horario2.setPrestacionId(prestacionSeleccionada.getId());
         horario2.setFrecuencia((Integer) spFrecuencia.getSelectedItem());
-        horario2.setDiasLaborables(diasSeleccionados);
         vm.cargarHorario(horario2, cbTurnoManiana.isChecked(), cbTurnoTarde.isChecked());
     }
 

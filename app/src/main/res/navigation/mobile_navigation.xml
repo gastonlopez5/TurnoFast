@@ -40,8 +40,8 @@
         android:label="fragment_servicio_turnos"
         tools:layout="@layout/fragment_servicio_turnos" >
         <action
-            android:id="@+id/action_nav_servicioTurnos_to_nav_listaServicios"
-            app:destination="@id/nav_listaServicios" />
+            android:id="@+id/action_nav_servicioTurnos_to_nav_listaDiasAPrestacionTurnos"
+            app:destination="@id/nav_listaDiasAPrestacionTurnos" />
     </fragment>
     <fragment
         android:id="@+id/nav_solicitarTurnos"
@@ -54,8 +54,8 @@
         android:label="fragment_lista_servicios"
         tools:layout="@layout/fragment_lista_servicios" >
         <action
-            android:id="@+id/action_nav_listaServicios_to_nav_servicioTurnos"
-            app:destination="@id/nav_servicioTurnos" />
+            android:id="@+id/action_nav_listaServicios_to_nav_listaDiasAPrestacionTurnos"
+            app:destination="@id/nav_listaDiasAPrestacionTurnos" />
     </fragment>
     <fragment
         android:id="@+id/nav_listaPrestacionesBM"
@@ -74,6 +74,15 @@
         <action
             android:id="@+id/action_prestacionesTurnosBMFragment_to_nav_listaPrestacionesBM"
             app:destination="@id/nav_listaPrestacionesBM" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_listaDiasAPrestacionTurnos"
+        android:name="com.example.turnofast.ui.prestacion.ListaDiasAFragment"
+        android:label="fragment_lista_dias_a"
+        tools:layout="@layout/fragment_lista_dias_a" >
+        <action
+            android:id="@+id/action_nav_listaDiasAPrestacionTurnos_to_nav_servicioTurnos"
+            app:destination="@id/nav_servicioTurnos" />
     </fragment>
 
 

@@ -91,7 +91,7 @@ public class ListaPrestacionesFragment extends Fragment {
                         Prestacion prestacion = prestacions.get(rvServicios.getChildAdapterPosition(v));
                         Bundle bundle=new Bundle();
                         bundle.putSerializable("objeto", prestacion);
-                        Navigation.findNavController(v).navigate(R.id.nav_servicioTurnos, bundle);
+                        Navigation.findNavController(v).navigate(R.id.nav_listaDiasAPrestacionTurnos, bundle);
                     }
                 });
 

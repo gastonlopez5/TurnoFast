@@ -81,8 +81,8 @@ public class PrestacionTurnosViewModel extends AndroidViewModel {
         }
 
         if (bandera){
-            Gson gson = new Gson();
-            String JSON = gson.toJson(p);
+            //Gson gson = new Gson();
+            //String JSON = gson.toJson(p);
             Call<Msj> dato= ApiClient.getMyApiClient().cargarHorario(obtenerToken(), p);
             dato.enqueue(new Callback<Msj>() {
                 @Override

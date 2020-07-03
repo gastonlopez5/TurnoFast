@@ -21,7 +21,7 @@
                 android:title="Cargar Horarios" />
             <item
                 android:id="@+id/nav_prestacionTurnosMB"
-                android:icon="@drawable/prestacionMB"
+                android:icon="@drawable/prestacion_mb"
                 android:title="Cargar Horarios" />
         </menu>
     </item>

@@ -236,11 +236,6 @@ public class PrestacionesTurnosBMFragment extends Fragment {
                 if (p.getHoraHastaTarde() == null){etHoraFinTarde.setText("");}
                 else {etHoraFinTarde.setText(p.getHoraHastaTarde().getHour()+":"+p.getHoraHastaTarde().getMinute());}
 
-                tvDiasSeleccionados.setText("Usted seleccionó los días: ");
-                for (int i=0; i<p.getDiasLaborables().size(); i++){
-                    tvDiasSeleccionados.setText(tvDiasSeleccionados.getText()+", "+p.getDiasLaborables().get(i));
-                }
-
                 for (int i=0; i<opciones.length; i++){
                     if (opciones[i] == p.getFrecuencia()){
                         spFrecuencia.setSelection(i);
@@ -344,7 +339,6 @@ public class PrestacionesTurnosBMFragment extends Fragment {
     private void aceptar() {
         horario2.setPrestacionId(prestacionSeleccionada.getId());
         horario2.setFrecuencia((Integer) spFrecuencia.getSelectedItem());
-        horario2.setDiasLaborables(diasSeleccionados);
         vm.cargarHorario(horario2, cbTurnoManiana.isChecked(), cbTurnoTarde.isChecked());
     }
 
