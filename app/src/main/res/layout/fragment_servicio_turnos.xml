@@ -181,6 +181,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/btHoraFinTarde" />
 
             <Button
+                android:id="@+id/btActualizar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="Actualizar"
+                android:enabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btGuardar" />
+
+            <Button
                 android:id="@+id/btEliminar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -189,7 +200,7 @@
                 android:enabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btGuardar" />
+                app:layout_constraintTop_toBottomOf="@+id/btActualizar" />
 
             <Spinner
                 android:id="@+id/spFrecuencia"

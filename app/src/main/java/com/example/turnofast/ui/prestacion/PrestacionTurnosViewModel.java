@@ -28,6 +28,8 @@ import retrofit2.Response;
 public class PrestacionTurnosViewModel extends AndroidViewModel {
     private Context context;
     MutableLiveData<Horario2> errorCarga;
+    MutableLiveData<Horario2> botones;
+    boolean bandera = true;
 
     public PrestacionTurnosViewModel(@NonNull Application application) {
         super(application);
@@ -41,10 +43,42 @@ public class PrestacionTurnosViewModel extends AndroidViewModel {
         return errorCarga;
     }
 
+    public LiveData<Horario2> getBotones(){
+        if (botones == null){
+            botones = new MutableLiveData<>();
+        }
+        return botones;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void cargarHorario(Horario2 p, boolean turnoManiana, boolean turnoTarde){
-        boolean bandera = true;
+        bandera = true;
+        verificar(p, turnoManiana, turnoTarde);
 
+        if (bandera){
+            //Gson gson = new Gson();
+            //String JSON = gson.toJson(p);
+            Call<Msj> dato= ApiClient.getMyApiClient().cargarHorario(obtenerToken(), p);
+            dato.enqueue(new Callback<Msj>() {
+                @Override
+                public void onResponse(Call<Msj> call, Response<Msj> response) {
+                    if (response.isSuccessful()){
+                        Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Log.d("salida",response.errorBody().toString());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Msj> call, Throwable t) {
+                    Log.d("salida",t.getMessage());
+                }
+            });
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void verificar(Horario2 p, boolean turnoManiana, boolean turnoTarde) {
         if (turnoManiana) {
             if (p.getHoraDesdeManiana() == null || p.getHoraHastaManiana() == null){
 
@@ -79,27 +113,6 @@ public class PrestacionTurnosViewModel extends AndroidViewModel {
                 bandera = false;
             }
         }
-
-        if (bandera){
-            //Gson gson = new Gson();
-            //String JSON = gson.toJson(p);
-            Call<Msj> dato= ApiClient.getMyApiClient().cargarHorario(obtenerToken(), p);
-            dato.enqueue(new Callback<Msj>() {
-                @Override
-                public void onResponse(Call<Msj> call, Response<Msj> response) {
-                    if (response.isSuccessful()){
-                        Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_LONG).show();
-                    } else {
-                        Log.d("salida",response.errorBody().toString());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Msj> call, Throwable t) {
-                    Log.d("salida",t.getMessage());
-                }
-            });
-        }
     }
 
     public void recuperarHorarios(int prestacionId, int nrodia){
@@ -110,14 +123,15 @@ public class PrestacionTurnosViewModel extends AndroidViewModel {
                 if (response.isSuccessful()){
                     Horario2 h = response.body();
                     if (h != null){
+                        botones.setValue(response.body());
                         errorCarga.setValue(h);
                     } else {
-                        Toast.makeText(context, "No tiene horarios cargados para el día seleccionado!", Toast.LENGTH_LONG).show();
+
                         //Intent logeo = new Intent(context, MainActivity.class);
                         //context.startActivity(logeo);
                     }
                 } else {
-                    Log.d("salida",response.errorBody().toString());
+                    Toast.makeText(context, "No tiene horarios cargados para el día seleccionado!", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -126,6 +140,52 @@ public class PrestacionTurnosViewModel extends AndroidViewModel {
                 Log.d("salida",t.getMessage());
             }
         });
+    }
+
+    public void borrarHorario(int prestacionId, int nrodia){
+        Call<Msj> dato= ApiClient.getMyApiClient().eliminarHorario(obtenerToken(), prestacionId, nrodia);
+        dato.enqueue(new Callback<Msj>() {
+            @Override
+            public void onResponse(Call<Msj> call, Response<Msj> response) {
+                if (response.isSuccessful()){
+                    Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Hubo un problema y no se pudo eliminar el horario!", Toast.LENGTH_LONG).show();
+                    Log.d("salida",response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Msj> call, Throwable t) {
+                Log.d("salida",t.getMessage());
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void actualizar(Horario2 p, boolean turnoManiana, boolean turnoTarde){
+        bandera = true;
+        verificar(p, turnoManiana, turnoTarde);
+
+        if (bandera){
+            Call<Msj> dato= ApiClient.getMyApiClient().actualizarHorario(obtenerToken(), p);
+            dato.enqueue(new Callback<Msj>() {
+                @Override
+                public void onResponse(Call<Msj> call, Response<Msj> response) {
+                    if (response.isSuccessful()){
+                        Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(context, "Hubo un problema y no se pudo actualizar el horario!", Toast.LENGTH_LONG).show();
+                        Log.d("salida",response.errorBody().toString());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Msj> call, Throwable t) {
+                    Log.d("salida",t.getMessage());
+                }
+            });
+        }
     }
 
     private String obtenerToken(){

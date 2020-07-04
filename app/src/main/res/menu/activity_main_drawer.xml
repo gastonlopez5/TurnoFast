@@ -18,7 +18,7 @@
             <item
                 android:id="@+id/nav_listaServicios"
                 android:icon="@drawable/misservicios"
-                android:title="Cargar Horarios" />
+                android:title="Horarios" />
             <item
                 android:id="@+id/nav_prestacionTurnosMB"
                 android:icon="@drawable/prestacion_mb"

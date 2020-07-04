@@ -44,7 +44,7 @@ import java.util.List;
 public class PrestacioneTurnosFragment extends Fragment implements View.OnClickListener {
 
     private Button btHoraInicioManiana, btHoraFinManiana, btHoraInicioTarde, btHoraFinTarde, btGuardar,
-            btEliminar;
+            btEliminar, btActualizar;
     private EditText etHoraInicioManiana, etHoraFinManiana, etHoraInicioTarde, etHoraFinTarde;
     private TextView tvDiasSeleccionados;
     private CheckBox cbTurnoManiana, cbTurnoTarde;
@@ -54,8 +54,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
     private int hora, minutos;
     private SimpleDateFormat horaFormato = new SimpleDateFormat("HH:mm:ss");
     private Horario2 horario2 = new Horario2();
-    private Prestacion prestacionSeleccionada = null;
-    private ArrayList<String> diasSeleccionados = new ArrayList<>();
+    private Horario2 horarioSeleccionado = null;
     private Integer [] opciones = null;
     private boolean bandera;
 
@@ -139,8 +138,13 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         etHoraInicioManiana.setText(hourOfDay+":"+minute);
                         Calendar c = Calendar.getInstance();
-                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        c.set(Calendar.MINUTE, minute);
+                        if (cbTurnoManiana.isChecked()){
+                            c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            c.set(Calendar.MINUTE, minute);
+                        } else {
+                            c.set(Calendar.HOUR_OF_DAY, 0);
+                            c.set(Calendar.MINUTE, 0);
+                        }
 
                         horario2.setHoraDesdeManiana(LocalTime.parse(horaFormato.format(c.getTime())));
                     }
@@ -163,8 +167,13 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         etHoraInicioTarde.setText(hourOfDay+":"+minute);
                         Calendar c = Calendar.getInstance();
-                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        c.set(Calendar.MINUTE, minute);
+                        if (cbTurnoTarde.isChecked()){
+                            c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            c.set(Calendar.MINUTE, minute);
+                        } else {
+                            c.set(Calendar.HOUR_OF_DAY, 0);
+                            c.set(Calendar.MINUTE, 0);
+                        }
 
                         horario2.setHoraDesdeTarde(LocalTime.parse(horaFormato.format(c.getTime())));
                     }
@@ -187,8 +196,13 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         etHoraFinManiana.setText(hourOfDay+":"+minute);
                         Calendar c = Calendar.getInstance();
-                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        c.set(Calendar.MINUTE, minute);
+                        if (cbTurnoManiana.isChecked()){
+                            c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            c.set(Calendar.MINUTE, minute);
+                        } else {
+                            c.set(Calendar.HOUR_OF_DAY, 0);
+                            c.set(Calendar.MINUTE, 0);
+                        }
 
                         horario2.setHoraHastaManiana(LocalTime.parse(horaFormato.format(c.getTime())));
                     }
@@ -211,8 +225,13 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         etHoraFinTarde.setText(hourOfDay+":"+minute);
                         Calendar c = Calendar.getInstance();
-                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        c.set(Calendar.MINUTE, minute);
+                        if (cbTurnoTarde.isChecked()){
+                            c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            c.set(Calendar.MINUTE, minute);
+                        } else {
+                            c.set(Calendar.HOUR_OF_DAY, 0);
+                            c.set(Calendar.MINUTE, 0);
+                        }
 
                         horario2.setHoraHastaTarde(LocalTime.parse(horaFormato.format(c.getTime())));
                     }
@@ -222,22 +241,67 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
             }
         });
 
+        vm.getBotones().observe(getViewLifecycleOwner(), new Observer<Horario2>() {
+            @Override
+            public void onChanged(Horario2 horario2) {
+                btEliminar.setEnabled(true);
+                btActualizar.setEnabled(true);
+                btGuardar.setEnabled(false);
+            }
+        });
+
         vm.getErrorCarga().observe(getViewLifecycleOwner(), new Observer<Horario2>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onChanged(Horario2 p) {
-                if (p.getHoraDesdeManiana() == null){etHoraInicioManiana.setText("");}
-                else { etHoraInicioManiana.setText(p.getHoraDesdeManiana().getHour()+":"+p.getHoraDesdeManiana().getMinute());}
-                if (p.getHoraHastaManiana() == null){etHoraFinManiana.setText("");}
+                horarioSeleccionado = new Horario2();
+                horarioSeleccionado = p;
+
+                if (p.getHoraDesdeManiana() == null || p.getHoraDesdeManiana().getHour() == 0){etHoraInicioManiana.setText("");}
+                else {
+                    cbTurnoManiana.setChecked(true);
+                    etHoraInicioManiana.setText(p.getHoraDesdeManiana().getHour()+":"+p.getHoraDesdeManiana().getMinute());
+                }
+                if (p.getHoraHastaManiana() == null || p.getHoraHastaManiana().getHour() == 0){etHoraFinManiana.setText("");}
                 else {etHoraFinManiana.setText(p.getHoraHastaManiana().getHour()+":"+p.getHoraHastaManiana().getMinute());}
-                if (p.getHoraDesdeTarde() == null){etHoraInicioTarde.setText("");}
-                else {etHoraInicioTarde.setText(p.getHoraDesdeTarde().getHour()+":"+p.getHoraDesdeTarde().getMinute());}
-                if (p.getHoraHastaTarde() == null){etHoraFinTarde.setText("");}
+                if (p.getHoraDesdeTarde() == null || p.getHoraDesdeTarde().getHour() == 0){etHoraInicioTarde.setText("");}
+                else {
+                    cbTurnoTarde.setChecked(true);
+                    etHoraInicioTarde.setText(p.getHoraDesdeTarde().getHour()+":"+p.getHoraDesdeTarde().getMinute());
+                }
+                if (p.getHoraHastaTarde() == null || p.getHoraHastaTarde().getHour() == 0){etHoraFinTarde.setText("");}
                 else {etHoraFinTarde.setText(p.getHoraHastaTarde().getHour()+":"+p.getHoraHastaTarde().getMinute());}
 
-                btEliminar.setEnabled(true);
+                for (int i=0; i<opciones.length; i++){
+                    if (opciones[i] == p.getFrecuencia()){
+                        spFrecuencia.setSelection(i);
+                    }
+                }
+
+                horarioSeleccionado.setId(p.getId());
 
                 bandera = false;
+            }
+        });
+
+        btActualizar.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+                bandera = true;
+                actualizar();
+                if (bandera){
+                    Toast.makeText(getContext(), "Horario actualizado correctamente!", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(v).navigate(R.id.nav_home);
+                }
+            }
+        });
+
+        btEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vm.borrarHorario(horario2.getPrestacionId(), horario2.getDiaSemana());
+                Navigation.findNavController(v).navigate(R.id.nav_home);
             }
         });
 
@@ -338,6 +402,20 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
         vm.cargarHorario(horario2, cbTurnoManiana.isChecked(), cbTurnoTarde.isChecked());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void actualizar(){
+        if (horario2.getHoraDesdeManiana() != null){horarioSeleccionado.setHoraDesdeManiana(horario2.getHoraDesdeManiana());}
+        if (!cbTurnoManiana.isChecked()){horarioSeleccionado.setHoraDesdeManiana(null);}
+        if (horario2.getHoraHastaManiana() != null){horarioSeleccionado.setHoraHastaManiana(horario2.getHoraHastaManiana());}
+        if (!cbTurnoManiana.isChecked()){horarioSeleccionado.setHoraHastaManiana(null);}
+        if (horario2.getHoraDesdeTarde() != null){horarioSeleccionado.setHoraDesdeTarde(horario2.getHoraDesdeTarde());}
+        if (!cbTurnoTarde.isChecked()){horarioSeleccionado.setHoraDesdeTarde(null);}
+        if (horario2.getHoraHastaTarde() != null){horarioSeleccionado.setHoraHastaTarde(horario2.getHoraHastaTarde());}
+        if (!cbTurnoTarde.isChecked()){horarioSeleccionado.setHoraHastaTarde(null);}
+        horarioSeleccionado.setFrecuencia((Integer) spFrecuencia.getSelectedItem());
+        vm.actualizar(horarioSeleccionado, cbTurnoManiana.isChecked(), cbTurnoTarde.isChecked());
+    }
+
     private void habilitaTurnoTarde(Boolean valor) {
         btHoraInicioTarde.setEnabled(valor);
         btHoraFinTarde.setEnabled(valor);
@@ -368,6 +446,7 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
 
         btGuardar = view.findViewById(R.id.btGuardar);
         btEliminar = view.findViewById(R.id.btEliminar);
+        btActualizar = view.findViewById(R.id.btActualizar);
         cbTurnoManiana = view.findViewById(R.id.cbTurnoManiana);
         cbTurnoTarde = view.findViewById(R.id.cbTurnoTarde);
 

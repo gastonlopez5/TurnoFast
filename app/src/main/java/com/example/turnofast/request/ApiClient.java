@@ -18,6 +18,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -70,6 +71,12 @@ public class ApiClient {
 
         @GET("horarios/{id}/{nrodia}")
         Call<Horario2> recuperarHorarios(@Header("Authorization") String token, @Path("id") int prestacionId, @Path("nrodia") int nrodia);
+
+        @DELETE("horarios/{id}/{nrodia}")
+        Call<Msj> eliminarHorario(@Header("Authorization") String token, @Path("id") int prestacionId, @Path("nrodia") int nrodia);
+
+        @PUT("horarios")
+        Call<Msj> actualizarHorario(@Header("Authorization") String token, @Body Horario2 p);
 /*
         @POST("inmuebles")
         Call<InmuebleFoto> altaInmueble(@Header("Authorization") String token, @Body Inmueble inmueble);
@@ -85,8 +92,7 @@ public class ApiClient {
         @GET("contratos/{id}")
         Call<ArrayList<Contrato>> listarContratos(@Header("Authorization") String token, @Path("id") int InmuebleId);
 
-        @DELETE("inmuebles/{id}")
-        Call<Mensaje> eliminarInmueble(@Header("Authorization") String token, @Path("id") int InmuebleId);
+
 
         //listarClientes.php
         //@GET("listarClientes.php")
