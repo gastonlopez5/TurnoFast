@@ -363,13 +363,11 @@ public class PrestacionesBMFragment extends Fragment {
         btHoraFinManiana = view.findViewById(R.id.btHoraFinManiana);
         btHoraInicioTarde = view.findViewById(R.id.btHoraInicioTarde);
         btHoraFinTarde = view.findViewById(R.id.btHoraFinTarde);
-        btDias = view.findViewById(R.id.btDias);
 
         etHoraInicioManiana = view.findViewById(R.id.etHoraInicioManiana);
         etHoraInicioTarde = view.findViewById(R.id.etHoraInicioTarde);
         etHoraFinManiana = view.findViewById(R.id.etHoraFinManiana);
         etHoraFinTarde = view.findViewById(R.id.etHoraFinTarde);
-        tvDiasSeleccionados = view.findViewById(R.id.tvDiasSeleccionados);
 
         btGuardar = view.findViewById(R.id.btGuardar);
         cbTurnoManiana = view.findViewById(R.id.cbTurnoManiana);
