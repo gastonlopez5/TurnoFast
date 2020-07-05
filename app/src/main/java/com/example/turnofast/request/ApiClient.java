@@ -63,8 +63,17 @@ public class ApiClient {
         @GET("prestaciones")
         Call<ArrayList<Prestacion>> obtenerPrestaciones(@Header("Authorization") String token);
 
+        @GET("prestaciones/{id}")
+        Call<Prestacion> recuperarPrestacion(@Header("Authorization") String token, @Path("id") int prestacionId);
+
         @POST("prestaciones")
-        Call<Prestacion> registrarPrestacion(@Header("Authorization") String token, @Body Prestacion prestacion);
+        Call<Msj> registrarPrestacion(@Header("Authorization") String token, @Body Prestacion prestacion);
+
+        @PUT("prestaciones")
+        Call<Msj> actualizarPrestacion(@Header("Authorization") String token, @Body Prestacion p);
+
+        @DELETE("prestaciones/{id}")
+        Call<Msj> eliminarPrestacion(@Header("Authorization") String token, @Path("id") int prestacionId);
 
         @POST("horarios")
         Call<Msj> cargarHorario(@Header("Authorization") String token, @Body Horario2 p);

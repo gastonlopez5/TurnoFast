@@ -64,10 +64,10 @@
         tools:layout="@layout/fragment_lista_prestaciones_bm" >
         <action
             android:id="@+id/action_nav_listaPrestacionesBM_to_prestacionesTurnosBMFragment"
-            app:destination="@id/nav_prestacionTurnosMB" />
+            app:destination="@id/nav_prestacionMB" />
     </fragment>
     <fragment
-        android:id="@+id/nav_prestacionTurnosMB"
+        android:id="@+id/nav_prestacionMB"
         android:name="com.example.turnofast.ui.prestacion.PrestacionesBMFragment"
         android:label="fragment_prestaciones_turnos_b_m"
         tools:layout="@layout/fragment_prestaciones__bm" >

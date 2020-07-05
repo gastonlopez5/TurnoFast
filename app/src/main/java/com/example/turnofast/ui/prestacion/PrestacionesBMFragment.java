@@ -44,20 +44,13 @@ import java.util.List;
  */
 public class PrestacionesBMFragment extends Fragment {
 
-    private Button btHoraInicioManiana, btHoraFinManiana, btHoraInicioTarde, btHoraFinTarde, btGuardar, btDias;
-    private EditText etHoraInicioManiana, etHoraFinManiana, etHoraInicioTarde, etHoraFinTarde;
-    private TextView tvDiasSeleccionados;
-    private CheckBox cbTurnoManiana, cbTurnoTarde;
-    private Spinner spFrecuencia;
-    private PrestacionTurnosViewModel vm;
-    private Calendar calendario;
-    private int hora, minutos;
-    private SimpleDateFormat horaFormato = new SimpleDateFormat("HH:mm:ss");
-    private Horario2 horario2 = new Horario2();
-    private Prestacion prestacionSeleccionada = null;
-    private ArrayList<String> diasSeleccionados = new ArrayList<>();
-    private Integer [] opciones = null;
-    private boolean bandera;
+    EditText etDireccion, etNombre, etTelefono;
+    Button btActualizar, btEliminar;
+    TextView tvCategoria;
+    CheckBox cbDisponible;
+    PrestacionViewModel vm;
+    Prestacion prestacionSeleccionada;
+    Prestacion prestacionEditada = new Prestacion();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -105,282 +98,88 @@ public class PrestacionesBMFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_prestaciones__bm, container, false);
 
-        vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(PrestacionTurnosViewModel.class);
+        vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(PrestacionViewModel.class);
+
+        Bundle objetoPrestacion = getArguments();
+        prestacionSeleccionada =(Prestacion) objetoPrestacion.getSerializable("prestacion");
 
         iniciarVista(view);
 
-        Bundle objetoRubro = getArguments();
-        prestacionSeleccionada =(Prestacion) objetoRubro.getSerializable("objeto");
-
-        cbTurnoManiana.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        vm.getPrestacionMLD().observe(getViewLifecycleOwner(), new Observer<Prestacion>() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                habilitaTurnoManiana(isChecked);
+            public void onChanged(Prestacion prestacion) {
+                cargarDatos(prestacion);
             }
         });
 
-        cbTurnoTarde.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                habilitaTurnoTarde(isChecked);
-            }
-        });
-
-
-        btHoraInicioManiana.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendario = Calendar.getInstance();
-                hora = calendario.get(Calendar.HOUR_OF_DAY);
-                minutos = calendario.get(Calendar.MINUTE);
-
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        etHoraInicioManiana.setText(hourOfDay+":"+minute);
-                        Calendar c = Calendar.getInstance();
-                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        c.set(Calendar.MINUTE, minute);
-
-                        horario2.setHoraDesdeManiana(LocalTime.parse(horaFormato.format(c.getTime())));
-                    }
-                }
-                        ,hora, minutos, false);
-                timePickerDialog.show();
-            }
-        });
-
-        btHoraInicioTarde.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendario = Calendar.getInstance();
-                hora = calendario.get(Calendar.HOUR_OF_DAY);
-                minutos = calendario.get(Calendar.MINUTE);
-
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        etHoraInicioTarde.setText(hourOfDay+":"+minute);
-                        Calendar c = Calendar.getInstance();
-                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        c.set(Calendar.MINUTE, minute);
-
-                        horario2.setHoraDesdeTarde(LocalTime.parse(horaFormato.format(c.getTime())));
-                    }
-                }
-                        ,hora, minutos, false);
-                timePickerDialog.show();
-            }
-        });
-
-        btHoraFinManiana.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendario = Calendar.getInstance();
-                hora = calendario.get(Calendar.HOUR_OF_DAY);
-                minutos = calendario.get(Calendar.MINUTE);
-
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        etHoraFinManiana.setText(hourOfDay+":"+minute);
-                        Calendar c = Calendar.getInstance();
-                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        c.set(Calendar.MINUTE, minute);
-
-                        horario2.setHoraHastaManiana(LocalTime.parse(horaFormato.format(c.getTime())));
-                    }
-                }
-                        ,hora, minutos, false);
-                timePickerDialog.show();
-            }
-        });
-
-        btHoraFinTarde.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendario = Calendar.getInstance();
-                hora = calendario.get(Calendar.HOUR_OF_DAY);
-                minutos = calendario.get(Calendar.MINUTE);
-
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        etHoraFinTarde.setText(hourOfDay+":"+minute);
-                        Calendar c = Calendar.getInstance();
-                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        c.set(Calendar.MINUTE, minute);
-
-                        horario2.setHoraHastaTarde(LocalTime.parse(horaFormato.format(c.getTime())));
-                    }
-                }
-                        ,hora, minutos, false);
-                timePickerDialog.show();
-            }
-        });
-
-        vm.getErrorCarga().observe(getViewLifecycleOwner(), new Observer<Horario2>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onChanged(Horario2 p) {
-                if (p.getHoraDesdeManiana() == null){etHoraInicioManiana.setText("");}
-                else { etHoraInicioManiana.setText(p.getHoraDesdeManiana().getHour()+":"+p.getHoraDesdeManiana().getMinute());}
-                if (p.getHoraHastaManiana() == null){etHoraFinManiana.setText("");}
-                else {etHoraFinManiana.setText(p.getHoraHastaManiana().getHour()+":"+p.getHoraHastaManiana().getMinute());}
-                if (p.getHoraDesdeTarde() == null){etHoraInicioTarde.setText("");}
-                else {etHoraInicioTarde.setText(p.getHoraDesdeTarde().getHour()+":"+p.getHoraDesdeTarde().getMinute());}
-                if (p.getHoraHastaTarde() == null){etHoraFinTarde.setText("");}
-                else {etHoraFinTarde.setText(p.getHoraHastaTarde().getHour()+":"+p.getHoraHastaTarde().getMinute());}
-
-                for (int i=0; i<opciones.length; i++){
-                    if (opciones[i] == p.getFrecuencia()){
-                        spFrecuencia.setSelection(i);
-                    }
-                }
-
-                bandera = false;
-            }
-        });
-
-        btGuardar.setOnClickListener(new View.OnClickListener() {
+        btActualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                bandera = true;
-                new AlertDialog.Builder(getContext()).setTitle("").setMessage("Desea guardar y continuar?").setPositiveButton("SI", new DialogInterface.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        aceptar();
-                        if (bandera){
-                            Navigation.findNavController(v).navigate(R.id.nav_home);}
-                    }
-                }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+                if (btActualizar.getText() == "Guardar"){
+                    new AlertDialog.Builder(getContext()).setTitle("").setMessage("Desea guardar los datos?").setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            aceptar();
+                            Navigation.findNavController(v).navigate(R.id.nav_home);
+                        }
+                    }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                }
+                habilitarModificacion(v);
+                btActualizar.setText("Guardar");
             }
         });
 
-        btDias.setOnClickListener(new View.OnClickListener() {
+        btEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-                //Arreglo de Strings para los días que se muestran en el dialogo
-                final String[] dias = new String[]{"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"};
-
-                //Arreglo de booleanos para los días que se muestran seleccionados
-                final boolean[] diasChequeados = new boolean[]{true, true, true, true, true, false, false};
-
-                //Conversion del arreglo de días a lista
-                final List<String> diasLista = Arrays.asList(dias);
-
-                //Título del AlertDialog
-                builder.setTitle("Deleccionar días:");
-
-                //Icono
-                builder.setIcon(R.drawable.ico);
-
-                //Configuro los elementos a seleccionar
-                builder.setMultiChoiceItems(dias, diasChequeados, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        //Actualizo los elementos que ya estan seleccionados
-                        diasChequeados[which] = isChecked;
-
-                        //Obtengo el elemento de foco
-                        String itemActual = diasLista.get(which);
-
-                        //Notifico el elemento actual
-                        Toast.makeText(getContext(), itemActual+" "+isChecked, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                //Configuro el boton OK
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        tvDiasSeleccionados.setText("Usted seleccionó los días: ");
-                        for (int i=0; i<diasChequeados.length; i++){
-                            boolean seleccionado = diasChequeados[i];
-                            if (seleccionado){
-                                tvDiasSeleccionados.setText(tvDiasSeleccionados.getText()+", "+diasLista.get(i));
-                                diasSeleccionados.add(diasLista.get(i));
-                            }
-                        }
-                    }
-                });
-
-                //Configuro el boton cancelar
-                builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                vm.eliminarPrestacion(prestacionSeleccionada.getId());
             }
         });
 
-        //vm.recuperarHorarios(prestacionSeleccionada.getId());
+        vm.recuperarPrestación(prestacionSeleccionada.getId());
 
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void aceptar() {
-        horario2.setPrestacionId(prestacionSeleccionada.getId());
-        horario2.setFrecuencia((Integer) spFrecuencia.getSelectedItem());
-        vm.cargarHorario(horario2, cbTurnoManiana.isChecked(), cbTurnoTarde.isChecked());
-    }
-
-    private void habilitaTurnoTarde(Boolean valor) {
-        btHoraInicioTarde.setEnabled(valor);
-        btHoraFinTarde.setEnabled(valor);
-
-        etHoraInicioTarde.setEnabled(valor);
-        etHoraFinTarde.setEnabled(valor);
-    }
-
-    private void habilitaTurnoManiana(Boolean valor) {
-        btHoraInicioManiana.setEnabled(valor);
-        btHoraFinManiana.setEnabled(valor);
-
-        etHoraInicioManiana.setEnabled(valor);
-        etHoraFinManiana.setEnabled(valor);
-    }
-
     private void iniciarVista(View view) {
-        btHoraInicioManiana = view.findViewById(R.id.btHoraInicioManiana);
-        btHoraFinManiana = view.findViewById(R.id.btHoraFinManiana);
-        btHoraInicioTarde = view.findViewById(R.id.btHoraInicioTarde);
-        btHoraFinTarde = view.findViewById(R.id.btHoraFinTarde);
-
-        etHoraInicioManiana = view.findViewById(R.id.etHoraInicioManiana);
-        etHoraInicioTarde = view.findViewById(R.id.etHoraInicioTarde);
-        etHoraFinManiana = view.findViewById(R.id.etHoraFinManiana);
-        etHoraFinTarde = view.findViewById(R.id.etHoraFinTarde);
-
-        btGuardar = view.findViewById(R.id.btGuardar);
-        cbTurnoManiana = view.findViewById(R.id.cbTurnoManiana);
-        cbTurnoTarde = view.findViewById(R.id.cbTurnoTarde);
-
-        spFrecuencia = view.findViewById(R.id.spFrecuencia);
-        opciones = new Integer[]{15, 20, 30, 45, 60};
-        ArrayAdapter<Integer> adaptador = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_spinner_item, opciones);
-        spFrecuencia.setAdapter(adaptador);
-
-        habilitaTurnoManiana(false);
-        habilitaTurnoTarde(false);
+        etDireccion = view.findViewById(R.id.etDireccion);
+        etNombre = view.findViewById(R.id.etNombre);
+        etTelefono = view.findViewById(R.id.etTelefono);
+        tvCategoria = view.findViewById(R.id.tvCategoria);
+        cbDisponible = view.findViewById(R.id.cbDisponible);
+        btActualizar = view.findViewById(R.id.btActualizar);
+        btEliminar = view.findViewById(R.id.btEliminar);
     }
 
+    private void cargarDatos(Prestacion p){
+        etDireccion.setText(p.getDireccion());
+        etTelefono.setText(p.getTelefono());
+        etNombre.setText(p.getNombre());
+        tvCategoria.setText(p.getCategoria().toString());
+        cbDisponible.setChecked(p.getDisponible());
+    }
 
+    private void habilitarModificacion(View v){
+        etDireccion.setEnabled(true);
+        etNombre.setEnabled(true);
+        etTelefono.setEnabled(true);
+        cbDisponible.setEnabled(true);
+        btEliminar.setEnabled(false);
+    }
+
+    private void aceptar(){
+        prestacionEditada.setId(prestacionSeleccionada.getId());
+        prestacionEditada.setDireccion(etDireccion.getText().toString());
+        prestacionEditada.setNombre(etNombre.getText().toString());
+        prestacionEditada.setTelefono(etTelefono.getText().toString());
+        prestacionEditada.setDisponible(cbDisponible.isChecked());
+        prestacionEditada.setCategoriaId(prestacionSeleccionada.getCategoriaId());
+        prestacionEditada.setProfesionalId(prestacionSeleccionada.getProfesionalId());
+        vm.actualizarPrestacion(prestacionEditada);
+    }
 }

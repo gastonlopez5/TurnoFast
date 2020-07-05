@@ -442,7 +442,6 @@ public class PrestacioneTurnosFragment extends Fragment implements View.OnClickL
         etHoraInicioTarde = view.findViewById(R.id.etHoraInicioTarde);
         etHoraFinManiana = view.findViewById(R.id.etHoraFinManiana);
         etHoraFinTarde = view.findViewById(R.id.etHoraFinTarde);
-        tvDiasSeleccionados = view.findViewById(R.id.tvDiasSeleccionados);
 
         btGuardar = view.findViewById(R.id.btGuardar);
         btEliminar = view.findViewById(R.id.btEliminar);

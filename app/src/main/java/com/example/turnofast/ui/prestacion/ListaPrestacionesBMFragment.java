@@ -88,8 +88,8 @@ public class ListaPrestacionesBMFragment extends Fragment {
                     public void onClick(View v) {
                         Prestacion prestacion = prestacions.get(rvPrestacionesBM.getChildAdapterPosition(v));
                         Bundle bundle=new Bundle();
-                        bundle.putSerializable("objeto", prestacion);
-                        Navigation.findNavController(v).navigate(R.id.nav_prestacionTurnosMB, bundle);
+                        bundle.putSerializable("prestacion", prestacion);
+                        Navigation.findNavController(v).navigate(R.id.nav_prestacionMB, bundle);
                     }
                 });
 
