@@ -68,9 +68,9 @@
     </fragment>
     <fragment
         android:id="@+id/nav_prestacionTurnosMB"
-        android:name="com.example.turnofast.ui.prestacion.PrestacionesTurnosBMFragment"
+        android:name="com.example.turnofast.ui.prestacion.PrestacionesBMFragment"
         android:label="fragment_prestaciones_turnos_b_m"
-        tools:layout="@layout/fragment_prestaciones_turnos_bm" >
+        tools:layout="@layout/fragment_prestaciones__bm" >
         <action
             android:id="@+id/action_prestacionesTurnosBMFragment_to_nav_listaPrestacionesBM"
             app:destination="@id/nav_listaPrestacionesBM" />

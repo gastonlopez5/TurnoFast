@@ -89,7 +89,6 @@ public class PrestacionFragment extends Fragment {
         etNombre = view.findViewById(R.id.etNombre);
         etTelefono = view.findViewById(R.id.etTelefono);
         spCategorias = view.findViewById(R.id.spCategorias);
-        //spFrecuencias = view.findViewById(R.id.spFrecuencia);
         cbDisponible = view.findViewById(R.id.cbDisponible);
         btGuardar = view.findViewById(R.id.btGuardar);
 
@@ -99,12 +98,6 @@ public class PrestacionFragment extends Fragment {
         rubro =(Rubro) objetoRubro.getSerializable("objeto");
         ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(getContext(), android.R.layout.simple_spinner_item, rubro.getEspecialidades());
         spCategorias.setAdapter(adapter);
-
-        /*
-        String [] frecuencias = {"15 min", "20 min", "30 min", "60 min"};
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, frecuencias);
-        spFrecuencias.setAdapter(adapter2);
-        */
 
         btGuardar.setOnClickListener(new View.OnClickListener() {
             @Override

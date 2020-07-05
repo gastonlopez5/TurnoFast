@@ -39,10 +39,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PrestacionesTurnosBMFragment#newInstance} factory method to
+ * Use the {@link PrestacionesBMFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PrestacionesTurnosBMFragment extends Fragment {
+public class PrestacionesBMFragment extends Fragment {
 
     private Button btHoraInicioManiana, btHoraFinManiana, btHoraInicioTarde, btHoraFinTarde, btGuardar, btDias;
     private EditText etHoraInicioManiana, etHoraFinManiana, etHoraInicioTarde, etHoraFinTarde;
@@ -68,7 +68,7 @@ public class PrestacionesTurnosBMFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public PrestacionesTurnosBMFragment() {
+    public PrestacionesBMFragment() {
         // Required empty public constructor
     }
 
@@ -81,8 +81,8 @@ public class PrestacionesTurnosBMFragment extends Fragment {
      * @return A new instance of fragment PrestacionesTurnosBMFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PrestacionesTurnosBMFragment newInstance(String param1, String param2) {
-        PrestacionesTurnosBMFragment fragment = new PrestacionesTurnosBMFragment();
+    public static PrestacionesBMFragment newInstance(String param1, String param2) {
+        PrestacionesBMFragment fragment = new PrestacionesBMFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -103,7 +103,7 @@ public class PrestacionesTurnosBMFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_prestaciones_turnos_bm, container, false);
+        View view = inflater.inflate(R.layout.fragment_prestaciones__bm, container, false);
 
         vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(PrestacionTurnosViewModel.class);
 
