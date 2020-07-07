@@ -36,6 +36,7 @@ public class ListaRubrosTurnosFragment extends Fragment {
 
     private RecyclerView rvRubros;
     private RubroViewModel vm;
+    private Categoria categoria = null;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -94,9 +95,8 @@ public class ListaRubrosTurnosFragment extends Fragment {
 
                 adaptador.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         Rubro rubro = rubros.get(rvRubros.getChildAdapterPosition(v));
-                        Categoria categoria = null;
 
                         ArrayList<Categoria> opciones = rubro.getEspecialidades();
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -113,6 +113,10 @@ public class ListaRubrosTurnosFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(getContext(), spCategorias.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                                categoria = (Categoria) spCategorias.getSelectedItem();
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("categoria", categoria);
+                                Navigation.findNavController(v).navigate(R.id.nav_listaPrestacionesDisponibles, bundle);
                             }
                         });
 
@@ -126,10 +130,6 @@ public class ListaRubrosTurnosFragment extends Fragment {
                         builder.setView(mView);
                         AlertDialog dialog = builder.create();
                         dialog.show();
-
-                        Bundle bundle=new Bundle();
-                        bundle.putSerializable("objeto", rubro);
-                        //Navigation.findNavController(v).navigate(R.id.nav_servicio, bundle);
                     }
                 });
 

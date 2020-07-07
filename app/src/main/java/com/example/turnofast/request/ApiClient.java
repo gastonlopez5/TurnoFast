@@ -66,6 +66,9 @@ public class ApiClient {
         @GET("prestaciones/{id}")
         Call<Prestacion> recuperarPrestacion(@Header("Authorization") String token, @Path("id") int prestacionId);
 
+        @GET("prestaciones/disponibles/{categoriaId}")
+        Call<ArrayList<Prestacion>> recuperarPrestacionesDisponibles(@Header("Authorization") String token, @Path("categoriaId") int categoriId);
+
         @POST("prestaciones")
         Call<Msj> registrarPrestacion(@Header("Authorization") String token, @Body Prestacion prestacion);
 
