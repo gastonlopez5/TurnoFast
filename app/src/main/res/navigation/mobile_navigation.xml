@@ -84,6 +84,24 @@
             android:id="@+id/action_nav_listaDiasAPrestacionTurnos_to_nav_servicioTurnos"
             app:destination="@id/nav_servicioTurnos" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_listaRubrosTurnos"
+        android:name="com.example.turnofast.ui.turno.ListaRubrosTurnosFragment"
+        android:label="fragment_lista_rubros_turnos"
+        tools:layout="@layout/fragment_lista_rubros_turnos" >
+        <action
+            android:id="@+id/action_nav_listaRubrosTurnos_to_listaPrestacionesDisponiblesFragment"
+            app:destination="@id/nav_listaPrestacionesDisponibles" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_listaPrestacionesDisponibles"
+        android:name="com.example.turnofast.ui.turno.ListaPrestacionesDisponiblesFragment"
+        android:label="fragment_lista_prestaciones_disponibles"
+        tools:layout="@layout/fragment_lista_prestaciones_disponibles" >
+        <action
+            android:id="@+id/action_listaPrestacionesDisponiblesFragment_to_nav_listaRubrosTurnos"
+            app:destination="@id/nav_listaRubrosTurnos" />
+    </fragment>
 
 
 </navigation>

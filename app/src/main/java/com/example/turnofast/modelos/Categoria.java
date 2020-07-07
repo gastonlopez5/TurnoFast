@@ -1,8 +1,9 @@
 package com.example.turnofast.modelos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Categoria {
+public class Categoria implements Serializable {
     private int id;
     private String nombre;
     private ArrayList<Prestacion> prestaciones;
