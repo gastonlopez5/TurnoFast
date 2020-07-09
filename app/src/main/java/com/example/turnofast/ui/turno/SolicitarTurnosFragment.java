@@ -7,12 +7,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Evento;
+import com.example.turnofast.modelos.Turno;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,10 +26,10 @@ import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SolicitarTurnos#newInstance} factory method to
+ * Use the {@link SolicitarTurnosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SolicitarTurnos extends Fragment {
+public class SolicitarTurnosFragment extends Fragment {
 
     ImageButton btSiguiente, btAtras;
     TextView fechaActual;
@@ -40,7 +42,8 @@ public class SolicitarTurnos extends Fragment {
     SimpleDateFormat anioFormato = new SimpleDateFormat("yyyy", locale);
     SimpleDateFormat eventoFechaFormato = new SimpleDateFormat("dd-MM-yyyy", locale);
     List<Date> dates = new ArrayList<>();
-    List<Evento> listaEventos = new ArrayList<>();
+    List<Turno> listaTurnos = new ArrayList<>();
+    MyGridAdapter myGridAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,7 +54,7 @@ public class SolicitarTurnos extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public SolicitarTurnos() {
+    public SolicitarTurnosFragment() {
         // Required empty public constructor
     }
 
@@ -64,8 +67,8 @@ public class SolicitarTurnos extends Fragment {
      * @return A new instance of fragment SolicitarTurnos.
      */
     // TODO: Rename and change types and number of parameters
-    public static SolicitarTurnos newInstance(String param1, String param2) {
-        SolicitarTurnos fragment = new SolicitarTurnos();
+    public static SolicitarTurnosFragment newInstance(String param1, String param2) {
+        SolicitarTurnosFragment fragment = new SolicitarTurnosFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -111,11 +114,34 @@ public class SolicitarTurnos extends Fragment {
             }
         });
 
+        gvCalendario.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Calendar c = Calendar.getInstance();
+                c.set(Calendar.DAY_OF_WEEK,position+1);
+                Date d = c.getTime();
+                int nrodia = d.getDay();
+            }
+        });
+
         return view;
     }
 
     private void configurarCalendario() {
         String fecha = diaFormato.format(calendario.getTime());
         fechaActual.setText(fecha);
+        dates.clear();
+        Calendar monthCalendar = (Calendar) calendario.clone();
+        monthCalendar.set(Calendar.DAY_OF_MONTH,1);
+        int FirstDayofMonth = monthCalendar.get(Calendar.DAY_OF_WEEK) - 1;
+        monthCalendar.add(Calendar.DAY_OF_MONTH, -FirstDayofMonth);
+
+        while (dates.size() < MAX_CALENDAR_DAYS){
+            dates.add(monthCalendar.getTime());
+            monthCalendar.add(Calendar.DAY_OF_MONTH,1);
+        }
+
+        myGridAdapter = new MyGridAdapter(getContext(), dates, calendario, listaTurnos);
+        gvCalendario.setAdapter(myGridAdapter);
     }
 }

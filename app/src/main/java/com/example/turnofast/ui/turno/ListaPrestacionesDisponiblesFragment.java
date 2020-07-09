@@ -98,8 +98,8 @@ public class ListaPrestacionesDisponiblesFragment extends Fragment {
                         Prestacion prestacion = prestacions.get(rvPrestaciones.getChildAdapterPosition(v));
                         Bundle bundle=new Bundle();
                         bundle.putSerializable("prestacion", prestacion);
-                        Toast.makeText(getContext(), prestacion.getNombre(), Toast.LENGTH_SHORT).show();
-                        //Navigation.findNavController(v).navigate(R.id.nav_listaDiasAPrestacionTurnos, bundle);
+                        //Toast.makeText(getContext(), prestacion.getNombre(), Toast.LENGTH_SHORT).show();
+                        Navigation.findNavController(v).navigate(R.id.nav_solicitarTurnos, bundle);
                     }
                 });
 

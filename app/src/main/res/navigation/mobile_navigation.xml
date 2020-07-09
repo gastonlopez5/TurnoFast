@@ -45,7 +45,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_solicitarTurnos"
-        android:name="com.example.turnofast.ui.turno.SolicitarTurnos"
+        android:name="com.example.turnofast.ui.turno.SolicitarTurnosFragment"
         android:label="fragment_solicitar_turnos"
         tools:layout="@layout/fragment_solicitar_turnos" />
     <fragment
@@ -99,8 +99,8 @@
         android:label="fragment_lista_prestaciones_disponibles"
         tools:layout="@layout/fragment_lista_prestaciones_disponibles" >
         <action
-            android:id="@+id/action_listaPrestacionesDisponiblesFragment_to_nav_listaRubrosTurnos"
-            app:destination="@id/nav_listaRubrosTurnos" />
+            android:id="@+id/action_nav_listaPrestacionesDisponibles_to_nav_solicitarTurnos"
+            app:destination="@id/nav_solicitarTurnos" />
     </fragment>
 
 
