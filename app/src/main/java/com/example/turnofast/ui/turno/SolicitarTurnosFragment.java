@@ -131,6 +131,7 @@ public class SolicitarTurnosFragment extends Fragment {
                 c.set(Calendar.DAY_OF_WEEK,position+1);
                 Date d = c.getTime();
                 int nrodia = d.getDay();
+                c.set(Calendar.DAY_OF_MONTH, position-2);
                 String fecha = eventoFechaFormato.format(c.getTime());
 
                 horario = new Horario2();

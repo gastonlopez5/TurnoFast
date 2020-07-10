@@ -1,6 +1,7 @@
 package com.example.turnofast.ui.turno;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,12 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Turno;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 
@@ -69,8 +72,9 @@ public class AdaptadorTurnos extends RecyclerView.Adapter<AdaptadorTurnos.ViewHo
             tvHora = itemView.findViewById(R.id.tvHora);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public void asignarDatos(Turno turno) {
-            tvHora.setText(horaFormato.format(turno.getHora()));
+            tvHora.setText(turno.getHora().getHour()+":"+turno.getHora().getMinute());
         }
 
     }

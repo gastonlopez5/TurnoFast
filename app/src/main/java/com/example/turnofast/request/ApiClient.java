@@ -91,7 +91,7 @@ public class ApiClient {
         @PUT("horarios")
         Call<Msj> actualizarHorario(@Header("Authorization") String token, @Body Horario2 p);
 
-        @GET("horarios/{prestacionid}/{nrodia}/{fecha}")
+        @GET("turnos/{prestacionid}/{nrodia}/{fecha}")
         Call<ArrayList<Turno>> obtenerTurnosDisponibles(@Header("Authorization") String token, @Path("prestacionid") int prestacionId, @Path("nrodia") int nrodia, @Path("fecha") String fecha);
 
         @POST("turnos")

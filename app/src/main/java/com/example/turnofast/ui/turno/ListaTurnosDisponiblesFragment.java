@@ -112,9 +112,9 @@ public class ListaTurnosDisponiblesFragment extends Fragment {
         });
 
         Bundle objetoHorarioFecha = getArguments();
-        horarioFechaEnviado =(HorarioFecha) objetoHorarioFecha.getSerializable("horario");
+        horarioFechaEnviado =(HorarioFecha) objetoHorarioFecha.getSerializable("horarioFecha");
         vm.cargarTurnosDisponibles(horarioFechaEnviado.getHorario().getPrestacionId(),
-                horarioFechaEnviado.getHorario().getDiaSemana());
+                horarioFechaEnviado.getHorario().getDiaSemana(), horarioFechaEnviado.getFecha());
 
         return view;
     }
