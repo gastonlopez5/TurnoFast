@@ -47,7 +47,11 @@
         android:id="@+id/nav_solicitarTurnos"
         android:name="com.example.turnofast.ui.turno.SolicitarTurnosFragment"
         android:label="fragment_solicitar_turnos"
-        tools:layout="@layout/fragment_solicitar_turnos" />
+        tools:layout="@layout/fragment_solicitar_turnos" >
+        <action
+            android:id="@+id/action_nav_solicitarTurnos_to_listaTurnosDisponiblesFragment"
+            app:destination="@id/nav_listaTurnosDisponibles" />
+    </fragment>
     <fragment
         android:id="@+id/nav_listaServicios"
         android:name="com.example.turnofast.ui.prestacion.ListaPrestacionesFragment"
@@ -100,6 +104,15 @@
         tools:layout="@layout/fragment_lista_prestaciones_disponibles" >
         <action
             android:id="@+id/action_nav_listaPrestacionesDisponibles_to_nav_solicitarTurnos"
+            app:destination="@id/nav_solicitarTurnos" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_listaTurnosDisponibles"
+        android:name="com.example.turnofast.ui.turno.ListaTurnosDisponiblesFragment"
+        android:label="fragment_lista_turnos_disponibles"
+        tools:layout="@layout/fragment_lista_turnos_disponibles" >
+        <action
+            android:id="@+id/action_listaTurnosDisponiblesFragment_to_nav_solicitarTurnos"
             app:destination="@id/nav_solicitarTurnos" />
     </fragment>
 

@@ -5,10 +5,8 @@ import java.time.LocalTime;
 
 public class Turno {
     private int id;
-    private LocalDate fecha;
+    private String fecha;
     private LocalTime hora;
-    private String observaciones;
-    private String archivoAdjunto;
     private int horarioDisponibleId;
     private int usuarioId;
     private Prestacion prestacion;
@@ -17,12 +15,10 @@ public class Turno {
     public Turno() {
     }
 
-    public Turno(int id, LocalDate fecha, LocalTime hora, String observaciones, String archivoAdjunto, int horarioDisponibleId, int usuarioId, Prestacion prestacion, Usuario usuario) {
+    public Turno(int id, String fecha, LocalTime hora, int horarioDisponibleId, int usuarioId, Prestacion prestacion, Usuario usuario) {
         this.id = id;
         this.fecha = fecha;
         this.hora = hora;
-        this.observaciones = observaciones;
-        this.archivoAdjunto = archivoAdjunto;
         this.horarioDisponibleId = horarioDisponibleId;
         this.usuarioId = usuarioId;
         this.prestacion = prestacion;
@@ -37,11 +33,11 @@ public class Turno {
         this.id = id;
     }
 
-    public LocalDate getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -51,22 +47,6 @@ public class Turno {
 
     public void setHora(LocalTime hora) {
         this.hora = hora;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
-
-    public String getArchivoAdjunto() {
-        return archivoAdjunto;
-    }
-
-    public void setArchivoAdjunto(String archivoAdjunto) {
-        this.archivoAdjunto = archivoAdjunto;
     }
 
     public int getHorarioDisponibleId() {

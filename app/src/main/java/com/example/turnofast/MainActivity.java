@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_perfil, R.id.nav_rubro, R.id.nav_servicio, R.id.nav_servicioTurnos,
                 R.id.nav_listaServicios, R.id.nav_listaPrestacionesBM, R.id.nav_prestacionMB,
-                R.id.nav_listaDiasAPrestacionTurnos, R.id.nav_listaRubrosTurnos, R.id.nav_listaPrestacionesDisponibles)
+                R.id.nav_listaDiasAPrestacionTurnos, R.id.nav_listaRubrosTurnos, R.id.nav_listaPrestacionesDisponibles,
+                R.id.nav_listaTurnosDisponibles)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

@@ -8,6 +8,7 @@ import com.example.turnofast.modelos.Login;
 import com.example.turnofast.modelos.Msj;
 import com.example.turnofast.modelos.Prestacion;
 import com.example.turnofast.modelos.Rubro;
+import com.example.turnofast.modelos.Turno;
 import com.example.turnofast.modelos.Usuario;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -89,30 +90,11 @@ public class ApiClient {
 
         @PUT("horarios")
         Call<Msj> actualizarHorario(@Header("Authorization") String token, @Body Horario2 p);
-/*
-        @POST("inmuebles")
-        Call<InmuebleFoto> altaInmueble(@Header("Authorization") String token, @Body Inmueble inmueble);
 
-        @PUT("inmuebles")
-        Call<Inmueble> actualizarInmueble(@Header("Authorization") String token, @Body Inmueble i);
+        @GET("horarios/{prestacionid}/{nrodia}/{fecha}")
+        Call<ArrayList<Turno>> obtenerTurnosDisponibles(@Header("Authorization") String token, @Path("prestacionid") int prestacionId, @Path("nrodia") int nrodia, @Path("fecha") String fecha);
 
-
-
-        @GET("tiposinmuebles")
-        Call<ArrayList<TipoInmueble>> tiposInmuebles(@Header("Authorization") String token);
-
-        @GET("contratos/{id}")
-        Call<ArrayList<Contrato>> listarContratos(@Header("Authorization") String token, @Path("id") int InmuebleId);
-
-
-
-        //listarClientes.php
-        //@GET("listarClientes.php")
-        //Call<List<Cliente>> getClientes();
-
-        //@GET("insertarClientes.php")
-        //Call<Cliente> createCliente(@Query("dni") int dni, @Query("apellido") String apellido, @Query("nombre") String nombre);
-
-         */
+        @POST("turnos")
+        Call<Msj> cargarTurno(@Header("Authorization") String token, @Body Turno p);
     }
 }

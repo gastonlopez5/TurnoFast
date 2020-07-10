@@ -1,8 +1,11 @@
 package com.example.turnofast.ui.turno;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +16,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.turnofast.R;
+import com.example.turnofast.modelos.Categoria;
 import com.example.turnofast.modelos.Evento;
+import com.example.turnofast.modelos.Horario2;
+import com.example.turnofast.modelos.HorarioFecha;
+import com.example.turnofast.modelos.Prestacion;
 import com.example.turnofast.modelos.Turno;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,12 +46,13 @@ public class SolicitarTurnosFragment extends Fragment {
     private static final int MAX_CALENDAR_DAYS = 42;
     Calendar calendario = Calendar.getInstance();
     SimpleDateFormat diaFormato = new SimpleDateFormat("MMMM yyyy", locale);
-    SimpleDateFormat mesFormato = new SimpleDateFormat("MMMM", locale);
     SimpleDateFormat anioFormato = new SimpleDateFormat("yyyy", locale);
-    SimpleDateFormat eventoFechaFormato = new SimpleDateFormat("dd-MM-yyyy", locale);
+    SimpleDateFormat eventoFechaFormato = new SimpleDateFormat("yyyy-MM-dd");
     List<Date> dates = new ArrayList<>();
     List<Turno> listaTurnos = new ArrayList<>();
     MyGridAdapter myGridAdapter;
+    Prestacion prestacionSeleccionada;
+    Horario2 horario;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -115,14 +124,31 @@ public class SolicitarTurnosFragment extends Fragment {
         });
 
         gvCalendario.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Calendar c = Calendar.getInstance();
                 c.set(Calendar.DAY_OF_WEEK,position+1);
                 Date d = c.getTime();
                 int nrodia = d.getDay();
+                String fecha = eventoFechaFormato.format(c.getTime());
+
+                horario = new Horario2();
+                horario.setPrestacionId(prestacionSeleccionada.getId());
+                horario.setDiaSemana(nrodia);
+
+                HorarioFecha horarioFecha = new HorarioFecha();
+                horarioFecha.setHorario(horario);
+                horarioFecha.setFecha(fecha);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("horarioFecha", horarioFecha);
+                Navigation.findNavController(view).navigate(R.id.nav_listaTurnosDisponibles, bundle);
             }
         });
+
+        Bundle objetoPrestacion = getArguments();
+        prestacionSeleccionada =(Prestacion) objetoPrestacion.getSerializable("prestacion");
 
         return view;
     }
