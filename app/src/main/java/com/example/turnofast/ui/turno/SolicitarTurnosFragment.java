@@ -53,6 +53,7 @@ public class SolicitarTurnosFragment extends Fragment {
     MyGridAdapter myGridAdapter;
     Prestacion prestacionSeleccionada;
     Horario2 horario;
+    Boolean bandera = true;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -124,9 +125,8 @@ public class SolicitarTurnosFragment extends Fragment {
         });
 
         gvCalendario.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Calendar c = Calendar.getInstance();
                 c.set(Calendar.DAY_OF_WEEK,position+1);
                 Date d = c.getTime();
@@ -144,7 +144,7 @@ public class SolicitarTurnosFragment extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("horarioFecha", horarioFecha);
-                Navigation.findNavController(view).navigate(R.id.nav_listaTurnosDisponibles, bundle);
+                Navigation.findNavController(v).navigate(R.id.nav_listaTurnosDisponibles, bundle);
             }
         });
 
