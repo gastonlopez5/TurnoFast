@@ -1,10 +1,10 @@
 package com.example.turnofast.ui.turno;
 
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -16,15 +16,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.turnofast.R;
-import com.example.turnofast.modelos.Categoria;
-import com.example.turnofast.modelos.Evento;
 import com.example.turnofast.modelos.Horario2;
 import com.example.turnofast.modelos.HorarioFecha;
 import com.example.turnofast.modelos.Prestacion;
 import com.example.turnofast.modelos.Turno;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,26 +31,24 @@ import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SolicitarTurnosFragment#newInstance} factory method to
+ * Use the {@link MisTurnosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SolicitarTurnosFragment extends Fragment {
+public class MisTurnosFragment extends Fragment {
 
     private ImageButton btSiguiente, btAtras;
     private TextView fechaActual;
-    GridView gvCalendario;
+    private GridView gvCalendario;
     private Locale locale = new Locale("es", "AR");
     private static final int MAX_CALENDAR_DAYS = 42;
     private Calendar calendario = Calendar.getInstance();
     private SimpleDateFormat diaFormato = new SimpleDateFormat("MMMM yyyy", locale);
-    private SimpleDateFormat anioFormato = new SimpleDateFormat("yyyy", locale);
-    private SimpleDateFormat eventoFechaFormato = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat anioFormato = new SimpleDateFormat("yyyy");
+    private SimpleDateFormat mesFormato = new SimpleDateFormat("MM");
     private List<Date> dates = new ArrayList<>();
     private List<Turno> listaTurnos = new ArrayList<>();
     private MyGridAdapter myGridAdapter;
-    private Prestacion prestacionSeleccionada;
-    private Horario2 horario;
-    private Boolean bandera = true;
+    private MisTurnosViewModel vm;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -64,7 +59,7 @@ public class SolicitarTurnosFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public SolicitarTurnosFragment() {
+    public MisTurnosFragment() {
         // Required empty public constructor
     }
 
@@ -74,11 +69,11 @@ public class SolicitarTurnosFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SolicitarTurnos.
+     * @return A new instance of fragment MisTurnosFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SolicitarTurnosFragment newInstance(String param1, String param2) {
-        SolicitarTurnosFragment fragment = new SolicitarTurnosFragment();
+    public static MisTurnosFragment newInstance(String param1, String param2) {
+        MisTurnosFragment fragment = new MisTurnosFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -99,20 +94,22 @@ public class SolicitarTurnosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_solicitar_turnos, container, false);
+        View view = inflater.inflate(R.layout.fragment_mis_turnos, container, false);
+
+        vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(MisTurnosViewModel.class);
 
         btAtras = view.findViewById(R.id.btAtras);
         btSiguiente = view.findViewById(R.id.btSiguiente);
         fechaActual = view.findViewById(R.id.tvFechaActual);
         gvCalendario = view.findViewById(R.id.gvCalendario);
 
-        configurarCalendario();
+        configurarCalendario(vm);
 
         btAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 calendario.add(Calendar.MONTH, -1);
-                configurarCalendario();
+                configurarCalendario(vm);
             }
         });
 
@@ -120,55 +117,44 @@ public class SolicitarTurnosFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 calendario.add(Calendar.MONTH, +1);
-                configurarCalendario();
+                configurarCalendario(vm);
             }
         });
 
         gvCalendario.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Calendar c = Calendar.getInstance();
-                c.set(Calendar.DAY_OF_WEEK,position+1);
-                Date d = c.getTime();
-                int nrodia = d.getDay();
-                c.set(Calendar.DAY_OF_MONTH, position-2);
-                String fecha = eventoFechaFormato.format(c.getTime());
 
-                horario = new Horario2();
-                horario.setPrestacionId(prestacionSeleccionada.getId());
-                horario.setDiaSemana(nrodia);
-
-                HorarioFecha horarioFecha = new HorarioFecha();
-                horarioFecha.setHorario(horario);
-                horarioFecha.setFecha(fecha);
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("horarioFecha", horarioFecha);
-                Navigation.findNavController(v).navigate(R.id.nav_listaTurnosDisponibles, bundle);
             }
         });
 
-        Bundle objetoPrestacion = getArguments();
-        prestacionSeleccionada =(Prestacion) objetoPrestacion.getSerializable("prestacion");
+
 
         return view;
     }
 
-    private void configurarCalendario() {
+    private void configurarCalendario(MisTurnosViewModel vm) {
         String fecha = diaFormato.format(calendario.getTime());
         fechaActual.setText(fecha);
         dates.clear();
-        Calendar monthCalendar = (Calendar) calendario.clone();
+        final Calendar monthCalendar = (Calendar) calendario.clone();
         monthCalendar.set(Calendar.DAY_OF_MONTH,1);
         int FirstDayofMonth = monthCalendar.get(Calendar.DAY_OF_WEEK) - 1;
         monthCalendar.add(Calendar.DAY_OF_MONTH, -FirstDayofMonth);
 
-        while (dates.size() < MAX_CALENDAR_DAYS){
-            dates.add(monthCalendar.getTime());
-            monthCalendar.add(Calendar.DAY_OF_MONTH,1);
-        }
+        vm.getListaTurnos().observe(getViewLifecycleOwner(), new Observer<ArrayList<Turno>>() {
+            @Override
+            public void onChanged(ArrayList<Turno> turnos) {
+                listaTurnos = turnos;
+                while (dates.size() < MAX_CALENDAR_DAYS){
+                    dates.add(monthCalendar.getTime());
+                    monthCalendar.add(Calendar.DAY_OF_MONTH,1);
+                }
 
-        myGridAdapter = new MyGridAdapter(getContext(), dates, calendario, listaTurnos);
-        gvCalendario.setAdapter(myGridAdapter);
+                myGridAdapter = new MyGridAdapter(getContext(), dates, calendario, listaTurnos);
+                gvCalendario.setAdapter(myGridAdapter);
+            }
+        });
+        vm.eventosPorMes(mesFormato.format(calendario.getTime()), anioFormato.format(calendario.getTime()));
     }
 }

@@ -14,6 +14,10 @@ import androidx.annotation.Nullable;
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Turno;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +27,7 @@ public class MyGridAdapter extends ArrayAdapter {
     Calendar currentDate;
     List<Turno> turnos;
     LayoutInflater layoutInflater;
+
 
     public MyGridAdapter(@NonNull Context context, List<Date> dates, Calendar currentDate, List<Turno> turnos) {
         super(context, R.layout.single_cell_layout);
@@ -56,9 +61,32 @@ public class MyGridAdapter extends ArrayAdapter {
         }
 
         TextView Day_Number = view.findViewById(R.id.calendar_day);
+        TextView cantidadTurnos = view.findViewById(R.id.evants_id);
         Day_Number.setText(String.valueOf(DayNro));
 
+        Calendar turnoCalendario = Calendar.getInstance();
+        ArrayList<Turno> listaTurnos = new ArrayList<Turno>();
+        for (int i=0; i<turnos.size(); i++){
+            turnoCalendario.setTime(convertirStringToDate(turnos.get(i).getFecha()));
+            if (monthDate.getDate() == turnoCalendario.get(Calendar.DAY_OF_MONTH) && currentMonth == turnoCalendario.get(Calendar.MONTH)+1
+                && currentYear == turnoCalendario.get(Calendar.YEAR)){
+                listaTurnos.add(turnos.get(i));
+                cantidadTurnos.setText(listaTurnos.size()+"turnos");
+            }
+        }
+
         return view;
+    }
+
+    private Date convertirStringToDate(String fecha){
+        SimpleDateFormat diaFormato = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = diaFormato.parse(fecha);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
     @Override

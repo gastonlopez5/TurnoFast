@@ -96,5 +96,8 @@ public class ApiClient {
 
         @POST("turnos")
         Call<Msj> cargarTurno(@Header("Authorization") String token, @Body Turno p);
+
+        @GET("turnos/{mes}/{anio}")
+        Call<ArrayList<Turno>> obtenerTurnosPorMes(@Header("Authorization") String token, @Path("mes") String mes, @Path("anio") String anio);
     }
 }

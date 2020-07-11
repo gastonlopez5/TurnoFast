@@ -115,6 +115,11 @@
             android:id="@+id/action_listaTurnosDisponiblesFragment_to_nav_solicitarTurnos"
             app:destination="@id/nav_solicitarTurnos" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_misTurnos"
+        android:name="com.example.turnofast.ui.turno.MisTurnosFragment"
+        android:label="fragment_mis_turnos"
+        tools:layout="@layout/fragment_mis_turnos" />
 
 
 </navigation>
