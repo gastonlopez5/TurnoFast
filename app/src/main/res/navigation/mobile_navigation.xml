@@ -119,7 +119,16 @@
         android:id="@+id/nav_misTurnos"
         android:name="com.example.turnofast.ui.turno.MisTurnosFragment"
         android:label="fragment_mis_turnos"
-        tools:layout="@layout/fragment_mis_turnos" />
+        tools:layout="@layout/fragment_mis_turnos" >
+        <action
+            android:id="@+id/action_nav_misTurnos_to_nav_listaTurnosPorFecha"
+            app:destination="@id/nav_listaTurnosPorFecha" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_listaTurnosPorFecha"
+        android:name="com.example.turnofast.ui.turno.ListaTurnosPorFechaFragment"
+        android:label="fragment_lista_turnos_por_fecha"
+        tools:layout="@layout/fragment_lista_turnos_por_fecha" />
 
 
 </navigation>

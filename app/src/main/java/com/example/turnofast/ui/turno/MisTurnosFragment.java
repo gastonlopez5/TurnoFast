@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Horario2;
@@ -45,10 +46,12 @@ public class MisTurnosFragment extends Fragment {
     private SimpleDateFormat diaFormato = new SimpleDateFormat("MMMM yyyy", locale);
     private SimpleDateFormat anioFormato = new SimpleDateFormat("yyyy");
     private SimpleDateFormat mesFormato = new SimpleDateFormat("MM");
+    private SimpleDateFormat eventoFechaFormato = new SimpleDateFormat("yyyy-MM-dd");
     private List<Date> dates = new ArrayList<>();
     private List<Turno> listaTurnos = new ArrayList<>();
     private MyGridAdapter myGridAdapter;
     private MisTurnosViewModel vm;
+    private Horario2 horario;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -94,7 +97,7 @@ public class MisTurnosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_mis_turnos, container, false);
+        final View view = inflater.inflate(R.layout.fragment_mis_turnos, container, false);
 
         vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(MisTurnosViewModel.class);
 
@@ -103,13 +106,13 @@ public class MisTurnosFragment extends Fragment {
         fechaActual = view.findViewById(R.id.tvFechaActual);
         gvCalendario = view.findViewById(R.id.gvCalendario);
 
-        configurarCalendario(vm);
+        configurarCalendario(vm, view);
 
         btAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 calendario.add(Calendar.MONTH, -1);
-                configurarCalendario(vm);
+                configurarCalendario(vm, view);
             }
         });
 
@@ -117,14 +120,27 @@ public class MisTurnosFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 calendario.add(Calendar.MONTH, +1);
-                configurarCalendario(vm);
+                configurarCalendario(vm, view);
             }
         });
 
         gvCalendario.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Calendar c = Calendar.getInstance();
+                c.set(Calendar.DAY_OF_MONTH, position-2);
+                String fecha = eventoFechaFormato.format(c.getTime());
 
+                horario = new Horario2();
+                horario.setId(listaTurnos.get(0).getHorarioId());
+
+                HorarioFecha horarioFecha = new HorarioFecha();
+                horarioFecha.setHorario(horario);
+                horarioFecha.setFecha(fecha);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("horarioFecha", horarioFecha);
+                Navigation.findNavController(v).navigate(R.id.nav_listaTurnosPorFecha, bundle);
             }
         });
 
@@ -133,7 +149,7 @@ public class MisTurnosFragment extends Fragment {
         return view;
     }
 
-    private void configurarCalendario(MisTurnosViewModel vm) {
+    private void configurarCalendario(MisTurnosViewModel vm, final View view) {
         String fecha = diaFormato.format(calendario.getTime());
         fechaActual.setText(fecha);
         dates.clear();
@@ -153,6 +169,14 @@ public class MisTurnosFragment extends Fragment {
 
                 myGridAdapter = new MyGridAdapter(getContext(), dates, calendario, listaTurnos);
                 gvCalendario.setAdapter(myGridAdapter);
+            }
+        });
+
+        vm.getSinTurnos().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
+                Navigation.findNavController(view).navigate(R.id.nav_home);
             }
         });
         vm.eventosPorMes(mesFormato.format(calendario.getTime()), anioFormato.format(calendario.getTime()));
