@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.HorarioFecha;
+import com.example.turnofast.modelos.Turno;
+
+import java.util.ArrayList;
 
 
 /**
@@ -88,9 +91,26 @@ public class ListaTurnosPorFechaFragment extends Fragment {
             }
         });
 
+        vm.getListaTurnos().observe(getViewLifecycleOwner(), new Observer<ArrayList<Turno>>() {
+            @Override
+            public void onChanged(final ArrayList<Turno> turnos) {
+                AdaptadorTurnosPorFecha adaptador = new AdaptadorTurnosPorFecha(turnos, getContext());
+
+                adaptador.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Turno turno = turnos.get(rvTurnos.getChildAdapterPosition(v));
+                        //vm.agregarTurno(turno);
+                        //Navigation.findNavController(view).navigate(R.id.nav_home);
+                    }
+                });
+
+                rvTurnos.setAdapter(adaptador);
+            }
+        });
+
         Bundle objetoHorarioFecha = getArguments();
-        horarioFechaEnviado =(HorarioFecha) objetoHorarioFecha.getSerializable("horarioFecha");
-        vm.turnosPorDia(horarioFechaEnviado.getHorario().getId(), horarioFechaEnviado.getFecha());
+        vm.turnosPorDia(objetoHorarioFecha.getString("fecha"));
 
         return view;
     }

@@ -9,19 +9,19 @@ public class Turno {
     private LocalTime hora;
     private int horarioId;
     private int usuarioId;
-    private Prestacion prestacion;
+    private Horario2 horario2;
     private Usuario usuario;
 
     public Turno() {
     }
 
-    public Turno(int id, String fecha, LocalTime hora, int horarioId, int usuarioId, Prestacion prestacion, Usuario usuario) {
+    public Turno(int id, String fecha, LocalTime hora, int horarioId, int usuarioId, Horario2 horario2, Usuario usuario) {
         this.id = id;
         this.fecha = fecha;
         this.hora = hora;
         this.horarioId = horarioId;
         this.usuarioId = usuarioId;
-        this.prestacion = prestacion;
+        this.horario2 = horario2;
         this.usuario = usuario;
     }
 
@@ -65,12 +65,12 @@ public class Turno {
         this.usuarioId = usuarioId;
     }
 
-    public Prestacion getPrestacion() {
-        return prestacion;
+    public Horario2 getHorario2() {
+        return horario2;
     }
 
-    public void setPrestacion(Prestacion prestacion) {
-        this.prestacion = prestacion;
+    public void setHorario2(Horario2 horario2) {
+        this.horario2 = horario2;
     }
 
     public Usuario getUsuario() {

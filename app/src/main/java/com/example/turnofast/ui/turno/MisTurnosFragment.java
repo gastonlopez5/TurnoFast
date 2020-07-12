@@ -131,15 +131,8 @@ public class MisTurnosFragment extends Fragment {
                 c.set(Calendar.DAY_OF_MONTH, position-2);
                 String fecha = eventoFechaFormato.format(c.getTime());
 
-                horario = new Horario2();
-                horario.setId(listaTurnos.get(0).getHorarioId());
-
-                HorarioFecha horarioFecha = new HorarioFecha();
-                horarioFecha.setHorario(horario);
-                horarioFecha.setFecha(fecha);
-
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("horarioFecha", horarioFecha);
+                bundle.putString("fecha", fecha);
                 Navigation.findNavController(v).navigate(R.id.nav_listaTurnosPorFecha, bundle);
             }
         });

@@ -14,12 +14,11 @@ public class Prestacion implements Serializable {
     private int profesionalId;
     private Usuario profesional;
     private Categoria categoria;
-    private ArrayList<Horario2> horario2s;
 
     public Prestacion() {
     }
 
-    public Prestacion(int id, String telefono, String direccion, String nombre, String logo, Boolean disponible, int categoriaId, int profesionalId, Usuario profesional, Categoria categoria, ArrayList<Horario2> horario2s) {
+    public Prestacion(int id, String telefono, String direccion, String nombre, String logo, Boolean disponible, int categoriaId, int profesionalId, Usuario profesional, Categoria categoria) {
         this.id = id;
         this.telefono = telefono;
         this.direccion = direccion;
@@ -30,7 +29,6 @@ public class Prestacion implements Serializable {
         this.profesionalId = profesionalId;
         this.profesional = profesional;
         this.categoria = categoria;
-        this.horario2s = horario2s;
     }
 
     public int getId() {
@@ -111,13 +109,5 @@ public class Prestacion implements Serializable {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
-    }
-
-    public ArrayList<Horario2> getHorario2s() {
-        return horario2s;
-    }
-
-    public void setHorario2s(ArrayList<Horario2> horario2s) {
-        this.horario2s = horario2s;
     }
 }

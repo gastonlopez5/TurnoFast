@@ -67,20 +67,20 @@ public class MisTurnosViewModel extends AndroidViewModel {
         });
     }
 
-    public void turnosPorDia(int horarioId, String fecha){
-        Call<Horario2> dato= ApiClient.getMyApiClient().recuperarTurnosPorFecha(obtenerToken(), horarioId, fecha);
-        dato.enqueue(new Callback<Horario2>() {
+    public void turnosPorDia(String fecha){
+        Call<ArrayList<Turno>> dato= ApiClient.getMyApiClient().recuperarTurnosPorFecha(obtenerToken(), fecha);
+        dato.enqueue(new Callback<ArrayList<Turno>>() {
             @Override
-            public void onResponse(Call<Horario2> call, Response<Horario2> response) {
+            public void onResponse(Call<ArrayList<Turno>> call, Response<ArrayList<Turno>> response) {
                 if (response.isSuccessful()){
-
+                    listaTurnos.setValue(response.body());
                 } else {
                     sinTurnos.setValue(msj);
                 }
             }
 
             @Override
-            public void onFailure(Call<Horario2> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Turno>> call, Throwable t) {
                 Toast.makeText(context, "ErrorOnFailure!", Toast.LENGTH_LONG).show();
                 Log.d("salida",t.getMessage());
             }
