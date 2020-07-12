@@ -16,6 +16,13 @@
         android:textSize="30dp"
         android:textStyle="bold" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Si desea cancelar un turno, haga click en el mismo:"
+        android:layout_marginLeft="20dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTurnos"
         android:layout_width="match_parent"

@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.turnofast.modelos.Horario2;
+import com.example.turnofast.modelos.Msj;
 import com.example.turnofast.modelos.Turno;
 import com.example.turnofast.request.ApiClient;
 
@@ -82,6 +83,26 @@ public class MisTurnosViewModel extends AndroidViewModel {
             @Override
             public void onFailure(Call<ArrayList<Turno>> call, Throwable t) {
                 Toast.makeText(context, "ErrorOnFailure!", Toast.LENGTH_LONG).show();
+                Log.d("salida",t.getMessage());
+            }
+        });
+    }
+
+    public void cancelarTurno(int turnoId){
+        Call<Msj> dato= ApiClient.getMyApiClient().cancelarTurno(obtenerToken(), turnoId);
+        dato.enqueue(new Callback<Msj>() {
+            @Override
+            public void onResponse(Call<Msj> call, Response<Msj> response) {
+                if (response.isSuccessful()){
+                    Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Hubo un problema y no se pudo eliminar el horario!", Toast.LENGTH_LONG).show();
+                    Log.d("salida",response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Msj> call, Throwable t) {
                 Log.d("salida",t.getMessage());
             }
         });

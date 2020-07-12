@@ -102,5 +102,8 @@ public class ApiClient {
 
         @GET("turnos/pordia/{fecha}")
         Call<ArrayList<Turno>> recuperarTurnosPorFecha(@Header("Authorization") String token, @Path("fecha") String fecha);
+
+        @DELETE("turnos/{id}")
+        Call<Msj> cancelarTurno(@Header("Authorization") String token, @Path("id") int turnoid);
     }
 }

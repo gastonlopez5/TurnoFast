@@ -1,5 +1,7 @@
 package com.example.turnofast.ui.turno;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -98,10 +100,20 @@ public class ListaTurnosPorFechaFragment extends Fragment {
 
                 adaptador.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        Turno turno = turnos.get(rvTurnos.getChildAdapterPosition(v));
-                        //vm.agregarTurno(turno);
-                        //Navigation.findNavController(view).navigate(R.id.nav_home);
+                    public void onClick(final View v) {
+                        new AlertDialog.Builder(getContext()).setCancelable(false).setMessage("¿Desea cancelar el turno?").setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Turno turno = turnos.get(rvTurnos.getChildAdapterPosition(v));
+                                vm.cancelarTurno(turno.getId());
+                                Navigation.findNavController(v).navigate(R.id.nav_home);
+                            }
+                        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
                     }
                 });
 

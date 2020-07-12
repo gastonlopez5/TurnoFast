@@ -83,7 +83,8 @@ public class AdaptadorTurnosPorFecha extends RecyclerView.Adapter<AdaptadorTurno
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(ivLogo);
             tvPrestacion.setText(turno.getHorario2().getPrestacion().getNombre());
-            tvFechaHora.setText(turno.getFecha()+"   "+ turno.getHora().getHour()+":"+turno.getHora().getMinute());
+            String[] fecha = turno.getFecha().split("-");
+            tvFechaHora.setText(fecha[2]+"/"+fecha[1]+"/"+fecha[0]+"   "+ turno.getHora().getHour()+":"+turno.getHora().getMinute());
         }
 
     }
