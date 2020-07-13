@@ -20,11 +20,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Horario2;
 import com.example.turnofast.modelos.Prestacion;
@@ -36,6 +39,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.example.turnofast.MainActivity.PATH;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +49,7 @@ import java.util.List;
  */
 public class PrestacionesBMFragment extends Fragment {
 
+    ImageView ivLogo;
     EditText etDireccion, etNombre, etTelefono;
     Button btActualizar, btEliminar;
     TextView tvCategoria;
@@ -154,9 +160,14 @@ public class PrestacionesBMFragment extends Fragment {
         cbDisponible = view.findViewById(R.id.cbDisponible);
         btActualizar = view.findViewById(R.id.btActualizar);
         btEliminar = view.findViewById(R.id.btEliminar);
+        ivLogo = view.findViewById(R.id.ivLogo);
     }
 
     private void cargarDatos(Prestacion p){
+        Glide.with(getContext())
+                .load(PATH + p.getLogo())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(ivLogo);
         etDireccion.setText(p.getDireccion());
         etTelefono.setText(p.getTelefono());
         etNombre.setText(p.getNombre());
