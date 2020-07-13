@@ -15,9 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.turnofast.R;
-import com.example.turnofast.modelos.Categoria;
-import com.example.turnofast.modelos.Horario2;
-import com.example.turnofast.modelos.HorarioFecha;
 import com.example.turnofast.modelos.Turno;
 
 import java.util.ArrayList;
@@ -25,14 +22,13 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListaTurnosDisponiblesFragment#newInstance} factory method to
+ * Use the {@link ListaTurnosSolicitadosPorDiaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListaTurnosDisponiblesFragment extends Fragment {
+public class ListaTurnosSolicitadosPorDiaFragment extends Fragment {
 
     private RecyclerView rvTurnos;
-    private SolicitarTurnosViewModel vm;
-    private HorarioFecha horarioFechaEnviado;
+    private MisTurnosViewModel vm;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,7 +39,7 @@ public class ListaTurnosDisponiblesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ListaTurnosDisponiblesFragment() {
+    public ListaTurnosSolicitadosPorDiaFragment() {
         // Required empty public constructor
     }
 
@@ -53,11 +49,11 @@ public class ListaTurnosDisponiblesFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ListaTurnosDisponiblesFragment.
+     * @return A new instance of fragment ListaTurnosSolicitadosPorDiaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListaTurnosDisponiblesFragment newInstance(String param1, String param2) {
-        ListaTurnosDisponiblesFragment fragment = new ListaTurnosDisponiblesFragment();
+    public static ListaTurnosSolicitadosPorDiaFragment newInstance(String param1, String param2) {
+        ListaTurnosSolicitadosPorDiaFragment fragment = new ListaTurnosSolicitadosPorDiaFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -78,9 +74,9 @@ public class ListaTurnosDisponiblesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_lista_turnos_disponibles, container, false);
+        final View view = inflater.inflate(R.layout.fragment_lista_turnos_solicitados_por_dia, container, false);
 
-        vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(SolicitarTurnosViewModel.class);
+        vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(MisTurnosViewModel.class);
 
         rvTurnos = view.findViewById(R.id.rvTurnos);
         rvTurnos.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -89,21 +85,22 @@ public class ListaTurnosDisponiblesFragment extends Fragment {
             @Override
             public void onChanged(String s) {
                 Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
-                Navigation.findNavController(view).navigate(R.id.nav_listaRubrosTurnos);
+                Navigation.findNavController(view).navigate(R.id.nav_turnosSolicitadosPorMes);
             }
         });
 
         vm.getListaTurnos().observe(getViewLifecycleOwner(), new Observer<ArrayList<Turno>>() {
             @Override
             public void onChanged(final ArrayList<Turno> turnos) {
-                AdaptadorTurnos adaptador = new AdaptadorTurnos(turnos, getContext());
+                AdaptadorTurnosPorFecha adaptador = new AdaptadorTurnosPorFecha(turnos, getContext());
 
                 adaptador.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         Turno turno = turnos.get(rvTurnos.getChildAdapterPosition(v));
-                        vm.agregarTurno(turno);
-                        Navigation.findNavController(view).navigate(R.id.nav_home);
+                        Bundle bundle=new Bundle();
+                        bundle.putSerializable("turno", turno);
+                        Navigation.findNavController(v).navigate(R.id.nav_detalleTurnoSolicitado, bundle);
                     }
                 });
 
@@ -112,9 +109,7 @@ public class ListaTurnosDisponiblesFragment extends Fragment {
         });
 
         Bundle objetoHorarioFecha = getArguments();
-        horarioFechaEnviado =(HorarioFecha) objetoHorarioFecha.getSerializable("horarioFecha");
-        vm.cargarTurnosDisponibles(horarioFechaEnviado.getHorario().getPrestacionId(),
-                horarioFechaEnviado.getHorario().getDiaSemana(), horarioFechaEnviado.getFecha());
+        vm.turnosSolicitadosPorDia(objetoHorarioFecha.getString("fecha"));
 
         return view;
     }

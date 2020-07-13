@@ -23,6 +23,11 @@
                 android:id="@+id/nav_listaServicios"
                 android:icon="@drawable/misservicios"
                 android:title="Horarios" />
+            <item
+                android:id="@+id/nav_turnosSolicitadosPorMes"
+                android:icon="@drawable/misturnos"
+                android:title="Turnos Solicitados" />
+
 
         </menu>
     </item>

@@ -32,7 +32,6 @@ public class ListaTurnosPorFechaFragment extends Fragment {
 
     private RecyclerView rvTurnos;
     private MisTurnosViewModel vm;
-    private HorarioFecha horarioFechaEnviado;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,19 +100,10 @@ public class ListaTurnosPorFechaFragment extends Fragment {
                 adaptador.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
-                        new AlertDialog.Builder(getContext()).setCancelable(false).setMessage("¿Desea cancelar el turno?").setPositiveButton("SI", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Turno turno = turnos.get(rvTurnos.getChildAdapterPosition(v));
-                                vm.cancelarTurno(turno.getId());
-                                Navigation.findNavController(v).navigate(R.id.nav_home);
-                            }
-                        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).show();
+                        Turno turno = turnos.get(rvTurnos.getChildAdapterPosition(v));
+                        Bundle bundle=new Bundle();
+                        bundle.putSerializable("turno", turno);
+                        Navigation.findNavController(v).navigate(R.id.nav_detalleMisTurnos, bundle);
                     }
                 });
 

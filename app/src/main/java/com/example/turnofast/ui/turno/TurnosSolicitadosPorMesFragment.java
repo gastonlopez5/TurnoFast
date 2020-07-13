@@ -17,9 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.turnofast.R;
-import com.example.turnofast.modelos.Horario2;
-import com.example.turnofast.modelos.HorarioFecha;
-import com.example.turnofast.modelos.Prestacion;
 import com.example.turnofast.modelos.Turno;
 
 import java.text.SimpleDateFormat;
@@ -32,10 +29,10 @@ import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MisTurnosFragment#newInstance} factory method to
+ * Use the {@link TurnosSolicitadosPorMesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MisTurnosFragment extends Fragment {
+public class TurnosSolicitadosPorMesFragment extends Fragment {
 
     private ImageButton btSiguiente, btAtras;
     private TextView fechaActual;
@@ -61,7 +58,7 @@ public class MisTurnosFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public MisTurnosFragment() {
+    public TurnosSolicitadosPorMesFragment() {
         // Required empty public constructor
     }
 
@@ -71,11 +68,11 @@ public class MisTurnosFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MisTurnosFragment.
+     * @return A new instance of fragment TurnosSolicitadosPorMesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MisTurnosFragment newInstance(String param1, String param2) {
-        MisTurnosFragment fragment = new MisTurnosFragment();
+    public static TurnosSolicitadosPorMesFragment newInstance(String param1, String param2) {
+        TurnosSolicitadosPorMesFragment fragment = new TurnosSolicitadosPorMesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -96,7 +93,7 @@ public class MisTurnosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_mis_turnos, container, false);
+        final View view = inflater.inflate(R.layout.fragment_turnos_solicitados_por_mes, container, false);
 
         vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(MisTurnosViewModel.class);
 
@@ -132,7 +129,7 @@ public class MisTurnosFragment extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("fecha", fecha);
-                Navigation.findNavController(v).navigate(R.id.nav_listaTurnosPorFecha, bundle);
+                Navigation.findNavController(v).navigate(R.id.nav_listaTurnosSolicitadosPorDia, bundle);
             }
         });
 
@@ -169,6 +166,6 @@ public class MisTurnosFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.nav_home);
             }
         });
-        vm.eventosPorMes(mesFormato.format(calendario.getTime()), anioFormato.format(calendario.getTime()));
+        vm.turnoSolicitadosPorMes(mesFormato.format(calendario.getTime()), anioFormato.format(calendario.getTime()));
     }
 }

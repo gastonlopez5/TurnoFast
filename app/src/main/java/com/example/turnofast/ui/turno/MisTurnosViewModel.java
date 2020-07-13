@@ -23,10 +23,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MisTurnosViewModel extends AndroidViewModel {
-    Context context;
-    MutableLiveData<ArrayList<Turno>> listaTurnos;
-    MutableLiveData<String> sinTurnos;
-    String msj = "No hay turnos agendados!";
+    private Context context;
+    private MutableLiveData<ArrayList<Turno>> listaTurnos;
+    private MutableLiveData<String> sinTurnos;
+    private String msj = "No hay turnos agendados!";
 
     public MisTurnosViewModel(@NonNull Application application) {
         super(application);
@@ -68,8 +68,49 @@ public class MisTurnosViewModel extends AndroidViewModel {
         });
     }
 
+    public void turnoSolicitadosPorMes(String mes, String anio){
+        Call<ArrayList<Turno>> dato= ApiClient.getMyApiClient().obtenerTurnosSolicitadosPorMes(obtenerToken(), mes, anio);
+        dato.enqueue(new Callback<ArrayList<Turno>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Turno>> call, Response<ArrayList<Turno>> response) {
+                if (response.isSuccessful()){
+                    listaTurnos.setValue(response.body());
+                } else {
+                    sinTurnos.setValue(msj);
+                    Log.d("salida",response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Turno>> call, Throwable t) {
+                Toast.makeText(context, "Error onFailure!", Toast.LENGTH_LONG).show();
+                Log.d("salida",t.getMessage());
+            }
+        });
+    }
+
     public void turnosPorDia(String fecha){
         Call<ArrayList<Turno>> dato= ApiClient.getMyApiClient().recuperarTurnosPorFecha(obtenerToken(), fecha);
+        dato.enqueue(new Callback<ArrayList<Turno>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Turno>> call, Response<ArrayList<Turno>> response) {
+                if (response.isSuccessful()){
+                    listaTurnos.setValue(response.body());
+                } else {
+                    sinTurnos.setValue(msj);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Turno>> call, Throwable t) {
+                Toast.makeText(context, "ErrorOnFailure!", Toast.LENGTH_LONG).show();
+                Log.d("salida",t.getMessage());
+            }
+        });
+    }
+
+    public void turnosSolicitadosPorDia(String fecha){
+        Call<ArrayList<Turno>> dato= ApiClient.getMyApiClient().recuperarTurnosSolicitadosPorDia(obtenerToken(), fecha);
         dato.enqueue(new Callback<ArrayList<Turno>>() {
             @Override
             public void onResponse(Call<ArrayList<Turno>> call, Response<ArrayList<Turno>> response) {
@@ -96,13 +137,14 @@ public class MisTurnosViewModel extends AndroidViewModel {
                 if (response.isSuccessful()){
                     Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(context, "Hubo un problema y no se pudo eliminar el horario!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Hubo un problema y no se pudo eliminar el turno!", Toast.LENGTH_LONG).show();
                     Log.d("salida",response.errorBody().toString());
                 }
             }
 
             @Override
             public void onFailure(Call<Msj> call, Throwable t) {
+                Toast.makeText(context, "Error en onFailure", Toast.LENGTH_LONG).show();
                 Log.d("salida",t.getMessage());
             }
         });

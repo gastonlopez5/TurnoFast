@@ -100,8 +100,14 @@ public class ApiClient {
         @GET("turnos/pormes/{mes}/{anio}")
         Call<ArrayList<Turno>> obtenerTurnosPorMes(@Header("Authorization") String token, @Path("mes") String mes, @Path("anio") String anio);
 
+        @GET("turnos/solicitadospormes/{mes}/{anio}")
+        Call<ArrayList<Turno>> obtenerTurnosSolicitadosPorMes(@Header("Authorization") String token, @Path("mes") String mes, @Path("anio") String anio);
+
         @GET("turnos/pordia/{fecha}")
         Call<ArrayList<Turno>> recuperarTurnosPorFecha(@Header("Authorization") String token, @Path("fecha") String fecha);
+
+        @GET("turnos/solicitadospordia/{fecha}")
+        Call<ArrayList<Turno>> recuperarTurnosSolicitadosPorDia(@Header("Authorization") String token, @Path("fecha") String fecha);
 
         @DELETE("turnos/{id}")
         Call<Msj> cancelarTurno(@Header("Authorization") String token, @Path("id") int turnoid);

@@ -1,9 +1,10 @@
 package com.example.turnofast.modelos;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Turno {
+public class Turno implements Serializable {
     private int id;
     private String fecha;
     private LocalTime hora;

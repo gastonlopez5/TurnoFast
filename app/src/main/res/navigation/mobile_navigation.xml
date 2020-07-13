@@ -128,7 +128,39 @@
         android:id="@+id/nav_listaTurnosPorFecha"
         android:name="com.example.turnofast.ui.turno.ListaTurnosPorFechaFragment"
         android:label="fragment_lista_turnos_por_fecha"
-        tools:layout="@layout/fragment_lista_turnos_por_fecha" />
+        tools:layout="@layout/fragment_lista_turnos_por_fecha" >
+        <action
+            android:id="@+id/action_nav_listaTurnosPorFecha_to_detalleMisTurnosFragment"
+            app:destination="@id/nav_detalleMisTurnos" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_detalleMisTurnos"
+        android:name="com.example.turnofast.ui.turno.DetalleMisTurnosFragment"
+        android:label="fragment_detalle_mis_turnos"
+        tools:layout="@layout/fragment_detalle_mis_turnos" />
+    <fragment
+        android:id="@+id/nav_turnosSolicitadosPorMes"
+        android:name="com.example.turnofast.ui.turno.TurnosSolicitadosPorMesFragment"
+        android:label="fragment_turnos_solicitados_por_mes"
+        tools:layout="@layout/fragment_turnos_solicitados_por_mes" >
+        <action
+            android:id="@+id/action_nav_turnosSolicitadosPorMes_to_nav_turnosSolicitadosPorDia"
+            app:destination="@id/nav_listaTurnosSolicitadosPorDia" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_listaTurnosSolicitadosPorDia"
+        android:name="com.example.turnofast.ui.turno.ListaTurnosSolicitadosPorDiaFragment"
+        android:label="fragment_lista_turnos_solicitados_por_dia"
+        tools:layout="@layout/fragment_lista_turnos_solicitados_por_dia" >
+        <action
+            android:id="@+id/action_nav_listaTurnosSolicitadosPorDia_to_nav_detalleTurnoSolicitado"
+            app:destination="@id/nav_detalleTurnoSolicitado" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_detalleTurnoSolicitado"
+        android:name="com.example.turnofast.ui.turno.DetalleTurnoSolicitadoFragment"
+        android:label="fragment_detalle_turno_solicitado"
+        tools:layout="@layout/fragment_detalle_turno_solicitado" />
 
 
 </navigation>
