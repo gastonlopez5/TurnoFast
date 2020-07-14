@@ -3,12 +3,16 @@ package com.example.turnofast.ui.perfil;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,8 @@ import android.widget.Toast;
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Usuario;
 import com.example.turnofast.ui.login.LoginActivity;
+
+import java.io.ByteArrayOutputStream;
 
 
 /**
@@ -39,6 +45,8 @@ public class PerfilFragment extends Fragment {
     private EditText etClave;
     private Button btEditar;
     private Button btFoto;
+    private ImageView ivFoto;
+    private Bitmap bitmapFoto;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -95,11 +103,22 @@ public class PerfilFragment extends Fragment {
         etTelefono = view.findViewById(R.id.etTelefono);
         btEditar = view.findViewById(R.id.btEditar);
         btFoto = view.findViewById(R.id.btFoto);
+        ivFoto = view.findViewById(R.id.ivFoto);
+
+        vm.getFoto().observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
+            @Override
+            public void onChanged(Bitmap bitmap) {
+                bitmapFoto = bitmap;
+                ivFoto.setImageBitmap(bitmap);
+            }
+        });
 
         btFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Proximamente...", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/");
+                startActivityForResult(intent, 10);
             }
         });
 
@@ -161,6 +180,12 @@ public class PerfilFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        vm.cargarImagen(requestCode,resultCode,data);
+    }
+
     private void fijarDatos(Usuario p) {
         etApellido.setText(p.getApellido());
         etNombre.setText(p.getNombre());
@@ -183,10 +208,19 @@ public class PerfilFragment extends Fragment {
         usuario.setTelefono(etTelefono.getText().toString());
         usuario.setEmail(etEmail.getText().toString());
         usuario.setClave(etClave.getText().toString());
+        usuario.setFotoPerfil(encodeImage(bitmapFoto));
         usuario.setEstado(true);
 
         vm.actualizarUsuario(usuario);
     }
 
+    private String encodeImage(Bitmap bm)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
 
+        return encImage;
+    }
 }

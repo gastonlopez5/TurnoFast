@@ -2,11 +2,16 @@ package com.example.turnofast.ui.perfil;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -14,14 +19,19 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.turnofast.modelos.Usuario;
 import com.example.turnofast.request.ApiClient;
 
+import java.io.ByteArrayOutputStream;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
+
 public class PerfilViewModel extends AndroidViewModel {
     private Context context;
-    MutableLiveData<Usuario> usuarioMLD;
-    MutableLiveData<String> msgLD;
+    private MutableLiveData<Usuario> usuarioMLD;
+    private MutableLiveData<String> msgLD;
+    private MutableLiveData<Bitmap> foto;
     private Usuario usuario = null;
 
     public PerfilViewModel(@NonNull Application application) {
@@ -41,6 +51,13 @@ public class PerfilViewModel extends AndroidViewModel {
             msgLD = new MutableLiveData<String>();
         }
         return msgLD;
+    }
+
+    public LiveData<Bitmap> getFoto(){
+        if (foto == null){
+            foto = new MutableLiveData<>();
+        }
+        return foto;
     }
 
     public void cargarUsuario(){
@@ -89,6 +106,27 @@ public class PerfilViewModel extends AndroidViewModel {
             msgLD.postValue("Complete todos los campos!");
         }
 
+    }
+
+    public void cargarImagen(int requestCode, int resultCode, @Nullable Intent data){
+        if (resultCode == RESULT_OK) {
+            //Recupero los datos provenientes de la camara.
+            Bundle extras = data.getExtras();
+            //Casteo a bitmap lo obtenido de la camara.
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            //Rutina para optimizar la foto,
+            ByteArrayOutputStream baos=new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+            foto.setValue(imageBitmap);
+
+
+            //Rutina para convertir a un arreglo de byte los datos de la imagen
+            byte [] b=baos.toByteArray();
+            Log.d("salida",b.length+"");
+
+            //Aquí podría ir la rutina para llamar al servicio que recibe los bytes.
+        }
     }
 
     private String obtenerToken(){
