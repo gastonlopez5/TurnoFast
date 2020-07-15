@@ -21,11 +21,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Usuario;
 import com.example.turnofast.ui.login.LoginActivity;
 
 import java.io.ByteArrayOutputStream;
+
+import static com.example.turnofast.MainActivity.PATH;
 
 
 /**
@@ -46,7 +50,7 @@ public class PerfilFragment extends Fragment {
     private Button btEditar;
     private Button btFoto;
     private ImageView ivFoto;
-    private Bitmap bitmapFoto;
+    private Bitmap bitmapFoto = null;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -187,6 +191,13 @@ public class PerfilFragment extends Fragment {
     }
 
     private void fijarDatos(Usuario p) {
+        if(p.getFotoPerfil() != null){
+            Glide.with(getContext())
+                    .load(PATH + p.getFotoPerfil())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(ivFoto);
+        }
+
         etApellido.setText(p.getApellido());
         etNombre.setText(p.getNombre());
         etEmail.setText(p.getEmail());
@@ -208,7 +219,7 @@ public class PerfilFragment extends Fragment {
         usuario.setTelefono(etTelefono.getText().toString());
         usuario.setEmail(etEmail.getText().toString());
         usuario.setClave(etClave.getText().toString());
-        usuario.setFotoPerfil(encodeImage(bitmapFoto));
+        if (bitmapFoto != null){usuario.setFotoPerfil(encodeImage(bitmapFoto));}
         usuario.setEstado(true);
 
         vm.actualizarUsuario(usuario);

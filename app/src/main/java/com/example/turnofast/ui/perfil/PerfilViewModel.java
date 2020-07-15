@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -20,6 +22,8 @@ import com.example.turnofast.modelos.Usuario;
 import com.example.turnofast.request.ApiClient;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -110,22 +114,19 @@ public class PerfilViewModel extends AndroidViewModel {
 
     public void cargarImagen(int requestCode, int resultCode, @Nullable Intent data){
         if (resultCode == RESULT_OK) {
-            //Recupero los datos provenientes de la camara.
-            Bundle extras = data.getExtras();
-            //Casteo a bitmap lo obtenido de la camara.
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            Uri imageUri = data.getData();
+            InputStream imageStream = null;
+            try {
+                imageStream = context.getContentResolver().openInputStream(imageUri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
 
             //Rutina para optimizar la foto,
             ByteArrayOutputStream baos=new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-            foto.setValue(imageBitmap);
-
-
-            //Rutina para convertir a un arreglo de byte los datos de la imagen
-            byte [] b=baos.toByteArray();
-            Log.d("salida",b.length+"");
-
-            //Aquí podría ir la rutina para llamar al servicio que recibe los bytes.
+            selectedImage.compress(Bitmap.CompressFormat.PNG,100, baos);
+            foto.setValue(selectedImage);
         }
     }
 

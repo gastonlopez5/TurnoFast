@@ -33,7 +33,7 @@ public class RegistroActivity extends AppCompatActivity {
     private Button btFoto;
     private Button btRegistro;
     private ImageView ivFoto;
-    private Bitmap bitmapFoto;
+    private Bitmap bitmapFoto = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class RegistroActivity extends AppCompatActivity {
                 u.setClave(etClave.getText().toString());
                 u.setEmail(etEmail.getText().toString());
                 u.setTelefono(etTelefono.getText().toString());
-                u.setFotoPerfil(encodeImage(bitmapFoto));
+                if(bitmapFoto != null){u.setFotoPerfil(encodeImage(bitmapFoto));}
 
                 vm.registrarUsuario(u);
 
