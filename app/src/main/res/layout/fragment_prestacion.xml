@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -32,12 +33,15 @@
                         android:id="@+id/ivLogo"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
-                        android:layout_margin="9dp"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginTop="9dp"
+                        android:layout_marginEnd="9dp"
+                        android:layout_marginBottom="9dp"
                         android:adjustViewBounds="true"
                         android:background="@drawable/square"
                         android:padding="3dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/logoservicio"/>
+                        app:srcCompat="@drawable/ic_menu_camera" />
 
                 </RelativeLayout>
 
@@ -208,11 +212,19 @@
                 </LinearLayout>
 
                 <Button
+                    android:id="@+id/btLogo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cargar Logo"
+                    android:layout_below="@+id/grupo"
+                    android:layout_centerHorizontal="true"/>
+
+                <Button
                     android:id="@+id/btGuardar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Guardar"
-                    android:layout_below="@+id/grupo"
+                    android:layout_below="@+id/btLogo"
                     android:layout_centerHorizontal="true"/>
 
             </RelativeLayout>

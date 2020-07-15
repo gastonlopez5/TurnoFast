@@ -2,11 +2,16 @@ package com.example.turnofast.ui.prestacion;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -15,13 +20,20 @@ import com.example.turnofast.modelos.Msj;
 import com.example.turnofast.modelos.Prestacion;
 import com.example.turnofast.request.ApiClient;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
+
 public class PrestacionViewModel extends AndroidViewModel {
     private Context context;
-    MutableLiveData<Prestacion> prestacionMLD;
+    private MutableLiveData<Prestacion> prestacionMLD;
+    private MutableLiveData<Bitmap> foto;
 
     public PrestacionViewModel(@NonNull Application application) {
         super(application);
@@ -33,6 +45,13 @@ public class PrestacionViewModel extends AndroidViewModel {
             prestacionMLD = new MutableLiveData<>();
         }
         return prestacionMLD;
+    }
+
+    public LiveData<Bitmap> getFoto(){
+        if (foto == null){
+            foto = new MutableLiveData<>();
+        }
+        return foto;
     }
 
     public void agregarPrestacion(Prestacion prestacion) {
@@ -117,6 +136,24 @@ public class PrestacionViewModel extends AndroidViewModel {
                 Log.d("salida",t.getMessage());
             }
         });
+    }
+
+    public void cargarImagen(int requestCode, int resultCode, @Nullable Intent data){
+        if (resultCode == RESULT_OK) {
+            Uri imageUri = data.getData();
+            InputStream imageStream = null;
+            try {
+                imageStream = context.getContentResolver().openInputStream(imageUri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+
+            //Rutina para optimizar la foto,
+            ByteArrayOutputStream baos=new ByteArrayOutputStream();
+            selectedImage.compress(Bitmap.CompressFormat.PNG,100, baos);
+            foto.setValue(selectedImage);
+        }
     }
 
     private String obtenerToken(){
