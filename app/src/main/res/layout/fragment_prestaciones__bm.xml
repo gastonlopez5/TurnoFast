@@ -211,11 +211,20 @@
                     </LinearLayout>
 
                     <Button
+                        android:id="@+id/btLogo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="cambiar logo"
+                        android:layout_below="@+id/grupo"
+                        android:layout_gravity="center"
+                        android:enabled="false"/>
+
+                    <Button
                         android:id="@+id/btActualizar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="actualizar"
-                        android:layout_below="@+id/grupo"
+                        android:layout_below="@+id/btLogo"
                         android:layout_gravity="center"/>
 
                     <Button

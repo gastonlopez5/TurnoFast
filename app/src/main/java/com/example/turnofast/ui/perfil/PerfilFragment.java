@@ -191,9 +191,11 @@ public class PerfilFragment extends Fragment {
     }
 
     private void fijarDatos(Usuario p) {
+
         if(p.getFotoPerfil() != null){
+            int numero = (int) (Math.random() * 10) + 1;
             Glide.with(getContext())
-                    .load(PATH + p.getFotoPerfil())
+                    .load(PATH + p.getFotoPerfil() + "?temp=" + numero)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(ivFoto);
         }

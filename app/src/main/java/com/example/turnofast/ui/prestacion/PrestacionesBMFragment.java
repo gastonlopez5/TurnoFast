@@ -3,15 +3,20 @@ package com.example.turnofast.ui.prestacion;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +37,7 @@ import com.example.turnofast.R;
 import com.example.turnofast.modelos.Horario2;
 import com.example.turnofast.modelos.Prestacion;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -49,14 +55,15 @@ import static com.example.turnofast.MainActivity.PATH;
  */
 public class PrestacionesBMFragment extends Fragment {
 
-    ImageView ivLogo;
-    EditText etDireccion, etNombre, etTelefono;
-    Button btActualizar, btEliminar;
-    TextView tvCategoria;
-    CheckBox cbDisponible;
-    PrestacionViewModel vm;
-    Prestacion prestacionSeleccionada;
-    Prestacion prestacionEditada = new Prestacion();
+    private ImageView ivLogo;
+    private EditText etDireccion, etNombre, etTelefono;
+    private Button btActualizar, btEliminar, btLogo;
+    private TextView tvCategoria;
+    private CheckBox cbDisponible;
+    private PrestacionViewModel vm;
+    private Prestacion prestacionSeleccionada;
+    private Prestacion prestacionEditada = new Prestacion();
+    private Bitmap bitmapFoto = null;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -111,6 +118,14 @@ public class PrestacionesBMFragment extends Fragment {
 
         iniciarVista(view);
 
+        vm.getFoto().observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
+            @Override
+            public void onChanged(Bitmap bitmap) {
+                bitmapFoto = bitmap;
+                ivLogo.setImageBitmap(bitmap);
+            }
+        });
+
         vm.getPrestacionMLD().observe(getViewLifecycleOwner(), new Observer<Prestacion>() {
             @Override
             public void onChanged(Prestacion prestacion) {
@@ -142,14 +157,41 @@ public class PrestacionesBMFragment extends Fragment {
 
         btEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
+            public void onClick(final View v) {
+                new AlertDialog.Builder(getContext()).setTitle("").setMessage("Desea eliminar la prestación?").setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        vm.eliminarPrestacion(prestacionSeleccionada.getId());
+                        Navigation.findNavController(v).navigate(R.id.nav_home);
+                    }
+                }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+
+            }
+        });
+
+        btLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                vm.eliminarPrestacion(prestacionSeleccionada.getId());
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/");
+                startActivityForResult(intent, 11);
             }
         });
 
         vm.recuperarPrestación(prestacionSeleccionada.getId());
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        vm.cargarImagen(requestCode,resultCode,data);
     }
 
     private void iniciarVista(View view) {
@@ -161,13 +203,18 @@ public class PrestacionesBMFragment extends Fragment {
         btActualizar = view.findViewById(R.id.btActualizar);
         btEliminar = view.findViewById(R.id.btEliminar);
         ivLogo = view.findViewById(R.id.ivLogo);
+        btLogo = view.findViewById(R.id.btLogo);
     }
 
     private void cargarDatos(Prestacion p){
-        Glide.with(getContext())
-                .load(PATH + p.getLogo())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(ivLogo);
+        int numero = (int) (Math.random() * 10) + 1;
+        if (p.getLogo() != null){
+            Glide.with(getContext())
+                    .load(PATH + p.getLogo() + "?temp=" + numero)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(ivLogo);
+        }
+
         etDireccion.setText(p.getDireccion());
         etTelefono.setText(p.getTelefono());
         etNombre.setText(p.getNombre());
@@ -181,6 +228,7 @@ public class PrestacionesBMFragment extends Fragment {
         etTelefono.setEnabled(true);
         cbDisponible.setEnabled(true);
         btEliminar.setEnabled(false);
+        btLogo.setEnabled(true);
     }
 
     private void aceptar(){
@@ -191,6 +239,19 @@ public class PrestacionesBMFragment extends Fragment {
         prestacionEditada.setDisponible(cbDisponible.isChecked());
         prestacionEditada.setCategoriaId(prestacionSeleccionada.getCategoriaId());
         prestacionEditada.setProfesionalId(prestacionSeleccionada.getProfesionalId());
+        if (bitmapFoto != null){prestacionEditada.setLogo(encodeImage(bitmapFoto));}
+
         vm.actualizarPrestacion(prestacionEditada);
     }
+
+    private String encodeImage(Bitmap bm)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return encImage;
+    }
+
 }

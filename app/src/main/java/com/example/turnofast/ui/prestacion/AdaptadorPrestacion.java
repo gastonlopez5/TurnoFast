@@ -74,9 +74,10 @@ public class AdaptadorPrestacion extends RecyclerView.Adapter<AdaptadorPrestacio
         }
 
         public void asignarDatos(Prestacion prestacion) {
+            int numero = (int) (Math.random() * 10) + 1;
             Glide.with(context)
-                    .load(PATH + prestacion.getLogo())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .load(PATH + prestacion.getLogo() + "?temp=" + numero)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(ivLogo);
             tvDireccion.setText(prestacion.getDireccion());
             tvNombre.setText(prestacion.getNombre());
