@@ -33,7 +33,7 @@ public class DetalleMisTurnosFragment extends Fragment {
 
     private TextView tvDireccion, tvNombre, tvTelefono;
     private ImageView ivLogo;
-    private Button btCancelar;
+    private Button btCancelar, btRecordatorio;
     private MisTurnosViewModel vm;
     private Turno turno;
 
@@ -108,6 +108,25 @@ public class DetalleMisTurnosFragment extends Fragment {
             }
         });
 
+        btRecordatorio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                new AlertDialog.Builder(getContext()).setCancelable(false).setMessage("¿Desea generar un recordatorio?").setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("turno", turno);
+                        Navigation.findNavController(v).navigate(R.id.nav_recordatorio, bundle);
+                    }
+                }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+            }
+        });
+
         return view;
     }
 
@@ -117,6 +136,7 @@ public class DetalleMisTurnosFragment extends Fragment {
         tvNombre = view.findViewById(R.id.tvNombre);
         tvTelefono = view.findViewById(R.id.tvTelefono);
         btCancelar = view.findViewById(R.id.btCancelar);
+        btRecordatorio = view.findViewById(R.id.btRecordatorio);
 
         Glide.with(getContext())
                 .load(PATH + turno.getHorario2().getPrestacion().getLogo())

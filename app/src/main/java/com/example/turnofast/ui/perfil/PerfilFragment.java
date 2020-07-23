@@ -23,11 +23,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Usuario;
 import com.example.turnofast.ui.login.LoginActivity;
+import com.google.android.material.shape.RoundedCornerTreatment;
 
 import java.io.ByteArrayOutputStream;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static com.example.turnofast.MainActivity.PATH;
 
@@ -194,8 +198,11 @@ public class PerfilFragment extends Fragment {
 
         if(p.getFotoPerfil() != null){
             int numero = (int) (Math.random() * 10) + 1;
+            int radius = 70;
+            int margin = 5;
             Glide.with(getContext())
                     .load(PATH + p.getFotoPerfil() + "?temp=" + numero)
+                    .transform(new RoundedCornersTransformation(radius, margin))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(ivFoto);
         }

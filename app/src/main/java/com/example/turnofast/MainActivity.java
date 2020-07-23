@@ -1,9 +1,11 @@
 package com.example.turnofast;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.turnofast.ui.recordatorio.MyTestService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -47,12 +49,19 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_listaDiasAPrestacionTurnos, R.id.nav_listaRubrosTurnos, R.id.nav_listaPrestacionesDisponibles,
                 R.id.nav_listaTurnosDisponibles, R.id.nav_misTurnos, R.id.nav_listaTurnosPorFecha,
                 R.id.nav_detalleMisTurnos, R.id.nav_turnosSolicitadosPorMes, R.id.nav_listaTurnosSolicitadosPorDia,
-                R.id.nav_detalleTurnoSolicitado, R.id.nav_cerrarsesion)
+                R.id.nav_detalleTurnoSolicitado, R.id.nav_cerrarsesion, R.id.nav_recordatorio)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        servicio();
+    }
+
+    private void servicio() {
+        Intent i = new Intent(this, MyTestService.class);
+        startService(i);
     }
 
     @Override

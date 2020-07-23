@@ -115,11 +115,7 @@
         android:id="@+id/nav_listaTurnosDisponibles"
         android:name="com.example.turnofast.ui.turno.ListaTurnosDisponiblesFragment"
         android:label="fragment_lista_turnos_disponibles"
-        tools:layout="@layout/fragment_lista_turnos_disponibles" >
-        <action
-            android:id="@+id/action_listaTurnosDisponiblesFragment_to_nav_solicitarTurnos"
-            app:destination="@id/nav_solicitarTurnos" />
-    </fragment>
+        tools:layout="@layout/fragment_lista_turnos_disponibles" />
     <fragment
         android:id="@+id/nav_misTurnos"
         android:name="com.example.turnofast.ui.turno.MisTurnosFragment"
@@ -142,7 +138,11 @@
         android:id="@+id/nav_detalleMisTurnos"
         android:name="com.example.turnofast.ui.turno.DetalleMisTurnosFragment"
         android:label="fragment_detalle_mis_turnos"
-        tools:layout="@layout/fragment_detalle_mis_turnos" />
+        tools:layout="@layout/fragment_detalle_mis_turnos" >
+        <action
+            android:id="@+id/action_nav_detalleMisTurnos_to_nav_recordatorio"
+            app:destination="@id/nav_recordatorio" />
+    </fragment>
     <fragment
         android:id="@+id/nav_turnosSolicitadosPorMes"
         android:name="com.example.turnofast.ui.turno.TurnosSolicitadosPorMesFragment"
@@ -166,6 +166,11 @@
         android:name="com.example.turnofast.ui.turno.DetalleTurnoSolicitadoFragment"
         android:label="fragment_detalle_turno_solicitado"
         tools:layout="@layout/fragment_detalle_turno_solicitado" />
+    <fragment
+        android:id="@+id/nav_recordatorio"
+        android:name="com.example.turnofast.ui.recordatorio.RecordatorioFragment"
+        android:label="fragment_recordatorio"
+        tools:layout="@layout/fragment_recordatorio" />
 
 
 </navigation>

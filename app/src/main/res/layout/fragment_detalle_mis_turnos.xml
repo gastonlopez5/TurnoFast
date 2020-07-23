@@ -48,7 +48,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/rellay1">
+                android:layout_below="@+id/rellay1"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="77dp"
+                android:layout_marginEnd="0dp">
 
                 <LinearLayout
                     android:id="@+id/grupo"
@@ -79,7 +82,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
                             android:textColor="#000000"
-                            android:textSize="18sp"/>
+                            android:textSize="18sp" />
 
                         <View
                             android:layout_width="match_parent"
@@ -88,7 +91,6 @@
                             android:background="@color/grey" />
 
                     </LinearLayout>
-
 
 
                     <LinearLayout
@@ -110,7 +112,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
                             android:textColor="#000000"
-                            android:textSize="18sp"/>
+                            android:textSize="18sp" />
 
                         <View
                             android:layout_width="match_parent"
@@ -139,7 +141,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
                             android:textColor="#000000"
-                            android:textSize="18sp"/>
+                            android:textSize="18sp" />
 
                         <View
                             android:layout_width="match_parent"
@@ -152,12 +154,20 @@
                 </LinearLayout>
 
                 <Button
+                    android:id="@+id/btRecordatorio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/grupo"
+                    android:layout_centerHorizontal="true"
+                    android:text="crear recordatorio" />
+
+                <Button
                     android:id="@+id/btCancelar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cancelar Turno"
-                    android:layout_below="@+id/grupo"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_below="@+id/btRecordatorio"
+                    android:layout_centerHorizontal="true"
+                    android:text="Cancelar Turno" />
 
             </RelativeLayout>
 
