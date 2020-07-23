@@ -22,25 +22,22 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.turnofast.R;
-import com.example.turnofast.modelos.Horario2;
 import com.example.turnofast.modelos.Turno;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.Calendar;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link RecordatorioFragment#newInstance} factory method to
+ * Use the {@link ActualizarRecordatorioFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecordatorioFragment extends Fragment {
+public class ActualizarRecordatorioFragment extends Fragment {
 
     private TextView tvNombre, tvFechaTurno, tvHoraTurno;
     private EditText etFecha, etHora;
-    private Button btFecha, btHora, btGuardar;
-    private Turno turno;
+    private Button btFecha, btHora, btActualizar;
+    private DbTable dbTable;
     private Calendar calendario;
     private int hora, minutos, dia, mes, anio;
     private RecordatorioViewModel vm;
@@ -54,7 +51,7 @@ public class RecordatorioFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public RecordatorioFragment() {
+    public ActualizarRecordatorioFragment() {
         // Required empty public constructor
     }
 
@@ -64,11 +61,11 @@ public class RecordatorioFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment RecordatorioFragment.
+     * @return A new instance of fragment ActualizarRecordatorioFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static RecordatorioFragment newInstance(String param1, String param2) {
-        RecordatorioFragment fragment = new RecordatorioFragment();
+    public static ActualizarRecordatorioFragment newInstance(String param1, String param2) {
+        ActualizarRecordatorioFragment fragment = new ActualizarRecordatorioFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -90,14 +87,14 @@ public class RecordatorioFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_recordatorio, container, false);
+        View view = inflater.inflate(R.layout.fragment_actualizar_recordatorio, container, false);
 
         vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(RecordatorioViewModel.class);
 
-        Bundle objetoTurno = getArguments();
-        turno =(Turno) objetoTurno.getSerializable("turno");
+        Bundle objetoRecordatorio = getArguments();
+        dbTable =(DbTable) objetoRecordatorio.getSerializable("recordatorio");
 
-        iniciarVista(view, turno);
+        iniciarVista(view, dbTable);
 
         btHora.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +113,7 @@ public class RecordatorioFragment extends Fragment {
                         c.set(Calendar.MINUTE, minute);
                     }
                 }
-                ,hora, minutos, false);
+                        ,hora, minutos, false);
                 timePickerDialog.show();
             }
         });
@@ -151,19 +148,20 @@ public class RecordatorioFragment extends Fragment {
             }
         });
 
-        btGuardar.setOnClickListener(new View.OnClickListener() {
+        btActualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DbTable dbTable = new DbTable();
-                dbTable.setEncabezado("Turno: "+ tvNombre.getText());
-                dbTable.setFechaTurno(tvFechaTurno.getText().toString());
-                dbTable.setHoraTurno(tvHoraTurno.getText().toString());
-                dbTable.setFecha(etFecha.getText().toString());
-                dbTable.setHora(etHora.getText().toString());
+                DbTable dbTableUpdate = new DbTable();
+                dbTableUpdate.setId(dbTable.getId());
+                dbTableUpdate.setEncabezado("Turno: "+ tvNombre.getText());
+                dbTableUpdate.setFechaTurno(tvFechaTurno.getText().toString());
+                dbTableUpdate.setHoraTurno(tvHoraTurno.getText().toString());
+                dbTableUpdate.setFecha(etFecha.getText().toString());
+                dbTableUpdate.setHora(etHora.getText().toString());
 
-                vm.insertNewItem(dbTable);
+                vm.actualizarRecordatorio(dbTableUpdate);
 
-                Toast.makeText(getContext(), "Recordatorio agendado", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Recordatorio actualizado!", Toast.LENGTH_LONG).show();
                 Navigation.findNavController(v).navigate(R.id.nav_home);
             }
         });
@@ -172,7 +170,7 @@ public class RecordatorioFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void iniciarVista(View view, Turno turno) {
+    private void iniciarVista(View view, DbTable dbTable) {
         tvFechaTurno = view.findViewById(R.id.tvFecha);
         tvHoraTurno = view.findViewById(R.id.tvHora);
         tvNombre = view.findViewById(R.id.tvNombre);
@@ -180,11 +178,14 @@ public class RecordatorioFragment extends Fragment {
         etHora = view.findViewById(R.id.etHora);
         btFecha = view.findViewById(R.id.btFecha);
         btHora = view.findViewById(R.id.btHora);
-        btGuardar = view.findViewById(R.id.btGuardar);
+        btActualizar = view.findViewById(R.id.btActualizar);
 
-        String[] a = turno.getFecha().split("-");
-        tvFechaTurno.setText(a[2]+"/"+a[1]+"/"+a[0]);
-        tvHoraTurno.setText(turno.getHora().getHour()+":"+turno.getHora().getMinute());
-        tvNombre.setText(turno.getHorario2().getPrestacion().getNombre());
+        String[] a = dbTable.getEncabezado().split(":");
+        tvFechaTurno.setText(dbTable.getFechaTurno());
+        tvHoraTurno.setText(dbTable.getHoraTurno());
+        tvNombre.setText(a[1]);
+        etFecha.setText(dbTable.getFecha());
+        etHora.setText(dbTable.getHora());
     }
+
 }

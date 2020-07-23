@@ -63,9 +63,7 @@ public class AdaptadorTurnos extends RecyclerView.Adapter<AdaptadorTurnos.ViewHo
     }
 
     public class ViewHolderDatos extends RecyclerView.ViewHolder {
-        ImageView ivLogo;
         TextView tvHora;
-
 
         public ViewHolderDatos(@NonNull View itemView) {
             super(itemView);

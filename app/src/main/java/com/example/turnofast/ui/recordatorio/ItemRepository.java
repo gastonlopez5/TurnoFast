@@ -3,6 +3,9 @@ package com.example.turnofast.ui.recordatorio;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemRepository {
     private Context context;
 
@@ -18,7 +21,19 @@ public class ItemRepository {
         return DbDataBase.getInstance(context).dbDAO().getRecordatorio(fecha_sistema, hora_sistema);
     }
 
+    public List<DbTable> getItems(){
+        return DbDataBase.getInstance(context).dbDAO().getRecordatorios();
+    }
+
     public void deleteItem(DbTable dbTable){
         AsyncTask.execute(() -> DbDataBase.getInstance(context).dbDAO().deletRecordatorio(dbTable));
+    }
+
+    public void deleteItems(){
+        AsyncTask.execute(() -> DbDataBase.getInstance(context).dbDAO().deletRecordatorios());
+    }
+
+    public void updateRecordatorio(DbTable dbTable){
+        AsyncTask.execute(() -> DbDataBase.getInstance(context).dbDAO().updateRecordatorio(dbTable));
     }
 }

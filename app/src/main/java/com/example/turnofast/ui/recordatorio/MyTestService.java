@@ -28,6 +28,8 @@ public class MyTestService extends IntentService {
     private Notification notification;
     private NotificationManager notificationManager;
     private final int NOTIFICATION_ID = 1010;
+    private DbTable dbTableVista = null;
+
 
     public MyTestService() {
         super("Servicio");
@@ -35,6 +37,9 @@ public class MyTestService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        dbTableVista = new DbTable();
+        dbTableVista.setEncabezado("a");
+
         while (true){
             ItemRepository itemRepository = new ItemRepository(getApplicationContext());
             Calendar calendario = Calendar.getInstance();
@@ -50,11 +55,11 @@ public class MyTestService extends IntentService {
             hora_sistema = (hora-3)+":"+min;
 
             DbTable dbTable = itemRepository.getItem(fecha_sistema, hora_sistema);
-            if (dbTable != null){
+            if (dbTable != null && !(dbTable.getEncabezado().equals(dbTableVista.getEncabezado()))){
                 String msj = dbTable.getEncabezado()+"\n"+"Fecha: "+
                         dbTable.getFecha()+"\n"+"Hora: "+dbTable.getHora();
-                itemRepository.deleteItem(dbTable);
                 triggerNotification(getApplicationContext(), msj);
+                dbTableVista.setEncabezado(dbTable.getEncabezado());
             }
 
             try {

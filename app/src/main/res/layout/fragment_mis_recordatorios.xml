@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.turno.ListaPrestacionesDisponiblesFragment">
+    tools:context=".ui.recordatorio.MisRecordatoriosFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -13,12 +12,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
-        android:text="Seleccionar Prestación"
+        android:text="Mis recordatorios"
         android:textSize="30dp"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPrestacion"
+        android:id="@+id/rvRecordatorios"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

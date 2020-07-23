@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_listaDiasAPrestacionTurnos, R.id.nav_listaRubrosTurnos, R.id.nav_listaPrestacionesDisponibles,
                 R.id.nav_listaTurnosDisponibles, R.id.nav_misTurnos, R.id.nav_listaTurnosPorFecha,
                 R.id.nav_detalleMisTurnos, R.id.nav_turnosSolicitadosPorMes, R.id.nav_listaTurnosSolicitadosPorDia,
-                R.id.nav_detalleTurnoSolicitado, R.id.nav_cerrarsesion, R.id.nav_recordatorio)
+                R.id.nav_detalleTurnoSolicitado, R.id.nav_cerrarsesion, R.id.nav_recordatorio,
+                R.id.nav_misRecordatorios, R.id.nav_actualizarRecordatorio)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

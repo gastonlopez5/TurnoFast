@@ -41,6 +41,10 @@
                 android:id="@+id/nav_misTurnos"
                 android:icon="@drawable/misturnos"
                 android:title="Mis Turnos" />
+            <item
+                android:id="@+id/nav_misRecordatorios"
+                android:icon="@drawable/ic_notificacion"
+                android:title="Mis Recordatorios" />
 
         </menu>
     </item>

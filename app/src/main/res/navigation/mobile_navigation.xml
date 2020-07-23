@@ -171,6 +171,20 @@
         android:name="com.example.turnofast.ui.recordatorio.RecordatorioFragment"
         android:label="fragment_recordatorio"
         tools:layout="@layout/fragment_recordatorio" />
+    <fragment
+        android:id="@+id/nav_misRecordatorios"
+        android:name="com.example.turnofast.ui.recordatorio.MisRecordatoriosFragment"
+        android:label="fragment_mis_recordatorios"
+        tools:layout="@layout/fragment_mis_recordatorios" >
+        <action
+            android:id="@+id/action_nav_misRecordatorios_to_nav_actualizarRecordatorio"
+            app:destination="@id/nav_actualizarRecordatorio" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_actualizarRecordatorio"
+        android:name="com.example.turnofast.ui.recordatorio.ActualizarRecordatorioFragment"
+        android:label="fragment_actualizar_recordatorio"
+        tools:layout="@layout/fragment_actualizar_recordatorio" />
 
 
 </navigation>

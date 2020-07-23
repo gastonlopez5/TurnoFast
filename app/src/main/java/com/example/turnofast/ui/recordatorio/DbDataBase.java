@@ -12,7 +12,8 @@ public abstract class DbDataBase extends RoomDatabase {
 
     public static synchronized DbDataBase getInstance(Context context){
         if (dbDataBaseInstnce==null){
-            dbDataBaseInstnce = Room.databaseBuilder(context.getApplicationContext(), DbDataBase.class, "cybraryShopDb").build();
+            dbDataBaseInstnce = Room.databaseBuilder(context.getApplicationContext(), DbDataBase.class, "cybraryShopDb")
+                    .allowMainThreadQueries().build();
         }
         return dbDataBaseInstnce;
     }
