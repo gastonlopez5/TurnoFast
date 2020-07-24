@@ -167,7 +167,8 @@
             android:layout_below="@+id/btHora"
             android:layout_centerHorizontal="true"
             android:text="Guardar Recordatorio"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/boton_redondeado"/>
 
         <EditText
             android:id="@+id/etFecha"

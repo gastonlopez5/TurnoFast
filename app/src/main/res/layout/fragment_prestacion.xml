@@ -217,7 +217,8 @@
                     android:layout_height="wrap_content"
                     android:text="Cargar Logo"
                     android:layout_below="@+id/grupo"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/boton_redondeado"/>
 
                 <Button
                     android:id="@+id/btGuardar"
@@ -225,7 +226,9 @@
                     android:layout_height="wrap_content"
                     android:text="Guardar"
                     android:layout_below="@+id/btLogo"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/boton_redondeado"/>
 
             </RelativeLayout>
 

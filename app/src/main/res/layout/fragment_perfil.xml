@@ -221,15 +221,18 @@
                     android:text="Foto Perfil"
                     android:layout_below="@+id/grupo"
                     android:layout_centerHorizontal="true"
-                    android:enabled="false"/>
+                    android:enabled="false"
+                    android:background="@drawable/boton_redondeado"/>
 
                 <Button
                     android:id="@+id/btEditar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btFoto"
+                    android:layout_marginTop="10dp"
                     android:layout_centerHorizontal="true"
-                    android:text="Editar" />
+                    android:text="Editar"
+                    android:background="@drawable/boton_redondeado"/>
 
             </RelativeLayout>
 

@@ -187,7 +187,8 @@
                     android:layout_height="wrap_content"
                     android:text="Cancelar Turno"
                     android:layout_below="@+id/grupo"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/boton_redondeado"/>
 
             </RelativeLayout>
 

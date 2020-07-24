@@ -216,7 +216,8 @@
                     android:layout_height="wrap_content"
                     android:text="Foto Perfil"
                     android:layout_below="@+id/grupo"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/boton_redondeado"/>
 
                 <Button
                     android:id="@+id/btRegistro"
@@ -224,7 +225,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btFoto"
                     android:layout_centerHorizontal="true"
-                    android:text="Registrarme" />
+                    android:layout_marginTop="10dp"
+                    android:text="Registrarme"
+                    android:background="@drawable/boton_redondeado"/>
 
             </RelativeLayout>
 

@@ -217,7 +217,8 @@
                         android:text="cambiar logo"
                         android:layout_below="@+id/grupo"
                         android:layout_gravity="center"
-                        android:enabled="false"/>
+                        android:enabled="false"
+                        android:background="@drawable/boton_redondeado"/>
 
                     <Button
                         android:id="@+id/btActualizar"
@@ -225,7 +226,9 @@
                         android:layout_height="wrap_content"
                         android:text="actualizar"
                         android:layout_below="@+id/btLogo"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/boton_redondeado"/>
 
                     <Button
                         android:id="@+id/btEliminar"
@@ -233,7 +236,9 @@
                         android:layout_height="wrap_content"
                         android:text="Eliminar"
                         android:layout_below="@+id/grupo"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/boton_redondeado"/>
 
                 </LinearLayout>
 

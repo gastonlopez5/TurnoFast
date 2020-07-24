@@ -166,7 +166,8 @@
             android:layout_below="@+id/btHora"
             android:layout_centerHorizontal="true"
             android:text="Actualizar"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/boton_redondeado"/>
 
         <EditText
             android:id="@+id/etFecha"

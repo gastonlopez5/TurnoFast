@@ -50,8 +50,8 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/rellay1"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="77dp"
-                android:layout_marginEnd="0dp">
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="-2dp">
 
                 <LinearLayout
                     android:id="@+id/grupo"
@@ -159,6 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/grupo"
                     android:layout_centerHorizontal="true"
+                    android:background="@drawable/boton_redondeado"
                     android:text="crear recordatorio" />
 
                 <Button
@@ -167,6 +168,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btRecordatorio"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/boton_redondeado"
                     android:text="Cancelar Turno" />
 
             </RelativeLayout>
