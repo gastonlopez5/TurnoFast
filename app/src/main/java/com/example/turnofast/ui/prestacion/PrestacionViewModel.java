@@ -34,10 +34,18 @@ public class PrestacionViewModel extends AndroidViewModel {
     private Context context;
     private MutableLiveData<Prestacion> prestacionMLD;
     private MutableLiveData<Bitmap> foto;
+    private MutableLiveData<Prestacion> error;
 
     public PrestacionViewModel(@NonNull Application application) {
         super(application);
         context = application.getApplicationContext();
+    }
+
+    public LiveData<Prestacion> getError(){
+        if (error==null){
+            error = new MutableLiveData<>();
+        }
+        return error;
     }
 
     public LiveData<Prestacion> getPrestacionMLD(){
@@ -54,25 +62,33 @@ public class PrestacionViewModel extends AndroidViewModel {
         return foto;
     }
 
-    public void agregarPrestacion(Prestacion prestacion) {
-        Call<Msj> dato= ApiClient.getMyApiClient().registrarPrestacion(obtenerToken(), prestacion);
-        dato.enqueue(new Callback<Msj>() {
-            @Override
-            public void onResponse(Call<Msj> call, Response<Msj> response) {
-                if (response.isSuccessful()){
-                    Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(context, "Error onResponse!", Toast.LENGTH_LONG).show();
-                    Log.d("salida",response.errorBody().toString());
-                }
-            }
 
-            @Override
-            public void onFailure(Call<Msj> call, Throwable t) {
-                Toast.makeText(context, "Error onFailure!", Toast.LENGTH_LONG).show();
-                Log.d("salida",t.getMessage());
-            }
-        });
+
+    public void agregarPrestacion(Prestacion prestacion) {
+        if (prestacion.getLogo() != null){
+            Call<Msj> dato= ApiClient.getMyApiClient().registrarPrestacion(obtenerToken(), prestacion);
+            dato.enqueue(new Callback<Msj>() {
+                @Override
+                public void onResponse(Call<Msj> call, Response<Msj> response) {
+                    if (response.isSuccessful()){
+                        Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(context, "Error onResponse!", Toast.LENGTH_LONG).show();
+                        Log.d("salida",response.errorBody().toString());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Msj> call, Throwable t) {
+                    Toast.makeText(context, "Error onFailure!", Toast.LENGTH_LONG).show();
+                    Log.d("salida",t.getMessage());
+                }
+            });
+        }
+        else {
+            error.setValue(prestacion);
+        }
+
     }
 
     public void recuperarPrestación(int prestacionId){

@@ -113,6 +113,14 @@ public class PrestacionFragment extends Fragment {
         ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(getContext(), android.R.layout.simple_spinner_item, rubro.getEspecialidades());
         spCategorias.setAdapter(adapter);
 
+        vm.getError().observe(getViewLifecycleOwner(), new Observer<Prestacion>() {
+            @Override
+            public void onChanged(Prestacion prestacion) {
+                Toast.makeText(getContext(), "Debe seleccionar una imagen!", Toast.LENGTH_LONG).show();
+                fijarDatos(prestacion);
+            }
+        });
+
         vm.getFoto().observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
             @Override
             public void onChanged(Bitmap bitmap) {
@@ -150,6 +158,13 @@ public class PrestacionFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void fijarDatos(Prestacion prestacion) {
+        etDireccion.setText(prestacion.getDireccion());
+        etNombre.setText(prestacion.getNombre());
+        etTelefono.setText(prestacion.getTelefono());
+        cbDisponible.setChecked(prestacion.getDisponible());
     }
 
     private void aceptar() {
