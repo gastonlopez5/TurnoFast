@@ -141,7 +141,7 @@ public class PrestacionViewModel extends AndroidViewModel {
                 if (response.isSuccessful()){
                     Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Error onResponse", Toast.LENGTH_LONG).show();
                     Log.d("salida",response.errorBody().toString());
                 }
             }

@@ -18,6 +18,8 @@ import com.example.turnofast.modelos.Turno;
 import com.example.turnofast.request.ApiClient;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +48,19 @@ public class SolicitarTurnosViewModel extends AndroidViewModel {
             sinTurnos = new MutableLiveData<>();
         }
         return sinTurnos;
+    }
+
+    public void verificarFecha(String fecha){
+        Calendar calendar = Calendar.getInstance();
+        int dia = calendar.get(Calendar.DAY_OF_MONTH)-1;
+        int mes = calendar.get(Calendar.MONTH)+1;
+        String[] a = fecha.split("-");
+        String diaSelec = a[2];
+        String mesSelec = a[1];
+
+        if (Integer.parseInt(diaSelec) < dia && Integer.parseInt(mesSelec) <= mes){
+            sinTurnos.setValue(msj);
+        }
     }
 
     public void cargarTurnosDisponibles(int prestacionId, int nroDia, String fecha){

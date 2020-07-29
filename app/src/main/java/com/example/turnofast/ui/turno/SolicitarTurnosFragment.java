@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Categoria;
@@ -54,6 +57,7 @@ public class SolicitarTurnosFragment extends Fragment {
     private Prestacion prestacionSeleccionada;
     private Horario2 horario;
     private Boolean bandera = true;
+    private SolicitarTurnosViewModel vm;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,12 +105,22 @@ public class SolicitarTurnosFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_solicitar_turnos, container, false);
 
+        vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(SolicitarTurnosViewModel.class);
+
         btAtras = view.findViewById(R.id.btAtras);
         btSiguiente = view.findViewById(R.id.btSiguiente);
         fechaActual = view.findViewById(R.id.tvFechaActual);
         gvCalendario = view.findViewById(R.id.gvCalendario);
 
         configurarCalendario();
+
+        vm.getSinTurnos().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
+                bandera = false;
+            }
+        });
 
         btAtras.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,8 +145,9 @@ public class SolicitarTurnosFragment extends Fragment {
                 c.set(Calendar.DAY_OF_WEEK,position+1);
                 Date d = c.getTime();
                 int nrodia = d.getDay();
-                c.set(Calendar.DAY_OF_MONTH, position-2);
-                String fecha = eventoFechaFormato.format(c.getTime());
+                String fecha = eventoFechaFormato.format(dates.get(position));
+
+                vm.verificarFecha(fecha);
 
                 horario = new Horario2();
                 horario.setPrestacionId(prestacionSeleccionada.getId());
@@ -142,9 +157,11 @@ public class SolicitarTurnosFragment extends Fragment {
                 horarioFecha.setHorario(horario);
                 horarioFecha.setFecha(fecha);
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("horarioFecha", horarioFecha);
-                Navigation.findNavController(v).navigate(R.id.nav_listaTurnosDisponibles, bundle);
+                if (bandera){
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("horarioFecha", horarioFecha);
+                    Navigation.findNavController(v).navigate(R.id.nav_listaTurnosDisponibles, bundle);
+                }
             }
         });
 
