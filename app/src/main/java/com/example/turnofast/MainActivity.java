@@ -7,6 +7,7 @@ import android.view.Menu;
 
 import com.example.turnofast.ui.prestacion.NotificacionPrestacion;
 import com.example.turnofast.ui.recordatorio.MyTestService;
+import com.example.turnofast.ui.turno.NotificacionTurnos;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -57,8 +58,10 @@ public class MainActivity extends AppCompatActivity {
     private void servicios() {
         Intent i = new Intent(this, MyTestService.class);
         Intent i2 = new Intent(this, NotificacionPrestacion.class);
+        Intent i3 = new Intent(this, NotificacionTurnos.class);
         startService(i);
         startService(i2);
+        startService(i3);
     }
 
     @Override

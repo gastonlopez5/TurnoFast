@@ -134,9 +134,7 @@ public class MisTurnosFragment extends Fragment {
         gvCalendario.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Calendar c = Calendar.getInstance();
-                c.set(Calendar.DAY_OF_MONTH, position-2);
-                String fecha = eventoFechaFormato.format(c.getTime());
+                String fecha = eventoFechaFormato.format(dates.get(position));
 
                 Bundle bundle = new Bundle();
                 bundle.putString("fecha", fecha);

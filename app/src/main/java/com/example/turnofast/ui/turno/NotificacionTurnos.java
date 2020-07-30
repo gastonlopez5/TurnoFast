@@ -1,4 +1,4 @@
-package com.example.turnofast.ui.prestacion;
+package com.example.turnofast.ui.turno;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -18,13 +18,11 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.turnofast.MainActivity;
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Prestacion;
+import com.example.turnofast.modelos.Turno;
 import com.example.turnofast.request.ApiClient;
 
 import java.util.ArrayList;
@@ -33,30 +31,29 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NotificacionPrestacion extends IntentService {
+public class NotificacionTurnos extends IntentService {
 
     private PendingIntent pendingIntent;
     private Notification notification;
     private NotificationManager notificationManager;
     private final int NOTIFICATION_ID = 1010;
-    private ArrayList<Prestacion> listaAnterior;
-    private ArrayList<Prestacion> listaNueva;
+    private ArrayList<Turno> listaAnterior;
+    private ArrayList<Turno> listaNueva;
     private Boolean bandera = true;
     private Boolean bandera2 = false;
 
-    public NotificacionPrestacion() {
-        super("NotificacionPrestacion");
+    public NotificacionTurnos() {
+        super("NotificacionTurnos");
     }
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-
         while (true){
 
-            Call<ArrayList<Prestacion>> dato= ApiClient.getMyApiClient().obtenerTodasPrestaciones(obtenerToken());
-            dato.enqueue(new Callback<ArrayList<Prestacion>>() {
+            Call<ArrayList<Turno>> dato= ApiClient.getMyApiClient().obtenerTurnosPorProfesional(obtenerToken());
+            dato.enqueue(new Callback<ArrayList<Turno>>() {
                 @Override
-                public void onResponse(Call<ArrayList<Prestacion>> call, Response<ArrayList<Prestacion>> response) {
+                public void onResponse(Call<ArrayList<Turno>> call, Response<ArrayList<Turno>> response) {
                     if (response.isSuccessful()){
                         if (bandera){
                             listaAnterior = response.body();
@@ -64,49 +61,31 @@ public class NotificacionPrestacion extends IntentService {
                         }
                         else {
                             listaNueva = response.body();
-                            if (listaAnterior.size() != listaNueva.size()){
-                                bandera2 = true;
-                            }
-                            if (bandera2){
-                                if (listaAnterior.size() < listaNueva.size()){
-                                    Prestacion p = listaNueva.get(listaNueva.size()-1);
-                                    String msj = "Nuava prestacion: " + p.getNombre();
-                                    triggerNotification(getApplicationContext(), msj);
-                                    bandera2 = false;
-                                    listaAnterior = listaNueva;
-                                }
-                                else if (listaAnterior.size() > listaNueva.size()){
-                                    for (Prestacion p: listaAnterior) {
-                                        if (!listaNueva.contains(p)){
-                                            String msj = p.getNombre() + " nos ha jejado :(";
-                                            triggerNotification(getApplicationContext(), msj);
-                                            bandera2 = false;
-                                            listaAnterior = listaNueva;
-                                        }
-                                    }
-                                }
+
+                            if (listaAnterior.size() < listaNueva.size()){
+                                Turno p = listaNueva.get(listaNueva.size()-1);
+                                String msj = "Nuava turno: " + p.getHorario2().getPrestacion().getNombre();
+                                triggerNotification(getApplicationContext(), msj);
+                                listaAnterior = listaNueva;
                             }
                         }
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Error onResponse!", Toast.LENGTH_LONG).show();
-                        Log.d("salida",response.errorBody().toString());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<ArrayList<Prestacion>> call, Throwable t) {
+                public void onFailure(Call<ArrayList<Turno>> call, Throwable t) {
                     Toast.makeText(getApplicationContext(), "Error onFailure!", Toast.LENGTH_LONG).show();
                     Log.d("salida",t.getMessage());
                 }
             });
 
             try {
-                Thread.sleep(6000);
+                Thread.sleep(9000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+
     }
 
     private String obtenerToken(){

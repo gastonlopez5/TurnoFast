@@ -36,6 +36,10 @@
             android:name=".ui.prestacion.NotificacionPrestacion"
             android:enabled="true"
             android:exported="true"/>
+        <service
+            android:name=".ui.turno.NotificacionTurnos"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 

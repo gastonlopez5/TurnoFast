@@ -114,5 +114,8 @@ public class ApiClient {
 
         @DELETE("turnos/{id}")
         Call<Msj> cancelarTurno(@Header("Authorization") String token, @Path("id") int turnoid);
+
+        @GET("turnos/todos")
+        Call<ArrayList<Turno>> obtenerTurnosPorProfesional(@Header("Authorization") String token);
     }
 }
