@@ -17,4 +17,6 @@
 
     <color name="white">#FFFFFF</color>
     <color name="green">@android:color/holo_green_dark</color>
+    <color name="blue">@android:color/holo_blue_dark</color>
+
 </resources>

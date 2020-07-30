@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.turnofast.R;
+import com.example.turnofast.modelos.Feriado;
 import com.example.turnofast.modelos.Horario2;
 import com.example.turnofast.modelos.HorarioFecha;
 import com.example.turnofast.modelos.Prestacion;
@@ -51,6 +52,7 @@ public class MisTurnosFragment extends Fragment {
     private List<Turno> listaTurnos = new ArrayList<>();
     private MyGridAdapter myGridAdapter;
     private MisTurnosViewModel vm;
+    private List<Feriado> listaFeriados = null;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -157,7 +159,7 @@ public class MisTurnosFragment extends Fragment {
                     monthCalendar.add(Calendar.DAY_OF_MONTH,1);
                 }
 
-                myGridAdapter = new MyGridAdapter(getContext(), dates, calendario, listaTurnos);
+                myGridAdapter = new MyGridAdapter(getContext(), dates, calendario, listaTurnos, listaFeriados);
                 gvCalendario.setAdapter(myGridAdapter);
             }
         });

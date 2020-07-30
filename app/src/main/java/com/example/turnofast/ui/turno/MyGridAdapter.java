@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.turnofast.R;
+import com.example.turnofast.modelos.Feriado;
 import com.example.turnofast.modelos.Turno;
 
 import java.text.ParseException;
@@ -26,14 +27,16 @@ public class MyGridAdapter extends ArrayAdapter {
     List<Date> dates;
     Calendar currentDate;
     List<Turno> turnos;
+    List<Feriado> feriados;
     LayoutInflater layoutInflater;
 
 
-    public MyGridAdapter(@NonNull Context context, List<Date> dates, Calendar currentDate, List<Turno> turnos) {
+    public MyGridAdapter(@NonNull Context context, List<Date> dates, Calendar currentDate, List<Turno> turnos, List<Feriado> feriados) {
         super(context, R.layout.single_cell_layout);
         this.dates = dates;
         this.currentDate = currentDate;
         this.turnos = turnos;
+        this.feriados = feriados;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -58,6 +61,14 @@ public class MyGridAdapter extends ArrayAdapter {
             view.setBackgroundColor(getContext().getResources().getColor(R.color.green));
         }else {
             view.setBackgroundColor(Color.parseColor("#cccccc"));
+        }
+
+        for (int i=0; i<feriados.size(); i++) {
+            int dia = feriados.get(i).getDia();
+            int mes = feriados.get(i).getMes();
+            if ( mes == currentMonth && dia == DayNro){
+                view.setBackgroundColor(getContext().getResources().getColor(R.color.blue));
+            }
         }
 
         TextView Day_Number = view.findViewById(R.id.calendar_day);

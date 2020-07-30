@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Categoria;
 import com.example.turnofast.modelos.Evento;
+import com.example.turnofast.modelos.Feriado;
 import com.example.turnofast.modelos.Horario2;
 import com.example.turnofast.modelos.HorarioFecha;
 import com.example.turnofast.modelos.Prestacion;
@@ -58,6 +59,7 @@ public class SolicitarTurnosFragment extends Fragment {
     private Horario2 horario;
     private Boolean bandera = true;
     private SolicitarTurnosViewModel vm;
+    private List<Feriado> listaFeriados;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -112,7 +114,13 @@ public class SolicitarTurnosFragment extends Fragment {
         fechaActual = view.findViewById(R.id.tvFechaActual);
         gvCalendario = view.findViewById(R.id.gvCalendario);
 
-        configurarCalendario();
+        vm.getFeriados().observe(getViewLifecycleOwner(), new Observer<List<Feriado>>() {
+            @Override
+            public void onChanged(List<Feriado> feriados) {
+                listaFeriados = feriados;
+                configurarCalendario(feriados);
+            }
+        });
 
         vm.getSinTurnos().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -126,7 +134,7 @@ public class SolicitarTurnosFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 calendario.add(Calendar.MONTH, -1);
-                configurarCalendario();
+                configurarCalendario(listaFeriados);
             }
         });
 
@@ -134,7 +142,7 @@ public class SolicitarTurnosFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 calendario.add(Calendar.MONTH, +1);
-                configurarCalendario();
+                configurarCalendario(listaFeriados);
             }
         });
 
@@ -168,10 +176,12 @@ public class SolicitarTurnosFragment extends Fragment {
         Bundle objetoPrestacion = getArguments();
         prestacionSeleccionada =(Prestacion) objetoPrestacion.getSerializable("prestacion");
 
+        vm.obtenerFeriados();
+
         return view;
     }
 
-    private void configurarCalendario() {
+    private void configurarCalendario(List<Feriado> dias) {
         String fecha = diaFormato.format(calendario.getTime());
         fechaActual.setText(fecha);
         dates.clear();
@@ -185,7 +195,7 @@ public class SolicitarTurnosFragment extends Fragment {
             monthCalendar.add(Calendar.DAY_OF_MONTH,1);
         }
 
-        myGridAdapter = new MyGridAdapter(getContext(), dates, calendario, listaTurnos);
+        myGridAdapter = new MyGridAdapter(getContext(), dates, calendario, listaTurnos, dias);
         gvCalendario.setAdapter(myGridAdapter);
     }
 }
