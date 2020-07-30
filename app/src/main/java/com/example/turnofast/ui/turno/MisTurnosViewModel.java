@@ -11,12 +11,16 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.turnofast.modelos.Feriado;
 import com.example.turnofast.modelos.Horario2;
 import com.example.turnofast.modelos.Msj;
 import com.example.turnofast.modelos.Turno;
 import com.example.turnofast.request.ApiClient;
+import com.example.turnofast.request.ApiClientFeriados;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,6 +28,7 @@ import retrofit2.Response;
 
 public class MisTurnosViewModel extends AndroidViewModel {
     private Context context;
+    private MutableLiveData<List<Feriado>> feriados;
     private MutableLiveData<ArrayList<Turno>> listaTurnos;
     private MutableLiveData<String> sinTurnos;
     private String msj = "No hay turnos agendados!";
@@ -31,6 +36,13 @@ public class MisTurnosViewModel extends AndroidViewModel {
     public MisTurnosViewModel(@NonNull Application application) {
         super(application);
         context = application.getApplicationContext();
+    }
+
+    public LiveData<List<Feriado>> getFeriados(){
+        if (feriados == null){
+            feriados = new MutableLiveData<>();
+        }
+        return feriados;
     }
 
     public LiveData<ArrayList<Turno>> getListaTurnos(){
@@ -45,6 +57,28 @@ public class MisTurnosViewModel extends AndroidViewModel {
             sinTurnos = new MutableLiveData<>();
         }
         return sinTurnos;
+    }
+
+    public void obtenerFeriados(){
+        Calendar c = Calendar.getInstance();
+        Call<List<Feriado>> dato= ApiClientFeriados.getMyApiClientFeriados().obtenerFeriados(obtenerToken(), c.get(Calendar.YEAR));
+        dato.enqueue(new Callback<List<Feriado>>() {
+            @Override
+            public void onResponse(Call<List<Feriado>> call, Response<List<Feriado>> response) {
+                if (response.isSuccessful()){
+                    feriados.setValue(response.body());
+                } else {
+                    Toast.makeText(context, "Error onResponse!", Toast.LENGTH_LONG).show();
+                    Log.d("salida", response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Feriado>> call, Throwable t) {
+                Toast.makeText(context, "Error onFailure!", Toast.LENGTH_LONG).show();
+                Log.d("salida",t.getMessage());
+            }
+        });
     }
 
     public void eventosPorMes(String mes, String anio){

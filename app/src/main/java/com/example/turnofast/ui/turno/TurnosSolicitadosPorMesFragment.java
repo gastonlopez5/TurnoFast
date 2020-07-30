@@ -49,7 +49,7 @@ public class TurnosSolicitadosPorMesFragment extends Fragment {
     private List<Turno> listaTurnos = new ArrayList<>();
     private MyGridAdapter myGridAdapter;
     private MisTurnosViewModel vm;
-    private List<Feriado> listaFeriados = null;
+    private List<Feriado> listaFeriados;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -104,13 +104,19 @@ public class TurnosSolicitadosPorMesFragment extends Fragment {
         fechaActual = view.findViewById(R.id.tvFechaActual);
         gvCalendario = view.findViewById(R.id.gvCalendario);
 
-        configurarCalendario(vm, view);
+        vm.getFeriados().observe(getViewLifecycleOwner(), new Observer<List<Feriado>>() {
+            @Override
+            public void onChanged(List<Feriado> feriados) {
+                listaFeriados = feriados;
+                configurarCalendario(vm, view, feriados);
+            }
+        });
 
         btAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 calendario.add(Calendar.MONTH, -1);
-                configurarCalendario(vm, view);
+                configurarCalendario(vm, view, listaFeriados);
             }
         });
 
@@ -118,7 +124,7 @@ public class TurnosSolicitadosPorMesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 calendario.add(Calendar.MONTH, +1);
-                configurarCalendario(vm, view);
+                configurarCalendario(vm, view, listaFeriados);
             }
         });
 
@@ -135,10 +141,12 @@ public class TurnosSolicitadosPorMesFragment extends Fragment {
             }
         });
 
+        vm.obtenerFeriados();
+
         return view;
     }
 
-    private void configurarCalendario(MisTurnosViewModel vm, final View view) {
+    private void configurarCalendario(MisTurnosViewModel vm, final View view, List<Feriado> dias) {
         String fecha = diaFormato.format(calendario.getTime());
         fechaActual.setText(fecha);
         dates.clear();
@@ -156,7 +164,7 @@ public class TurnosSolicitadosPorMesFragment extends Fragment {
                     monthCalendar.add(Calendar.DAY_OF_MONTH,1);
                 }
 
-                myGridAdapter = new MyGridAdapter(getContext(), dates, calendario, listaTurnos, listaFeriados);
+                myGridAdapter = new MyGridAdapter(getContext(), dates, calendario, listaTurnos, dias);
                 gvCalendario.setAdapter(myGridAdapter);
             }
         });

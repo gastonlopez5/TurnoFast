@@ -170,6 +170,9 @@ public class SolicitarTurnosFragment extends Fragment {
                     bundle.putSerializable("horarioFecha", horarioFecha);
                     Navigation.findNavController(v).navigate(R.id.nav_listaTurnosDisponibles, bundle);
                 }
+                else {
+                    bandera = true;
+                }
             }
         });
 

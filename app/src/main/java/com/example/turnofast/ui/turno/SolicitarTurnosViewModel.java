@@ -11,6 +11,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.turnofast.R;
 import com.example.turnofast.modelos.Feriado;
 import com.example.turnofast.modelos.Msj;
 import com.example.turnofast.modelos.Prestacion;
@@ -29,11 +30,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SolicitarTurnosViewModel extends AndroidViewModel {
-    Context context;
-    MutableLiveData<ArrayList<Turno>> listaTurnos;
-    MutableLiveData<List<Feriado>> feriados;
-    MutableLiveData<String> sinTurnos;
-    String msj = "No hay turnos disponibles!";
+    private Context context;
+    private MutableLiveData<ArrayList<Turno>> listaTurnos;
+    private MutableLiveData<List<Feriado>> feriados;
+    private MutableLiveData<String> sinTurnos;
+    private String msj = "No hay turnos disponibles!";
+    private List<Feriado> listaFeriados;
 
     public SolicitarTurnosViewModel(@NonNull Application application) {
         super(application);
@@ -68,6 +70,7 @@ public class SolicitarTurnosViewModel extends AndroidViewModel {
             @Override
             public void onResponse(Call<List<Feriado>> call, Response<List<Feriado>> response) {
                 if (response.isSuccessful()){
+                    listaFeriados = response.body();
                     feriados.setValue(response.body());
                 } else {
                     Toast.makeText(context, "Error onResponse!", Toast.LENGTH_LONG).show();
@@ -93,6 +96,14 @@ public class SolicitarTurnosViewModel extends AndroidViewModel {
 
         if (Integer.parseInt(diaSelec) < dia && Integer.parseInt(mesSelec) <= mes){
             sinTurnos.setValue(msj);
+        }
+        else {
+            for (int i=0; i<listaFeriados.size(); i++) {
+                if ( Integer.parseInt(mesSelec) == listaFeriados.get(i).getMes() &&
+                        Integer.parseInt(diaSelec) == listaFeriados.get(i).getDia()){
+                    sinTurnos.setValue(msj);
+                }
+            }
         }
     }
 
