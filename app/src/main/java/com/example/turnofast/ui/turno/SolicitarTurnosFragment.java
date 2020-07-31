@@ -45,7 +45,7 @@ public class SolicitarTurnosFragment extends Fragment {
 
     private ImageButton btSiguiente, btAtras;
     private TextView fechaActual;
-    GridView gvCalendario;
+    private GridView gvCalendario;
     private Locale locale = new Locale("es", "AR");
     private static final int MAX_CALENDAR_DAYS = 42;
     private Calendar calendario = Calendar.getInstance();
