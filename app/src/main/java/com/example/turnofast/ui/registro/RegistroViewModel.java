@@ -16,6 +16,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.turnofast.modelos.Msj;
 import com.example.turnofast.modelos.Usuario;
 import com.example.turnofast.request.ApiClient;
 
@@ -32,10 +33,19 @@ import static android.app.Activity.RESULT_OK;
 public class RegistroViewModel extends AndroidViewModel {
     private Context context;
     private MutableLiveData<Bitmap> foto;
+    private MutableLiveData<String> error;
+    private String msj = "Ya existe un usuario registrado con el email elegido!";
 
     public RegistroViewModel(@NonNull Application application) {
         super(application);
         context = application.getApplicationContext();
+    }
+
+    public LiveData<String> getError(){
+        if (error==null){
+            error = new MutableLiveData<>();
+        }
+        return error;
     }
 
     public LiveData<Bitmap> getFoto(){
@@ -48,19 +58,19 @@ public class RegistroViewModel extends AndroidViewModel {
     public void registrarUsuario(Usuario u){
         if (u.getNombre().length() != 0 && u.getApellido().length() != 0 && u.getClave().length() != 0
         && u.getTelefono().length() != 0 && u.getEmail().length() != 0){
-            Call<Usuario> dato= ApiClient.getMyApiClient().registrarUsuario(u);
-            dato.enqueue(new Callback<Usuario>() {
+            Call<Msj> dato= ApiClient.getMyApiClient().registrarUsuario(u);
+            dato.enqueue(new Callback<Msj>() {
                 @Override
-                public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                public void onResponse(Call<Msj> call, Response<Msj> response) {
                     if (response.isSuccessful()){
-                        Log.d("salida",response.body().toString());
+                        Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_LONG).show();
                     } else {
-                        Log.d("salida",response.errorBody().toString());
+                        error.setValue(msj);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<Usuario> call, Throwable t) {
+                public void onFailure(Call<Msj> call, Throwable t) {
                     Log.d("salida",t.getMessage());
                     t.printStackTrace();
                 }

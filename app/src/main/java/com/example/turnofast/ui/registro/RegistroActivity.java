@@ -34,6 +34,7 @@ public class RegistroActivity extends AppCompatActivity {
     private Button btRegistro;
     private ImageView ivFoto;
     private Bitmap bitmapFoto = null;
+    private Boolean bandera = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,14 @@ public class RegistroActivity extends AppCompatActivity {
         btFoto = findViewById(R.id.btFoto);
         btRegistro = findViewById(R.id.btRegistro);
         ivFoto = findViewById(R.id.ivFoto);
+
+        vm.getError().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                bandera = false;
+            }
+        });
 
         vm.getFoto().observe(this, new Observer<Bitmap>() {
             @Override
@@ -81,8 +90,13 @@ public class RegistroActivity extends AppCompatActivity {
 
                 vm.registrarUsuario(u);
 
-                Intent logeo = new Intent(RegistroActivity.this, LoginActivity.class);
-                startActivity(logeo);
+                if (bandera){
+                    Intent logeo = new Intent(RegistroActivity.this, LoginActivity.class);
+                    startActivity(logeo);
+                }
+                else {
+                    bandera = true;
+                }
             }
         });
     }

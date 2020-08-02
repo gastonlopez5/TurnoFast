@@ -5,55 +5,62 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"
+            android:title="Inicio" />
+        <item
             android:id="@+id/nav_perfil"
             android:icon="@drawable/perfil"
             android:title="Perfil" />
     </group>
-    <item android:title="Prestaciones">
-        <menu>
-            <item
-                android:id="@+id/nav_rubro"
-                android:icon="@drawable/cargarservicio"
-                android:title="Cargar Prestacion" />
-            <item
-                android:id="@+id/nav_listaPrestacionesBM"
-                android:icon="@drawable/prestacion_mb"
-                android:title="Mis Prestaciones" />
-            <item
-                android:id="@+id/nav_listaServicios"
-                android:icon="@drawable/misservicios"
-                android:title="Horarios" />
-            <item
-                android:id="@+id/nav_turnosSolicitadosPorMes"
-                android:icon="@drawable/misturnos"
-                android:title="Turnos Solicitados" />
-
-
-        </menu>
-    </item>
-    <item android:title="Turnos">
-        <menu>
-            <item
-                android:id="@+id/nav_listaRubrosTurnos"
-                android:icon="@drawable/sacarturno"
-                android:title="Solicitar Turno" />
-            <item
-                android:id="@+id/nav_misTurnos"
-                android:icon="@drawable/misturnos"
-                android:title="Mis Turnos" />
-            <item
-                android:id="@+id/nav_misRecordatorios"
-                android:icon="@drawable/ic_notificacion"
-                android:title="Mis Recordatorios" />
-
-        </menu>
-    </item>
-    <item android:title="Salida">
-        <menu>
-            <item
-                android:id="@+id/nav_cerrarsesion"
-                android:icon="@drawable/cerrarsesion"
-                android:title="Cerrar Sesión" />
-        </menu>
-    </item>
+        <item android:title="Prestaciones">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_rubro"
+                        android:icon="@drawable/cargarservicio"
+                        android:title="Cargar Prestacion" />
+                    <item
+                        android:id="@+id/nav_listaPrestacionesBM"
+                        android:icon="@drawable/prestacion_mb"
+                        android:title="Mis Prestaciones" />
+                    <item
+                        android:id="@+id/nav_listaServicios"
+                        android:icon="@drawable/misservicios"
+                        android:title="Horarios" />
+                    <item
+                        android:id="@+id/nav_turnosSolicitadosPorMes"
+                        android:icon="@drawable/misturnos"
+                        android:title="Turnos Solicitados" />
+                </group>
+            </menu>
+        </item>
+        <item android:title="Turnos">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_listaRubrosTurnos"
+                        android:icon="@drawable/sacarturno"
+                        android:title="Solicitar Turno" />
+                    <item
+                        android:id="@+id/nav_misTurnos"
+                        android:icon="@drawable/misturnos"
+                        android:title="Mis Turnos" />
+                    <item
+                        android:id="@+id/nav_misRecordatorios"
+                        android:icon="@drawable/ic_notificacion"
+                        android:title="Mis Recordatorios" />
+                </group>
+            </menu>
+        </item>
+        <item android:title="Salida">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_cerrarsesion"
+                        android:icon="@drawable/cerrarsesion"
+                        android:title="Cerrar Sesión" />
+                </group>
+            </menu>
+        </item>
 </menu>

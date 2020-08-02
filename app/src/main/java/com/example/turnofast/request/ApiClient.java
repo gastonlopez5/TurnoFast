@@ -47,7 +47,7 @@ public class ApiClient {
     public interface MyApiInterface {
 
         @POST("usuarios/registrar")
-        Call<Usuario> registrarUsuario(@Body Usuario user);
+        Call<Msj> registrarUsuario(@Body Usuario user);
 
         @POST("usuarios/login")
         Call<String> login(@Body Login login);

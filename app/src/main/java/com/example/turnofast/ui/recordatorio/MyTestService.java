@@ -57,7 +57,7 @@ public class MyTestService extends IntentService {
             DbTable dbTable = itemRepository.getItem(fecha_sistema, hora_sistema);
             if (dbTable != null && !(dbTable.getEncabezado().equals(dbTableVista.getEncabezado()))){
                 String msj = dbTable.getEncabezado()+"\n"+"Fecha: "+
-                        dbTable.getFecha()+"\n"+"Hora: "+dbTable.getHora();
+                        dbTable.getFechaTurno()+"\n"+"Hora: "+dbTable.getHoraTurno();
                 triggerNotification(getApplicationContext(), msj);
                 dbTableVista.setEncabezado(dbTable.getEncabezado());
             }
