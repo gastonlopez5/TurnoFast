@@ -12,10 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.turnofast.R;
 import com.example.turnofast.modelos.Turno;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
+import static com.example.turnofast.MainActivity.PATH;
 
 
 /**
@@ -29,6 +36,7 @@ public class DetalleTurnoSolicitadoFragment extends Fragment {
     private Button btCancelar;
     private MisTurnosViewModel vm;
     private Turno turno;
+    private ImageView ivFoto;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -110,7 +118,18 @@ public class DetalleTurnoSolicitadoFragment extends Fragment {
         tvNombre = view.findViewById(R.id.tvNombre);
         tvTelefono = view.findViewById(R.id.tvTelefono);
         btCancelar = view.findViewById(R.id.btCancelar);
+        ivFoto = view.findViewById(R.id.ivFoto);
 
+        if(turno.getUsuario().getFotoPerfil() != null){
+            int numero = (int) (Math.random() * 10) + 1;
+            int radius = 70;
+            int margin = 5;
+            Glide.with(getContext())
+                    .load(PATH + turno.getUsuario().getFotoPerfil() + "?temp=" + numero)
+                    .transform(new RoundedCornersTransformation(radius, margin))
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(ivFoto);
+        }
         tvTelefono.setText(turno.getUsuario().getTelefono());
         tvNombre.setText(turno.getUsuario().getNombre());
         tvEmail.setText(turno.getUsuario().getEmail());
