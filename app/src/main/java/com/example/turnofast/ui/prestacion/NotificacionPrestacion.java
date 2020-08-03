@@ -70,7 +70,7 @@ public class NotificacionPrestacion extends IntentService {
                             if (bandera2){
                                 if (listaAnterior.size() < listaNueva.size()){
                                     Prestacion p = listaNueva.get(listaNueva.size()-1);
-                                    String msj = "Nuava prestacion: " + p.getNombre();
+                                    String msj = "Nueva prestacion: " + p.getNombre();
                                     triggerNotification(getApplicationContext(), msj);
                                     bandera2 = false;
                                     listaAnterior = listaNueva;
@@ -78,7 +78,7 @@ public class NotificacionPrestacion extends IntentService {
                                 else if (listaAnterior.size() > listaNueva.size()){
                                     for (Prestacion p: listaAnterior) {
                                         if (!listaNueva.contains(p)){
-                                            String msj = p.getNombre() + " nos ha jejado :(";
+                                            String msj = p.getNombre() + " nos ha dejado :(";
                                             triggerNotification(getApplicationContext(), msj);
                                             bandera2 = false;
                                             listaAnterior = listaNueva;

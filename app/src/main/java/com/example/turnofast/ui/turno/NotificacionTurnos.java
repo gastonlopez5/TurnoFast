@@ -64,7 +64,7 @@ public class NotificacionTurnos extends IntentService {
 
                             if (listaAnterior.size() < listaNueva.size()){
                                 Turno p = listaNueva.get(listaNueva.size()-1);
-                                String msj = "Nuava turno: " + p.getHorario2().getPrestacion().getNombre();
+                                String msj = "Nuevo turno: " + p.getHorario2().getPrestacion().getNombre();
                                 triggerNotification(getApplicationContext(), msj);
                                 listaAnterior = listaNueva;
                             }
