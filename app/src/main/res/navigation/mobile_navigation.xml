@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.turnofast.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="Inicio"
         tools:layout="@layout/fragment_home">
     </fragment>
     <fragment
@@ -118,7 +118,7 @@
     <fragment
         android:id="@+id/nav_misTurnos"
         android:name="com.example.turnofast.ui.turno.MisTurnosFragment"
-        android:label="Calendario de mis turnos"
+        android:label="Calendario de turnos"
         tools:layout="@layout/fragment_mis_turnos" >
         <action
             android:id="@+id/action_nav_misTurnos_to_nav_listaTurnosPorFecha"
@@ -127,7 +127,7 @@
     <fragment
         android:id="@+id/nav_listaTurnosPorFecha"
         android:name="com.example.turnofast.ui.turno.ListaTurnosPorFechaFragment"
-        android:label="Lista de turnos por fecha"
+        android:label="Mis turnos"
         tools:layout="@layout/fragment_lista_turnos_por_fecha" >
         <action
             android:id="@+id/action_nav_listaTurnosPorFecha_to_detalleMisTurnosFragment"
@@ -145,7 +145,7 @@
     <fragment
         android:id="@+id/nav_turnosSolicitadosPorMes"
         android:name="com.example.turnofast.ui.turno.TurnosSolicitadosPorMesFragment"
-        android:label="Calendario de turnos solicitados"
+        android:label="Calendario de turnos"
         tools:layout="@layout/fragment_turnos_solicitados_por_mes" >
         <action
             android:id="@+id/action_nav_turnosSolicitadosPorMes_to_nav_turnosSolicitadosPorDia"
@@ -154,7 +154,7 @@
     <fragment
         android:id="@+id/nav_listaTurnosSolicitadosPorDia"
         android:name="com.example.turnofast.ui.turno.ListaTurnosSolicitadosPorDiaFragment"
-        android:label="Lista de turnos por día"
+        android:label="Turnos solicitados"
         tools:layout="@layout/fragment_lista_turnos_solicitados_por_dia" >
         <action
             android:id="@+id/action_nav_listaTurnosSolicitadosPorDia_to_nav_detalleTurnoSolicitado"
