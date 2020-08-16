@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.turnofast.ui.home.HomeFragment"
+        android:name="com.tuempresa.turnofast.ui.home.HomeFragment"
         android:label="Inicio"
         tools:layout="@layout/fragment_home">
     </fragment>
     <fragment
         android:id="@+id/nav_perfil"
-        android:name="com.example.turnofast.ui.perfil.PerfilFragment"
+        android:name="com.tuempresa.turnofast.ui.perfil.PerfilFragment"
         android:label="Perfil"
         tools:layout="@layout/fragment_perfil" />
     <fragment
         android:id="@+id/nav_cerrarsesion"
-        android:name="com.example.turnofast.ui.logout.CerrarSesion"
+        android:name="com.tuempresa.turnofast.ui.logout.CerrarSesion"
         tools:layout="@layout/fragment_send" />
     <fragment
         android:id="@+id/nav_rubro"
-        android:name="com.example.turnofast.ui.rubro.RubroFragment"
+        android:name="com.tuempresa.turnofast.ui.rubro.RubroFragment"
         android:label="Rubros disponibles"
         tools:layout="@layout/fragment_rubro" >
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_servicio"
-        android:name="com.example.turnofast.ui.prestacion.PrestacionFragment"
+        android:name="com.tuempresa.turnofast.ui.prestacion.PrestacionFragment"
         android:label="Prestación"
         tools:layout="@layout/fragment_prestacion" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_servicioTurnos"
-        android:name="com.example.turnofast.ui.prestacion.PrestacioneTurnosFragment"
+        android:name="com.tuempresa.turnofast.ui.prestacion.PrestacioneTurnosFragment"
         android:label="Horarios"
         tools:layout="@layout/fragment_servicio_turnos" >
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_solicitarTurnos"
-        android:name="com.example.turnofast.ui.turno.SolicitarTurnosFragment"
+        android:name="com.tuempresa.turnofast.ui.turno.SolicitarTurnosFragment"
         android:label="Calendario de turnos"
         tools:layout="@layout/fragment_solicitar_turnos" >
         <action
@@ -58,7 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_listaServicios"
-        android:name="com.example.turnofast.ui.prestacion.ListaPrestacionesFragment"
+        android:name="com.tuempresa.turnofast.ui.prestacion.ListaPrestacionesFragment"
         android:label="Prestaciones cargadas"
         tools:layout="@layout/fragment_lista_servicios" >
         <action
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_listaPrestacionesBM"
-        android:name="com.example.turnofast.ui.prestacion.ListaPrestacionesBMFragment"
+        android:name="com.tuempresa.turnofast.ui.prestacion.ListaPrestacionesBMFragment"
         android:label="Prestaciones cargadas"
         tools:layout="@layout/fragment_lista_prestaciones_bm" >
         <action
@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_prestacionMB"
-        android:name="com.example.turnofast.ui.prestacion.PrestacionesBMFragment"
+        android:name="com.tuempresa.turnofast.ui.prestacion.PrestacionesBMFragment"
         android:label="Detalle de la prestación"
         tools:layout="@layout/fragment_prestaciones__bm" >
         <action
@@ -85,7 +85,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_listaDiasAPrestacionTurnos"
-        android:name="com.example.turnofast.ui.prestacion.ListaDiasAFragment"
+        android:name="com.tuempresa.turnofast.ui.prestacion.ListaDiasAFragment"
         android:label="Horarios por día"
         tools:layout="@layout/fragment_lista_dias_a" >
         <action
@@ -94,7 +94,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_listaRubrosTurnos"
-        android:name="com.example.turnofast.ui.turno.ListaRubrosTurnosFragment"
+        android:name="com.tuempresa.turnofast.ui.turno.ListaRubrosTurnosFragment"
         android:label="Rubros disponibles"
         tools:layout="@layout/fragment_lista_rubros_turnos" >
         <action
@@ -103,7 +103,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_listaPrestacionesDisponibles"
-        android:name="com.example.turnofast.ui.turno.ListaPrestacionesDisponiblesFragment"
+        android:name="com.tuempresa.turnofast.ui.turno.ListaPrestacionesDisponiblesFragment"
         android:label="Prestaciones disponibles"
         tools:layout="@layout/fragment_lista_prestaciones_disponibles" >
         <action
@@ -112,12 +112,12 @@
     </fragment>
     <fragment
         android:id="@+id/nav_listaTurnosDisponibles"
-        android:name="com.example.turnofast.ui.turno.ListaTurnosDisponiblesFragment"
+        android:name="com.tuempresa.turnofast.ui.turno.ListaTurnosDisponiblesFragment"
         android:label="Turnos disponibles"
         tools:layout="@layout/fragment_lista_turnos_disponibles" />
     <fragment
         android:id="@+id/nav_misTurnos"
-        android:name="com.example.turnofast.ui.turno.MisTurnosFragment"
+        android:name="com.tuempresa.turnofast.ui.turno.MisTurnosFragment"
         android:label="Calendario de turnos"
         tools:layout="@layout/fragment_mis_turnos" >
         <action
@@ -126,7 +126,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_listaTurnosPorFecha"
-        android:name="com.example.turnofast.ui.turno.ListaTurnosPorFechaFragment"
+        android:name="com.tuempresa.turnofast.ui.turno.ListaTurnosPorFechaFragment"
         android:label="Mis turnos"
         tools:layout="@layout/fragment_lista_turnos_por_fecha" >
         <action
@@ -135,7 +135,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_detalleMisTurnos"
-        android:name="com.example.turnofast.ui.turno.DetalleMisTurnosFragment"
+        android:name="com.tuempresa.turnofast.ui.turno.DetalleMisTurnosFragment"
         android:label="Detalle de turno"
         tools:layout="@layout/fragment_detalle_mis_turnos" >
         <action
@@ -144,7 +144,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_turnosSolicitadosPorMes"
-        android:name="com.example.turnofast.ui.turno.TurnosSolicitadosPorMesFragment"
+        android:name="com.tuempresa.turnofast.ui.turno.TurnosSolicitadosPorMesFragment"
         android:label="Calendario de turnos"
         tools:layout="@layout/fragment_turnos_solicitados_por_mes" >
         <action
@@ -153,7 +153,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_listaTurnosSolicitadosPorDia"
-        android:name="com.example.turnofast.ui.turno.ListaTurnosSolicitadosPorDiaFragment"
+        android:name="com.tuempresa.turnofast.ui.turno.ListaTurnosSolicitadosPorDiaFragment"
         android:label="Turnos solicitados"
         tools:layout="@layout/fragment_lista_turnos_solicitados_por_dia" >
         <action
@@ -162,17 +162,17 @@
     </fragment>
     <fragment
         android:id="@+id/nav_detalleTurnoSolicitado"
-        android:name="com.example.turnofast.ui.turno.DetalleTurnoSolicitadoFragment"
+        android:name="com.tuempresa.turnofast.ui.turno.DetalleTurnoSolicitadoFragment"
         android:label="Detalle de turno"
         tools:layout="@layout/fragment_detalle_turno_solicitado" />
     <fragment
         android:id="@+id/nav_recordatorio"
-        android:name="com.example.turnofast.ui.recordatorio.RecordatorioFragment"
+        android:name="com.tuempresa.turnofast.ui.recordatorio.RecordatorioFragment"
         android:label="Recordatorio"
         tools:layout="@layout/fragment_recordatorio" />
     <fragment
         android:id="@+id/nav_misRecordatorios"
-        android:name="com.example.turnofast.ui.recordatorio.MisRecordatoriosFragment"
+        android:name="com.tuempresa.turnofast.ui.recordatorio.MisRecordatoriosFragment"
         android:label="Mis recordatorios"
         tools:layout="@layout/fragment_mis_recordatorios" >
         <action
@@ -181,7 +181,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_actualizarRecordatorio"
-        android:name="com.example.turnofast.ui.recordatorio.ActualizarRecordatorioFragment"
+        android:name="com.tuempresa.turnofast.ui.recordatorio.ActualizarRecordatorioFragment"
         android:label="Actualizar recordatorio"
         tools:layout="@layout/fragment_actualizar_recordatorio" />
 

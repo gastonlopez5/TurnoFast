@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.turno.DetalleTurnoSolicitadoFragment">
+    tools:context="com.tuempresa.turnofast.ui.turno.DetalleTurnoSolicitadoFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView
